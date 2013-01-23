@@ -4,8 +4,11 @@
 class Lattice
 {
 public: 
-	Lattice(void); 
-	~Lattice(void);
+	Lattice(void);
+	Lattice(int, int, int);
+	Lattice(char*);
+	
+	
 private: 
 	vector < vector < int > > values; 
 };
