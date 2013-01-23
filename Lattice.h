@@ -12,5 +12,5 @@ public:
 	
 	
 private: 
-	vector < vector < int > > values; 
+	vector <vector<int>> values; 
 };
