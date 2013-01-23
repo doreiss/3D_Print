@@ -38,18 +38,33 @@ void Lattice::setElement(int rowInd, int colInd, int init) {
 	values[rowInd][colInd] = init; 
 }
 
+int	Lattice::getElement(int rowInd, int colInd) {
+	return values[rowInd][colInd]; 
+}
+
+
 void Lattice::setSubLattice(int bRowInd, int eRowInd, int bColInd, int eColInd, int init) {
 	int rows = 0, columns = 0; 
 	columns = values.size(); 
 	if (columns > 0) {
 		rows = values[0].size();
 	}
-	if (((eRowInd - bRowInd + 1) >= rows) && ((eColInd - bColInd + 1) >= columns)) {
-		for (int i = browInd; i <= eRowInd; i++ ){
+	cout << columns << '\t' << rows << endl; 
+	if (((eRowInd+1) <= rows) && ((eColInd+1) <= columns)) {
+		for (int i = bRowInd; i <= eRowInd; i++ ){
 			for(int j = bColInd; j <= eColInd; j++) {
-				setElement(i,j,init)
+				setElement(i,j,init);
 			}
 		}
 	}
 }
 
+void Lattice::print(void) {
+	for (unsigned int i = 0; i < values.size(); i++) { 
+		for(unsigned int j = 0; j < values[0].size(); j++) { 
+			cout << values[i][j] << '\t'; 
+		}
+		cout << endl; 
+	}
+	cout << endl; 
+}
