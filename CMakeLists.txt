@@ -23,9 +23,7 @@ if ( CGAL_FOUND )
 
   include_directories (BEFORE "../../include")
 
-  create_single_source_cgal_program( "main.cpp" )
-  create_single_source_cgal_program( "Lattice.cpp" ) 
-  create_single_source_cgal_program( "Lattice.h" )
+  add_executable(3D-Print main.cpp Lattice.cpp Lattice.h)
 
 else()
   
