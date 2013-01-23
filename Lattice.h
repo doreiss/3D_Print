@@ -7,6 +7,7 @@ public:
 	Lattice(void);
 	Lattice(int, int, int);
 	Lattice(char*);
+	void setSubLattice(int,int,int,int,int);
 	
 	
 private: 
