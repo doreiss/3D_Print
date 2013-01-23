@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Lattice.h"
 
 using namespace std; 
 
