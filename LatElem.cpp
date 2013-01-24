@@ -24,6 +24,7 @@ int LatElem::getValue(void) {
 }
 //Return the value of the one of the neighbours 
 int LatElem::getNValue(int nIndex) {
+	if (neighbours[nIndex] == NULL) return 0; 
 	return neighbours[nIndex]->getValue(); 
 }
 //Set the value of the specific 
