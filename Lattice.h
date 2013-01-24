@@ -11,7 +11,8 @@ public:
 	Lattice(char*);
 	void setElement(int, int, int);
 	void setElementNeighbours(void); 
-	int getElemVal(int,int); 
+	int getElemVal(int,int);
+	LatElem getElement(int,int);
 	int rowSize(void); 
 	int colSize(void); 
 	bool isEmpty(int, int);
