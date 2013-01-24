@@ -6,7 +6,7 @@ using namespace std;
 class Lattice
 {
 public:
-	Lattice(void); 
+	Lattice(void); //Default constructor
 	Lattice(int, int, int);
 	Lattice(char*);
 	void setElement(int, int, int);
