@@ -9,8 +9,8 @@ Lattice::Lattice(void){
 }
 
 Lattice::Lattice(int rows, int columns, int init) {
-	vector<LatElem> row; 
 	for(int i = 0; i < rows; i++) {
+		vector<LatElem> row; 
 		for(int i = 0; i < columns; i++) {
 			LatElem elem; 
 			elem.setValue(init); 
