@@ -10,7 +10,6 @@ public:
 	Lattice(int, int, int);
 	Lattice(char*);
 	void setElement(int, int, int);
-	void setElementNeighbours(void); 
 	int getElemVal(int,int);
 	LatElem getElement(int,int);
 	int rowSize(void); 
@@ -19,5 +18,6 @@ public:
 	void setSubLattice(int,int,int,int,int);
 	void print(void);
 private: 
+	void setElementNeighbours(void); 
 	vector< vector < LatElem > > values; 
 };
