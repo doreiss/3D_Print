@@ -7,9 +7,10 @@ class Lattice
 {
 public:
 	Lattice(void); //Default constructor
-	Lattice(int, int, int);
+	Lattice(int, int, int); //
 	Lattice(char*);
 	void setElement(int, int, int);
+	void insertSubLattice(Lattice, int, int); 
 	int getElemVal(int,int);
 	LatElem getElement(int,int);
 	int rowSize(void); 

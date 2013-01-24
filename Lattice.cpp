@@ -5,7 +5,7 @@
 #include <string>
 using namespace std; 
 
-Lattice::Lattice(void){		``
+Lattice::Lattice(void){
 }
 
 Lattice::Lattice(int rows, int columns, int init) {
@@ -18,7 +18,7 @@ Lattice::Lattice(int rows, int columns, int init) {
 		}
 		values.push_back(row); 
 	}
-	setElementNeighbours(); 
+	setElementNeighbours();
 }
 
 //Constructor to  create a lattice based upon a file with values
@@ -39,17 +39,22 @@ Lattice::Lattice(char* file) {
 	setElementNeighbours(); 
 }
 
+//Update all lattice element neighbour pointers
 void Lattice::setElementNeighbours(void) { 
+	//return lattice size
 	int rows = rowSize(); 
 	int cols = colSize(); 
 	
 	for(int rowIndex = 0; rowIndex < rows; rowIndex++) { 
 		for(int colIndex = 0; colIndex < cols; colIndex++) {
-			bool isFirstRow = (rowIndex == 0); 
+			//is it on a boundary?
+			bool isFirstRow = (rowIndex == 0);
 			bool isFirstCol = (colIndex == 0); 
 			bool isFinalRow = ((rowIndex + 1) == rows);
 			bool isFinalCol = ((colIndex + 1) == cols);
-			LatElem* current = &(values[rowIndex][colIndex]); 
+			LatElem* current = &(values[rowIndex][colIndex]); //pointer to the current element in the lattice
+			
+			//functions to set pointers, with exceptions for boundaries
 			if (!isFinalCol)				current->setNeighbours(0,values[rowIndex][colIndex+1]);
 			if (!isFirstRow && !isFinalCol) current->setNeighbours(1,values[rowIndex-1][colIndex+1]);
 			if (!isFirstRow)				current->setNeighbours(2,values[rowIndex-1][colIndex]);
@@ -62,30 +67,46 @@ void Lattice::setElementNeighbours(void) {
 	}
 }
 
+void Lattice::insertSubLattice(Lattice L, int topLeftRow, int topLeftCol) { 
+	for (int i = 0; i < L.rowSize(); i++) { 
+		for (int j = 0; j < L.colSize(); j++) { 
+			setElement(topLeftRow+i, topLeftCol+j, L.getElemVal(i,j)); 
+		} 
+	} 
+}
+
+
+//Set the value of a lattice element
 void Lattice::setElement(int rowInd, int colInd, int init) {
 	values[rowInd][colInd].setValue(init); 
 }
 
+//Return the value of a lattice element
 int	Lattice::getElemVal(int rowInd, int colInd) {
 	return values[rowInd][colInd].getValue(); 
 }
 
+//Get the whole lattice element object
 LatElem Lattice::getElement(int rowInd, int colInd) {
 	return values[rowInd][colInd];
 }
 
+//Get the height of a lattice - double check?
 int Lattice::rowSize(void) { 
 	return values.size(); 
 }
 
+//Get the width of a lattice
 int Lattice::colSize(void) { 
 	return values[0].size(); 
 }
 
+//Is a specific cell in the lattice occupied?
 bool Lattice::isEmpty(int rowInd, int colInd) { 
 	return (getElemVal(rowInd,colInd) == 0);
 }
 
+//Create a sub lattice
 void Lattice::setSubLattice(int bRowInd, int eRowInd, int bColInd, int eColInd, int init) {
 	int rows = 0, columns = 0; 
 	columns = values.size(); 
@@ -101,6 +122,7 @@ void Lattice::setSubLattice(int bRowInd, int eRowInd, int bColInd, int eColInd, 
 	}
 }
 
+//Prints the lattice
 void Lattice::print(void) {
 	for (unsigned int i = 0; i < values.size(); i++) { 
 		for(unsigned int j = 0; j < values[0].size(); j++) { 

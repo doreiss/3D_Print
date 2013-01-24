@@ -4,13 +4,10 @@
 using namespace std; 
 
 int main() {
-	Lattice test(5,5,1);
-	test.setSubLattice(1,3,1,3,0);
-	for (int i = 0; i < 8; i++) {
-		 cout << test.getElement(1,1).getNValue(i) << "\t"; 
-	}
-	cout << endl; 
-
+	Lattice test(10,10,0);
+	Lattice test2(2,2,1); 
+	test.insertSubLattice(test2,2,2); 
+	test.insertSubLattice(test2,6,6); 
 	test.print(); 
 	return 0; 
 }

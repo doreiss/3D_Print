@@ -26,6 +26,7 @@ int LatElem::getValue(void) {
 int LatElem::getNValue(int nIndex) {
 	return neighbours[nIndex]->getValue(); 
 }
+//Set the value of the specific 
 void LatElem::setNeighbours(int nIndex, LatElem& neighbour) {
 	neighbours[nIndex] = &neighbour; 
 }
