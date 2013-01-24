@@ -67,6 +67,10 @@ int	Lattice::getElemVal(int rowInd, int colInd) {
 	return values[rowInd][colInd].getValue(); 
 }
 
+LatElem Lattice::getElement(int rowInd, int colInd) {
+	return values[rowInd][colInd];
+}
+
 int Lattice::rowSize(void) { 
 	return values.size(); 
 }
