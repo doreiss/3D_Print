@@ -1,4 +1,4 @@
-#pragma once
+#pragma once //compile only once (replace #ifendf etc)
 #include <iostream>
 #include <vector> 
 #include "LatElem.h"

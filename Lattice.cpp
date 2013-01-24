@@ -5,7 +5,7 @@
 #include <string>
 using namespace std; 
 
-Lattice::Lattice(void){ 
+Lattice::Lattice(void){		``
 }
 
 Lattice::Lattice(int rows, int columns, int init) {
@@ -21,15 +21,16 @@ Lattice::Lattice(int rows, int columns, int init) {
 	setElementNeighbours(); 
 }
 
+//Constructor to  create a lattice based upon a file with values
 Lattice::Lattice(char* file) {
 	ifstream ifs(file);
-	int fileVal; 
-	string line; 
-	while(std::getline(ifs,line)) {
-		std::istringstream iss(line);
+	int fileVal; //value from the file
+	string line;
+	while(std::getline(ifs,line)) { //take the first line of the file
+		std::istringstream iss(line); //make a stream out of the string
 		vector<LatElem> row;
 		while(iss >> fileVal) {
-			LatElem elem; 
+			LatElem elem; //create a lattice element from that individual point
 			elem.setValue(fileVal); 
 			row.push_back(elem);
 		}
