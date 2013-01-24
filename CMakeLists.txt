@@ -23,7 +23,7 @@ if ( CGAL_FOUND )
 
   include_directories (BEFORE "../../include")
 
-  add_executable(3D-Print main.cpp Lattice.cpp Lattice.h)
+  add_executable(3D-Print main.cpp Lattice.cpp Lattice.h LatElem.cpp LatElem.h)
 
 else()
   

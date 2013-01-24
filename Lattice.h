@@ -1,17 +1,22 @@
 #pragma once
 #include <iostream>
 #include <vector> 
+#include "LatElem.h"
 using namespace std; 
 class Lattice
 {
-public: 
-	Lattice(void);
+public:
+	Lattice(void); 
 	Lattice(int, int, int);
 	Lattice(char*);
 	void setElement(int, int, int);
-	int	getElement(int, int);
+	void setElementNeighbours(void); 
+	int getElemVal(int,int); 
+	int rowSize(void); 
+	int colSize(void); 
+	bool isEmpty(int, int);
 	void setSubLattice(int,int,int,int,int);
-	void print(void); 
+	void print(void);
 private: 
-	vector<vector<int>> values; 
+	vector<vector<LatElem>> values; 
 };
