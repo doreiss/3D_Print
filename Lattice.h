@@ -19,5 +19,5 @@ public:
 	void setSubLattice(int,int,int,int,int);
 	void print(void);
 private: 
-	vector<vector<LatElem>> values; 
+	vector< vector < LatElem > > values; 
 };
