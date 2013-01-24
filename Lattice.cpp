@@ -18,6 +18,7 @@ Lattice::Lattice(int rows, int columns, int init) {
 		}
 		values.push_back(row); 
 	}
+	setElementNeighbours(); 
 }
 
 Lattice::Lattice(char* file) {
@@ -33,7 +34,8 @@ Lattice::Lattice(char* file) {
 			row.push_back(elem);
 		}
 		values.push_back(row);
-	}	
+	}
+	setElementNeighbours(); 
 }
 
 void Lattice::setElementNeighbours(void) { 
