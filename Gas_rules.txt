@@ -69,3 +69,84 @@ This uses a hexagonal model but I tried adapting it for 2D. It gave me a headach
 
 Do something similar for the first instance, but then we only consider collisions
 
+Using the model listed above, we consider the following vectors:
+
+###
+vector(z) -> The occupation state, corresponds to a boolean value of 1 or 0
+For a point i,j in the overal lattice we use the following:
+vector(z_i,j) = (z_0,z_1,...,z_8) , where z_k (k = 0,1,...,8) simply refers to whether that point in the lattice is occupied.
+>Implmentation:
+This is already handled by Lat elem, can modify the ideas shown here to work with the code instead of having vectors at each point.
+
+Examples:
+-------------			-------------
+| 0 | 1 | 0 |			| 0 | 0 | 0 |
+-------------			-------------
+| 1 | 0 | 1 |			| 0 | 1 | 0 |
+-------------			-------------
+| 0 | 1 | 0 |			| 0 | 0 | 0 |
+-------------			-------------
+	  A						  B
+
+A) z = (1,0,1,0,1,0,1,0,0)
+B) z = (0,0,0,0,0,0,0,0,1)
+etc
+
+###
+vector(n) -> Describes direction in which a given particle is heading
+n = (x,y) st x,y = {-1,0,1}
+Calculate inititially, then update using the function:
+n_i+1 = n_i + delta(n_i)
+
+For initial calculation:
+Look at z. For each occupation value of z_k around a point we specify n = (x,y) as the following
+z_k (occupied)	n_x (add to) n_y (add to)
+0	-1	0
+1	-1	1
+2	-0	1
+3	1	1
+4	1	0
+5	1	-1
+6	0	-1
+7	-1	-1
+8	0	0
+
+(8 is a special case, corresponds to initial stationary particle with no movement).
+
+Example:
+-------------
+| 1 | 1 | 0 |
+-------------
+| 1 | 1 | 0 |
+-------------
+| 0 | 0 | 0 |			
+-------------	
+
+For the central point, we take
+
+n_x = 0 + 1 + 1 = 2
+n_y = 1 + 1 + 0 = 2
+Therefore, normalised:
+n = (1,1)
+(Particle goes diagonal downwards towards point 7)
+
+>Implementation:
+We need a new way of having vectors at each lattice element which is occupied.
+Alternative we do some warped method with setting the occupation value to include n.
+Eg: 0 - unoccupied
+1 - occupied, not moving
+101 - occupied, moving towards 1
+201 - occupied, moving towards 2
+etc
+We could easily start with particles moving etc.
+
+###
+vector(delta) -> The collision operator, has a value of 1, 0, -1 (not sure of last case, may need to rejig this as I convert the model)
+
+
+So how do we iterate the data?
+
+Step 1:
+>Look at each point, if it's occupied, calculate n value for that point else move onto the next point.
+>For an occupied point, look at what neighbours are occupied,  and calculate the value of n based on:
+z_k	n_x	n_y

@@ -27,11 +27,12 @@ int LatElem::getNValue(int nIndex) {
 	if (neighbours[nIndex] == NULL) return 0; 
 	return neighbours[nIndex]->getValue(); 
 }
-//Set the value of the specific 
+//Set the value of a specific neighbouring cell
 void LatElem::setNeighbours(int nIndex, LatElem& neighbour) {
 	neighbours[nIndex] = &neighbour; 
 }
 
+//Set the neighbours of the lattice element to be null-pointers
 void LatElem::setNullNeighbours(void) { 
 	for (int i = 0; i < 8; i++) { 
 		neighbours[i] = NULL; 

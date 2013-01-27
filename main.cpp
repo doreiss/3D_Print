@@ -4,6 +4,7 @@
 using namespace std; 
 
 int main() {
+	//Some test cases for the lattice, does it work ok?
 	Lattice test(10,10,0);
 	Lattice test2(2,2,1); 
 	test.insertSubLattice(test2,2,2); 

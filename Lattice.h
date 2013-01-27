@@ -6,9 +6,11 @@ using namespace std;
 class Lattice
 {
 public:
-	Lattice(void); //Default constructor
-	Lattice(int, int, int); //
+	//Constructors
+	Lattice(void);
+	Lattice(int, int, int);
 	Lattice(char*);
+	//Functions
 	void setElement(int, int, int);
 	void insertSubLattice(Lattice, int, int); 
 	int getElemVal(int,int);

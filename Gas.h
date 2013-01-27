@@ -12,8 +12,8 @@ class Gas
 public:
 	Gas(void); //Default constructor
 	Gas(Lattice); //Constructor
-	void iterate(void);
+	void iterate(void); //Function to update gas lattice
 
 private:
-	Lattice state;
+	Lattice state; 
 };

@@ -5,9 +5,11 @@
 #include <string>
 using namespace std; 
 
+//Emprt constructor (default)
 Lattice::Lattice(void){
 }
 
+//Constructor to create a lattice with a given number of rows, columns and starting value
 Lattice::Lattice(int rows, int columns, int init) {
 	for(int i = 0; i < rows; i++) {
 		vector<LatElem> row; 
@@ -67,7 +69,8 @@ void Lattice::setElementNeighbours(void) {
 	}
 }
 
-void Lattice::insertSubLattice(Lattice L, int topLeftRow, int topLeftCol) { 
+//Inset a sub-lattice into the system
+void Lattice::insertSubLattice(Lattice L, int topLeftRow, int topLeftCol) {
 	for (int i = 0; i < L.rowSize(); i++) { 
 		for (int j = 0; j < L.colSize(); j++) { 
 			setElement(topLeftRow+i, topLeftCol+j, L.getElemVal(i,j)); 
