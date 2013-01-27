@@ -66,6 +66,7 @@ This would be slow, trying to think of another way to do it.
 
 New stuff from MIT article (and I assume the book it references)
 This uses a hexagonal model but I tried adapting it for 2D. It gave me a headache trying to think of how to work it.
+This may be identical to Jensen's model, I really can't read FORTRAN, no idea.
 
 Do something similar for the first instance, but then we only consider collisions
 
@@ -141,12 +142,25 @@ etc
 We could easily start with particles moving etc.
 
 ###
-vector(delta) -> The collision operator, has a value of 1, 0, -1 (not sure of last case, may need to rejig this as I convert the model)
+vector(delta) -> The collision operator
 
 
 So how do we iterate the data?
 
 Step 1:
 >Look at each point, if it's occupied, calculate n value for that point else move onto the next point.
->For an occupied point, look at what neighbours are occupied,  and calculate the value of n based on:
-z_k	n_x	n_y
+>For an occupied point, look at what neighbours are occupied,  and calculate the value of n based on steps given above.
+
+Step 2:
+>First iteration. t = t + 1
+>Use the value of n to move each particle. To do this, we consider the following.
+>>Scan through all points, looking at all neighbours. (get latelem)
+>>If neighbours are going to cause a collision on the central point then we adjust the values of n accordingly such that they are now zero?
+DOUBLE CHECK
+>>Probably no heirarchy in how particles can or can't move.
+
+Step 3:
+>Move points across
+
+Step 4:
+>Repeat 2 and 3
