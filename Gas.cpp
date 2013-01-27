@@ -5,10 +5,10 @@
 
 using namespace std;
 
-Gas::Gas(void) {
+Gas::Gas(void) { //default empty constructor
 }
 
-Gas::Gas(Lattice initial) {
+Gas::Gas(Lattice initial) { //default constructor for a given lattice object
 	state = initial;
 }
 
