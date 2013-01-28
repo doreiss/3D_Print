@@ -12,6 +12,7 @@ public:
 	void setValue(int); //set the value of a cell to given integer (lat gas 1 or 0)
 	void setForce(void); //set the force of a cell to given integer (lat gas 0 - 9)
 	int getForceDir(void); 
+	double getForceMag(void); 
 	int getValue(void); //get the value of a cell
 	int getNValue(int);  //get the value of a specific neighbour
 	void setNeighbours(int, LatElem&); //set the neighbour pointer 

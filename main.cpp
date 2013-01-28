@@ -11,9 +11,9 @@ int main() {
 	test.setSubLattice(1,8,1,8,0); 
 	test.setSubLattice(3,6,3,6,1);
 	Gas model(test);
-	model.print(); 
-	for(int i = 0; i < 1000; i++) { 
-		model.iterate(); 
+	model.print();
+	for(int i = 0; i < 21; i++) {
+		model.iterate();
 	}
 	model.print(); 
 	return 0; 

@@ -9,12 +9,10 @@ LatElem::LatElem(void) {
 	forceDir = 8;
 	forceMag = 0.0; 
 	setNullNeighbours(); //null pointer to neighbours
-	
 }
 //Lattice element constructor with integer value
 LatElem::LatElem(int init) {
 	value = init; 
-
 	forceDir = 8;
 	forceMag = 0.0;
 	setNullNeighbours(); 
@@ -27,6 +25,8 @@ void LatElem::setValue(int init) {
 //Calculates the force on a given element, given its surrounding elements
 void LatElem::setForce(void) { 
 	if (value == 0) {
+		forceDir = 8;
+		forceMag = 0.0;
 		return; 
 	} 
 	int f_x = getNValue(4) - getNValue(0); 
@@ -35,15 +35,21 @@ void LatElem::setForce(void) {
 	forceMag = pow((f_x*f_x+f_y*f_y),0.5); 
 }
 
-
+//Returns the direction of the force
 int LatElem::getForceDir(void) { 
 	return forceDir; 
+}
+
+//Returns the magnitude of the force
+double LatElem::getForceMag(void) {
+	return forceMag; 
 }
 
 //Return the value of a lattice element as an integer
 int LatElem::getValue(void) { 
 	return value; 
 }
+
 //Return the value of the one of the neighbours 
 int LatElem::getNValue(int nIndex) {
 	if (neighbours[nIndex] == NULL) return 0; 
@@ -86,4 +92,3 @@ int convertXYDir(int x,int y) {
 	}
 	else return 8; 
 }
-
