@@ -12,7 +12,8 @@ public:
 	Lattice(char*);
 	//Functions
 	void setElement(int, int, int);
-	void insertSubLattice(Lattice, int, int); 
+	void insertSubLattice(Lattice, int, int);
+	void updateForces(void); 
 	int getElemVal(int,int);
 	LatElem getElement(int,int);
 	int rowSize(void); 

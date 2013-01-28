@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include "LatElem.h"
 //#include <cmath>
 
 //Class used to update elements of a lattice, used by LatElem
@@ -18,7 +17,7 @@ public:
 	//int getForceMag(int); //get overall force magnitude
 private:
 	int forcevalue[2]; //force values
-}
+};
 
 /* Naming convention for neighbouring cells around a cell X for 2D lattice gas model
 

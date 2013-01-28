@@ -18,6 +18,19 @@ LatElem::LatElem(int init) {
 void LatElem::setValue(int init) {
 	value = init;
 }
+
+//Calculates the force on a given element, given its surrounding elements
+void LatElem::setForce(void) { 
+	if (value = 0) {
+		return ; 
+	} 
+
+	int f_x = getNValue(0) - getNValue(4); 
+	int f_y = getNValue(2) - getNValue(6);
+	LatElemUpdate f(f_x,f_y);
+	force = f;
+}
+
 //Return the value of a lattice element as an integer
 int LatElem::getValue(void) { 
 	return value; 

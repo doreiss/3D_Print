@@ -78,6 +78,15 @@ void Lattice::insertSubLattice(Lattice L, int topLeftRow, int topLeftCol) {
 	} 
 }
 
+//Updates the forces throughout the Lattice
+void Lattice::updateForces(void) { 
+	for(int i = 0; i < rowSize(); i++) { 
+		for(int j = 0; j< colSize(); j++) { 
+			values[i][j].setForce();
+		}
+	}
+}
+
 
 //Set the value of a lattice element
 void Lattice::setElement(int rowInd, int colInd, int init) {
