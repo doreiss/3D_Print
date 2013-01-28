@@ -13,6 +13,7 @@ LatElem::LatElem(void) {
 //Lattice element constructor with integer value
 LatElem::LatElem(int init) {
 	value = init; 
+
 	force = LatElemUpdate(); 
 	setNullNeighbours(); 
 }
