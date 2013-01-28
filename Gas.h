@@ -18,5 +18,5 @@ public:
 	Lattice getLatT(int); //returns the Lattice at time T
 private:
 	Lattice* state;
-	vector < Lattice >  flow; //what is this? - Josh
+	vector < Lattice >  flow; //saves the Lattice
 };

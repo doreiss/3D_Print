@@ -55,6 +55,7 @@ void Gas::print(void) {
 	state->print(); 
 }
 
+//Gets Lattice at time t
 Lattice Gas::getLatT(int t) { 
 	return flow[t]; 
 }
