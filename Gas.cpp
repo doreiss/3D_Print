@@ -13,6 +13,8 @@ Gas::Gas(Lattice initial) { //default constructor for a given lattice object
 }
 
 void Gas::iterate(void) {
-	//Add rules based on Appendix B from Jensen's book
+	Lattice state_copy = state; 
+
+
 }
 

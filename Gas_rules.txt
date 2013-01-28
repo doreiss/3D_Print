@@ -164,3 +164,6 @@ Step 3:
 
 Step 4:
 >Repeat 2 and 3
+
+Some preliminary thoughts:
+Overall probably quicker, especially for systems with more particles.
