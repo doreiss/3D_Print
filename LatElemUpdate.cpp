@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 #include "LatElemUpdate.h"
 #include <iostream>
 #include <cmath>
@@ -51,30 +51,3 @@ int convertXYDir(int x,int y) {
 	}
 	else return 8; 
 }
-
-=======
-#include "Latelemupdate.h"
-#include <iostream>
-
-using namespace std;
-
-//Default (Empty) Constructor
-LatElemUpdate::LatElemUpdate(void) {
-	forcevalue[0] = 0;
-	forcevalue[1] = 0;
-}
-
-//Constructor for given values
-LatElemUpdate::LatElemUpdate(int x_init,int y_init) {
-	forcevalue[0] = x_init;
-	forcevalue[1] = y_init;
-}
-
-//Method for setting the force
-void LatElemUpdate::setForce(int x_init, int y_init) {
-	forcevalue[0] = x_init;
-	forcevalue[1] = y_init;
-}
-
->>>>>>> 0659abc3532c757adbae36e373105897633686b4
-//Other methods to follow

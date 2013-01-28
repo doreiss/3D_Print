@@ -16,7 +16,7 @@ Gas::Gas(Lattice initial) { //default constructor for a given lattice object
 
 void Gas::iterate(void) {
 	state.updateForces(); 
-	Lattice state_copy = state;
+	//Lattice state_copy = state;
 	for(int i = 0; i < state.rowSize(); i++) { 
 		for(int j = 0; j < state.colSize(); j++) { 
 			LatElem elem = state.getElement(i,j); 
@@ -34,14 +34,13 @@ void Gas::iterate(void) {
 				}
 			
 				if(valid_dir.size() == 1) { 
-					state_copy.setElement(i,j,1); 
-					cout << "i = " << i << endl; 
-					state_copy.setElement(i+convertDirX(valid_dir[0]),j+convertDirY(valid_dir[0]),0);
+					state.setElement(i,j,1); 
+					state.setElement(i+convertDirX(valid_dir[0]),j+convertDirY(valid_dir[0]),0);
 				}
 			}
 		}
 	}
-	state = state_copy; 
+	//state = state_copy; 
 }
 
 void Gas::print(void) { 

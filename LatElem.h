@@ -20,6 +20,7 @@ public:
 	void setNullNeighbours(void); //set the neighbour pointer to be null
 private:
 	int value; //Assign an integer value to the cell
+	int move;
 	LatElem* neighbours[8]; //Create pointers to the neighbouring cells
 	LatElemUpdate force; //Force value
 };
