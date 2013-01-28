@@ -1,3 +1,4 @@
+
 #pragma once
 #include "LatElem.h"
 #include "Lattice.h"
@@ -17,4 +18,3 @@ public:
 private:
 	Lattice state; 
 };
-

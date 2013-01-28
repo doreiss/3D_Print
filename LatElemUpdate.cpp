@@ -24,7 +24,7 @@ void LatElemUpdate::setForces(int x_init, int y_init) {
 
 int LatElemUpdate::getForceDir(void) {
 	int dir = convertXYDir(forcevalue[0],forcevalue[1]);
-	return dir; 
+	return dir; //test
 }
 
 int LatElemUpdate::getForceMag(void) { 
