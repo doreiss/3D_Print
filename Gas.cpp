@@ -13,6 +13,8 @@ Gas::Gas(Lattice& initial) { //default constructor for a given lattice object
 	state = &initial;
 }
 
+
+//Updates State 1 Time Step
 void Gas::iterate(void) {
 	state->updateForces();
 	for(int i = 0; i < state->rowSize(); i++) { 
