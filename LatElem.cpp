@@ -67,7 +67,7 @@ void LatElem::setNullNeighbours(void) {
 	}
 }
 
-
+//Convert components into a xy direction
 int convertXYDir(int x,int y) { 
 	if( x>0 ) { 
 		if (y == 0) return 0; 
