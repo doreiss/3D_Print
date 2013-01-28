@@ -25,3 +25,9 @@ private:
 	void setElementNeighbours(void); //does thi
 	vector< vector < LatElem > > values; //vector of vectors of lattice elements
 };
+
+int findMax(vector<int>); 
+
+int convertDirX(int); 
+int convertDirY(int); 
+

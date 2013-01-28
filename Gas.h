@@ -13,7 +13,8 @@ public:
 	Gas(void); //Default constructor
 	Gas(Lattice); //Constructor
 	void iterate(void); //Function to update gas lattice
-
+	void print(void); 
 private:
 	Lattice state; 
 };
+

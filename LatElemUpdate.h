@@ -11,13 +11,16 @@ public:
 	LatElemUpdate(int,int); //x and y values
 
 	//functions
-	void setForce(int,int); //set force x and y,
+	void setForces(int,int); //set force x and y,
 	//int getForceArr(int[2]); //get force values as an array - possible?
-	//int getForceDir(int); //get force values by graph below
-	//int getForceMag(int); //get overall force magnitude
-private:
+	int getForceDir(void); //get force values by graph below
+	int getForceMag(void); //get overall force magnitude
 	int forcevalue[2]; //force values
+private:
+	
 };
+
+int convertXYDir(int,int); 
 
 /* Naming convention for neighbouring cells around a cell X for 2D lattice gas model
 

@@ -81,7 +81,7 @@ void Lattice::insertSubLattice(Lattice L, int topLeftRow, int topLeftCol) {
 //Updates the forces throughout the Lattice
 void Lattice::updateForces(void) { 
 	for(int i = 0; i < rowSize(); i++) { 
-		for(int j = 0; j< colSize(); j++) { 
+		for(int j = 0; j < colSize(); j++) { 
 			values[i][j].setForce();
 		}
 	}
@@ -143,4 +143,81 @@ void Lattice::print(void) {
 		cout << endl; 
 	}
 	cout << endl; 
+}
+
+int findMax(vector<int> v) { 
+	int max=0; 
+	for(unsigned int i = 0; i < v.size(); i++) {
+		if(max < v.at(i)) { 
+			max = v.at(i);
+		}
+	}
+	return max;
+}
+
+int convertDirX(int dir) { 
+	int x = 0; 
+	switch (dir) {
+	case 0: 
+		x = 1; 
+		break;
+	case 1: 
+		x = 1;
+		break;
+	case 2: 
+		x = 0; 
+		break;
+	case 3: 
+		x = -1;
+		break;
+	case 4: 
+		x = -1;
+		break;
+	case 5: 
+		x = -1;
+		break;
+	case 6: 
+		x = 0; 
+		break;
+	case 7: 
+		x = 1; 
+		break;
+	default: 
+		x = 0;
+		break;
+	}
+	return x; 
+}
+int convertDirY(int dir) { 
+	int y = 0; 
+	switch (dir) {
+	case 0: 
+		y = 0; 
+		break;
+	case 1: 
+		y = 1;
+		break;
+	case 2: 
+		y = 1; 
+		break;
+	case 3: 
+		y = 1;
+		break;
+	case 4: 
+		y = 0;
+		break;
+	case 5: 
+		y = -1;
+		break;
+	case 6: 
+		y = -1; 
+		break;
+	case 7: 
+		y = -1; 
+		break;
+	default: 
+		y = 0;
+		break;
+	}
+	return y; 
 }
