@@ -21,6 +21,6 @@ public:
 	void setSubLattice(int,int,int,int,int);
 	void print(void);
 private: 
-	void setElementNeighbours(void); 
-	vector< vector < LatElem > > values; 
+	void setElementNeighbours(void); //does thi
+	vector< vector < LatElem > > values; //vector of vectors of lattice elements
 };
