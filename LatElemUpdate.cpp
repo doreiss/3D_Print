@@ -32,22 +32,3 @@ int LatElemUpdate::getForceMag(void) {
 	mag = pow(mag,0.5); 
 	return mag;
 }
-
-int convertXYDir(int x,int y) { 
-	if( x>0 ) { 
-		if (y == 0) return 0; 
-		if (y > 0) return 1; 
-		if (y < 0) return 7; 
-	}
-	else if (x < 0) { 
-		if (y == 0) return 4; 
-		if (y > 0) return 3; 
-		if (y < 0) return 5; 
-	} 
-	else if (x == 0) { 
-		if (y == 0) return 8; 
-		if (y > 0) return 2; 
-		if (y < 0) return 6; 
-	}
-	else return 8; 
-}

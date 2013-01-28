@@ -6,7 +6,8 @@ using namespace std;
 //Default lattice element constructor (empty)
 LatElem::LatElem(void) { 
 	value = 0; //value = 0
-	force = LatElemUpdate(); 
+	forceDir = 8;
+	forceMag = 0.0; 
 	setNullNeighbours(); //null pointer to neighbours
 	
 }
@@ -14,7 +15,8 @@ LatElem::LatElem(void) {
 LatElem::LatElem(int init) {
 	value = init; 
 
-	force = LatElemUpdate(); 
+	forceDir = 8;
+	forceMag = 0.0;
 	setNullNeighbours(); 
 }
 //Change the value of a lattice element to given integer value
@@ -29,12 +31,13 @@ void LatElem::setForce(void) {
 	} 
 	int f_x = getNValue(4) - getNValue(0); 
 	int f_y = getNValue(6) - getNValue(2);
-	LatElemUpdate f(f_x,f_y); 
-	force = f; 
+	forceDir = convertXYDir(f_x,f_y); 
+	forceMag = pow((f_x*f_x+f_y*f_y),0.5); 
 }
 
-LatElemUpdate LatElem::getForce(void) { 
-	return force; 
+
+int LatElem::getForceDir(void) { 
+	return forceDir; 
 }
 
 //Return the value of a lattice element as an integer
@@ -47,9 +50,9 @@ int LatElem::getNValue(int nIndex) {
 	return neighbours[nIndex]->getValue(); 
 }
 
-//Return the Force Object of a LatElem
-LatElemUpdate LatElem::getNForce(int nIndex) {
-	return neighbours[nIndex]->force; 
+//Return a Neighbour
+LatElem* LatElem::getNeighbour(int i) {
+	return neighbours[i];
 }
 
 //Set the value of a specific neighbouring cell
@@ -63,3 +66,24 @@ void LatElem::setNullNeighbours(void) {
 		neighbours[i] = NULL; 
 	}
 }
+
+
+int convertXYDir(int x,int y) { 
+	if( x>0 ) { 
+		if (y == 0) return 0; 
+		if (y > 0) return 1; 
+		if (y < 0) return 7; 
+	}
+	else if (x < 0) { 
+		if (y == 0) return 4; 
+		if (y > 0) return 3; 
+		if (y < 0) return 5; 
+	} 
+	else if (x == 0) { 
+		if (y == 0) return 8; 
+		if (y > 0) return 2; 
+		if (y < 0) return 6; 
+	}
+	else return 8; 
+}
+

@@ -20,7 +20,6 @@ private:
 	
 };
 
-int convertXYDir(int,int); 
 
 /* Naming convention for neighbouring cells around a cell X for 2D lattice gas model
 
