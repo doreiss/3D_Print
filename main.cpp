@@ -1,7 +1,6 @@
 #include <iostream>
 #include "Lattice.h"
 #include "LatElem.h"
-#include "LatElemUpdate.h"
 #include "Gas.h"
 
 using namespace std; 
@@ -11,15 +10,11 @@ int main() {
 	Lattice test(10,10,1); 
 	test.setSubLattice(1,8,1,8,0); 
 	test.setSubLattice(3,6,3,6,1);
-	Gas model(test); 
-	model.print();
-	model.iterate();
+	Gas model(test);
 	model.print(); 
-	model.iterate(); 
-	model.print(); 
-	model.iterate();
-	model.print();
-	model.iterate(); 
+	for(int i = 0; i < 1000; i++) { 
+		model.iterate(); 
+	}
 	model.print(); 
 	return 0; 
 }
