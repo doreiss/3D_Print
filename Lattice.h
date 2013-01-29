@@ -12,7 +12,6 @@ public:
 	Lattice(char*);
 	
 	//Functions
-<<<<<<< HEAD
 	void setElement(int, int, int); //set a specific element - row, column, value
 	void insertSubLattice(Lattice, int, int); //insert another lattice object as a sublattice
 	/*
