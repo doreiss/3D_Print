@@ -90,7 +90,7 @@ void Lattice::updateForces(void) {
 
 //Set the value of a lattice element
 void Lattice::setElement(int rowInd, int colInd, int init) {
-	values[rowInd][colInd].setValue(init); 
+	getElement(rowInd,colInd)->setValue(init); 
 }
 
 //Return the value of a lattice element
@@ -99,8 +99,8 @@ int	Lattice::getElemVal(int rowInd, int colInd) {
 }
 
 //Get the whole lattice element object
-LatElem Lattice::getElement(int rowInd, int colInd) {
-	return values[rowInd][colInd];
+LatElem* Lattice::getElement(int rowInd, int colInd) {
+	return &values[rowInd][colInd];
 }
 
 //Get the height of a lattice - double check?

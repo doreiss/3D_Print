@@ -14,14 +14,16 @@ Gas::Gas(Lattice& initial) { //default constructor for a given lattice object
 	Lattice save = *state; 
 	flow.push_back(save); 
 }
-
+Lattice* Gas::getLattice(void) { 
+	return state; 
+}
 
 //Updates State 1 Time Step
 void Gas::iterate(void) {
 	state->updateForces(); //Update the forces in each cell
 	for(int i = 0; i < state->rowSize(); i++) { 
 		for(int j = 0; j < state->colSize(); j++) { 
-			LatElem* elem = &(state->getElement(i,j));  //get the element where iterator is
+			LatElem* elem = state->getElement(i,j);  //get the element where iterator is
 			if(elem->getValue() == 0) { //Only look at empty cells
 				vector < int > valid_dir; //Stores the valid directions of incoming cells
 				for(int k = 0; k < 8; k++) {

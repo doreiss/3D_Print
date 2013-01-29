@@ -10,7 +10,9 @@ public:
 	Lattice(void);
 	Lattice(int, int, int);
 	Lattice(char*);
+	
 	//Functions
+<<<<<<< HEAD
 	void setElement(int, int, int); //set a specific element - row, column, value
 	void insertSubLattice(Lattice, int, int); //insert another lattice object as a sublattice
 	/*
@@ -34,7 +36,6 @@ public:
 	void fileprint(void); //print lattice values to file
 	//void fileprint(int); //print lattice values to file with  
 	//void fileread(&ofstream); //read a lattice from a file
-
 private: 
 	void setElementNeighbours(void);
 	vector< vector < LatElem > > values; //vector of vectors of lattice elements
