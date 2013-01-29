@@ -11,6 +11,8 @@ Gas::Gas(void) { //default empty constructor
 
 Gas::Gas(Lattice& initial) { //default constructor for a given lattice object
 	state = &initial;
+	Lattice save = *state; 
+	flow.push_back(save); 
 }
 
 
@@ -37,8 +39,20 @@ void Gas::iterate(void) {
 			}
 		}
 	}
+	Lattice save = *state; 
+	flow.push_back(save); 
 }
 
+//Finds how many steps have been taken
+int Gas::timeSize(void) { 
+	return flow.size(); 
+}
+
+//prints the current state
 void Gas::print(void) { 
 	state->print(); 
+}
+
+Lattice Gas::getLatT(int t) { 
+	return flow[t]; 
 }

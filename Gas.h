@@ -14,7 +14,9 @@ public:
 	Gas(Lattice&); //Constructor
 	void iterate(void); //Function to update gas lattice
 	void print(void); //Prints the lattice
+	int timeSize(void); //finds the current time step 
+	Lattice getLatT(int); //returns the Lattice at time T
 private:
 	Lattice* state;
-	vector < vector < state >  > flow;
+	vector < Lattice >  flow;
 };
