@@ -15,5 +15,6 @@ public:
 	void iterate(void); //Function to update gas lattice
 	void print(void); //Prints the lattice
 private:
-	Lattice* state; 
+	Lattice* state;
+	vector < vector < state >  > flow;
 };
