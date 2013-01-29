@@ -12,9 +12,9 @@ class Gas
 public:
 	Gas(void); //Default constructor
 	Gas(Lattice&); //Constructor
+	Lattice* getLattice(void); 
 	void iterate(void); //Function to update gas lattice
 	void print(void); //Prints the lattice
 private:
-	Lattice* state;
-	vector < vector < state >  > flow;
+	Lattice* state; 
 };
