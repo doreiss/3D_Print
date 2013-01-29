@@ -75,21 +75,23 @@ void LatElem::setNullNeighbours(void) {
 }
 
 //Convert components into a xy direction
-int convertXYDir(int x,int y) { 
-	if( x>0 ) { 
-		if (y == 0) return 0; 
-		if (y > 0) return 1; 
-		if (y < 0) return 7; 
+int convertXYDir(int x, int y) {
+	int jensenval;
+	if(x > 0) { 
+		if (y > 0) jensenval == 1; 
+		else if (y < 0) jensenval == 7; 
+		else if (y == 0) jensenval == 0; 
 	}
 	else if (x < 0) { 
-		if (y == 0) return 4; 
-		if (y > 0) return 3; 
-		if (y < 0) return 5; 
+		if (y == 0) jensenval == 4; 
+		else if (y > 0) jensenval == 3; 
+		else if (y < 0) jensenval == 5; 
 	} 
 	else if (x == 0) { 
-		if (y == 0) return 8; 
-		if (y > 0) return 2; 
-		if (y < 0) return 6; 
+		if (y == 0) jensenval == 8; 
+		else if (y > 0) jensenval == 2; 
+		else if (y < 0) jensenval == 6;
 	}
-	else return 8; 
+	else jensenval == 8; //should never happen, default case
+	return jensenval;
 }

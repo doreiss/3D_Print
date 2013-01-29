@@ -134,7 +134,7 @@ void Lattice::setSubLattice(int bRowInd, int eRowInd, int bColInd, int eColInd, 
 	}
 }
 
-//Prints the lattice
+//Prints the lattice to cout
 void Lattice::print(void) {
 	for (unsigned int i = 0; i < values.size(); i++) { 
 		for(unsigned int j = 0; j < values[0].size(); j++) { 
@@ -145,8 +145,48 @@ void Lattice::print(void) {
 	cout << endl; 
 }
 
+//Print the lattice to a file (initial version)
+void Lattice::fileprint(void){
+	ofstream outfile;
+	outfile.open("lattice.txt");
+	int rows = Lattice::rowSize();
+	int cols = Lattice::colSize();
+	
+	/*
+	For a lattice of size n x n, element Li,j
+	Each line in the file:
+	x	y	L1,1  ...	L1,n   L2,1	 ...	L2,n   ...	Ln,1  ...	Ln,n NEWLINE
+	etc		
+	*/
+	outfile << cols << '\t' << rows << '\t';
+	for (int j = 0; j < rows; ++j)
+	{
+		for (int i = 0; i < cols; ++i)
+		{
+			outfile << Lattice::getElemVal(i, j) << '\t';
+		}
+	}
+	outfile << '\n';
+
+	outfile.close();
+
+	//I suspect this may overwrite things, will test tomorrow
+}
+
+/*
+//Print the lattice to a file (include time)
+void Lattice::fileprint(int time){
+}
+*/
+
+/*
+void Lattice::fileread(&ofstream){
+}
+*/
+
+//Find the maximum value in a vector of ints
 int findMax(vector<int> v) { 
-	int max=0; 
+	int max = 0; 
 	for(unsigned int i = 0; i < v.size(); i++) {
 		if(max < v.at(i)) { 
 			max = v.at(i);
@@ -155,69 +195,20 @@ int findMax(vector<int> v) {
 	return max;
 }
 
+//Convert an integer direction ("Jensen Notation") into a unit cartesian x value
 int convertDirX(int dir) { 
 	int x = 0; 
-	switch (dir) {
-	case 0: 
-		x = 1; 
-		break;
-	case 1: 
-		x = 1;
-		break;
-	case 2: 
-		x = 0; 
-		break;
-	case 3: 
-		x = -1;
-		break;
-	case 4: 
-		x = -1;
-		break;
-	case 5: 
-		x = -1;
-		break;
-	case 6: 
-		x = 0; 
-		break;
-	case 7: 
-		x = 1; 
-		break;
-	default: 
-		x = 0;
-		break;
-	}
+	if (dir == 2 || dir == 6 || dir == 8) x = 0;
+	else if (dir == 0 || dir == 1 || dir == 7) x = 1;
+	else if (dir == 3 || dir == 4 || dir == 5) x = -1;
 	return x; 
 }
+
+//Convert an integer direction ("Jensen Notation") into a unit cartesian y value
 int convertDirY(int dir) { 
 	int y = 0; 
-	switch (dir) {
-	case 0: 
-		y = 0; 
-		break;
-	case 1: 
-		y = 1;
-		break;
-	case 2: 
-		y = 1; 
-		break;
-	case 3: 
-		y = 1;
-		break;
-	case 4: 
-		y = 0;
-		break;
-	case 5: 
-		y = -1;
-		break;
-	case 6: 
-		y = -1; 
-		break;
-	case 7: 
-		y = -1; 
-		break;
-	default: 
-		y = 0;
-		break;
-	}
+	if (dir == 0 || dir == 4 || dir == 8) y = 0;
+	else if (dir == 1 || dir == 2 || dir == 3) y = 1;
+	else if (dir == 5 || dir == 6 || dir == 7) y = -1;
 	return y; 
 }

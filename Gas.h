@@ -4,8 +4,7 @@
 #include <vector>
 #include <cmath> 
 
-/* Lattice gas model
-*/
+// Lattice gas model
 
 class Gas 
 {
@@ -18,5 +17,5 @@ public:
 	Lattice getLatT(int); //returns the Lattice at time T
 private:
 	Lattice* state;
-	vector < Lattice >  flow;
+	vector < Lattice >  flow; //what is this? - Josh
 };
