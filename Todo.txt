@@ -4,3 +4,7 @@ Josh
 >Add reading from computer file
 >Add print from flow
 >Look at reopening and continuing to print on preexisting files
+
+When this is done
+>Add conversion to STL
+>Add as something that is part of Lattice pointed to buy Gas.
