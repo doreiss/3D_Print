@@ -32,7 +32,7 @@ public:
 	*/
 
 	void print(void); //cout lattice values
-	void fileprint(void); //print lattice values to file
+	void fileprint(bool); //print lattice values to file
 	//void fileprint(int); //print lattice values to file with  
 	//void fileread(&ofstream); //read a lattice from a file
 private: 
