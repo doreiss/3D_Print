@@ -78,20 +78,20 @@ void LatElem::setNullNeighbours(void) {
 int convertXYDir(int x, int y) {
 	int jensenval;
 	if(x > 0) { 
-		if (y > 0) jensenval == 1; 
-		else if (y < 0) jensenval == 7; 
-		else if (y == 0) jensenval == 0; 
+		if (y > 0) jensenval = 1; 
+		else if (y < 0) jensenval = 7; 
+		else if (y == 0) jensenval = 0; 
 	}
 	else if (x < 0) { 
-		if (y == 0) jensenval == 4; 
-		else if (y > 0) jensenval == 3; 
-		else if (y < 0) jensenval == 5; 
+		if (y == 0) jensenval = 4; 
+		else if (y > 0) jensenval = 3; 
+		else if (y < 0) jensenval = 5; 
 	} 
 	else if (x == 0) { 
-		if (y == 0) jensenval == 8; 
-		else if (y > 0) jensenval == 2; 
-		else if (y < 0) jensenval == 6;
+		if (y == 0) jensenval = 8; 
+		else if (y > 0) jensenval = 2; 
+		else if (y < 0) jensenval = 6;
 	}
-	else jensenval == 8; //should never happen, default case
+	else jensenval = 8; //should never happen, default case
 	return jensenval;
 }

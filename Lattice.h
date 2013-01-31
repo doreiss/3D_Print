@@ -20,7 +20,7 @@ public:
 	*/
 	void updateForces(void); //updatr all the force elements
 	int getElemVal(int,int); //get the value of a specific element
-	LatElem getElement(int,int); //get a 'Lat_elem' object (includes pointers to neighbours)
+	LatElem* getElement(int,int); //get a 'Lat_elem' object (includes pointers to neighbours)
 	int rowSize(void); //change the row size
 	int colSize(void); //change the column size
 	bool isEmpty(int, int); //is the lattice empty?
