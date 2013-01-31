@@ -1,22 +1,6 @@
 Last updated: 28/01/2013
 Josh
-
-==================================
-Lattice.h/cpp
->Fine
-
-LatElem.h/cpp
->
-
-LatElemUpdate.h/cpp
->Check methods - Josh
-
-Gas.h/cpp
->Fix bug where gas does not update properly
-
-Main.cpp
->Dom to add comments
-
-Other
->Add comments
->Add write to file function/header - Josh
+>Add write to file function/header
+>Add reading from computer file
+>Add print from flow
+>Look at reopening and continuing to print on preexisting files
