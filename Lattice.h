@@ -30,7 +30,7 @@ public:
 		first column index, last column index
 
 	*/
-
+	//asdf
 	void print(void); //cout lattice values
 	void fileprint(void); //print lattice values to file
 	//void fileprint(int); //print lattice values to file with  
