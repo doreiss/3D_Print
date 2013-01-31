@@ -152,29 +152,41 @@ void Lattice::print(void) {
 }
 
 //Print the lattice to a file (initial version)
-void Lattice::fileprint(void){
+void Lattice::fileprint(bool filetype){
 	ofstream outfile;
-	outfile.open("lattice.txt");
 	int rows = Lattice::rowSize();
 	int cols = Lattice::colSize();
-	
-	/*
-	For a lattice of size n x n, element Li,j
-	Each line in the file:
-	x	y	L1,1  ...	L1,n   L2,1	 ...	L2,n   ...	Ln,1  ...	Ln,n NEWLINE
-	etc		
-	*/
-	outfile << cols << '\t' << rows << '\t';
-	for (int j = 0; j < rows; ++j) {
-		for (int i = 0; i < cols; ++i) {
-			outfile << Lattice::getElemVal(i, j) << '\t';
+	if (filetype) {
+		outfile.open("latticeview.txt");
+		for (int j = 0; j < rows; ++j) {
+			for (int i = 0; i < cols; ++i) {
+				outfile << Lattice::getElemVal(i, j);
+				if (i != (cols - 1)) { //are we at the end of the row?
+					outfile << '\t';
+				}
+				else {
+					outfile << '\n';
+				}
+			}
 		}
 	}
-	outfile << '\n';
+	else {
+		outfile.open("lattice.flow",ios::app); //ios:app opens the file in append mode
+		/* How this file works:
+		For a lattice of size n x n, element Li,j
+		Each line in the file:
+		x	y	L1,1  ...	L1,n   L2,1	 ...	L2,n   ...	Ln,1  ...	Ln,n NEWLINE
+		etc	*/
 
+		outfile << cols << '\t' << rows << '\t';
+		for (int j = 0; j < rows; ++j) {
+			for (int i = 0; i < cols; ++i) {
+				outfile << Lattice::getElemVal(i, j) << '\t';
+			}
+		}
+		outfile << '\n';
+	}
 	outfile.close();
-
-	//I suspect this may overwrite things, will test tomorrow
 }
 
 /*

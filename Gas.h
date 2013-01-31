@@ -14,6 +14,8 @@ public:
 	Lattice* getLattice(void); 
 	void iterate(void); //Function to update gas lattice
 	void print(void); //Prints the lattice
+	void fileprint(bool); //Prints the lattice
+	//void fileprintFlow(void); //Prints an entire flow member
 	int timeSize(void); //finds the current time step 
 	Lattice getLatT(int); //returns the Lattice at time T
 private:

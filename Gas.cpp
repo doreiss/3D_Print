@@ -75,6 +75,10 @@ void Gas::print(void) {
 	state->print(); 
 }
 
+void Gas::fileprint(bool ishuman) {
+	state->fileprint(ishuman);
+}
+
 //Gets Lattice at time t
 Lattice Gas::getLatT(int t) { 
 	return flow[t]; 
