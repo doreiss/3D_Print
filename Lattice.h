@@ -9,7 +9,7 @@ public:
 	//Constructors
 	Lattice(void);
 	Lattice(int, int, int);
-	Lattice(char*);
+	Lattice(char*, bool); //bool for different filetypes - human/computer readable files
 	
 	//Functions
 	void setElement(int, int, int); //set a specific element - row, column, value

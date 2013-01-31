@@ -24,21 +24,27 @@ Lattice::Lattice(int rows, int columns, int init) {
 }
 
 //Constructor to  create a lattice based upon a file with values
-Lattice::Lattice(char* file) {
-	ifstream ifs(file);
-	int fileVal; //value from the file
-	string line;
-	while(std::getline(ifs,line)) { //take the first line of the file
-		std::istringstream iss(line); //make a stream out of the string
-		vector<LatElem> row;
-		while(iss >> fileVal) {
-			LatElem elem; //create a lattice element from that individual point
-			elem.setValue(fileVal); 
-			row.push_back(elem);
+Lattice::Lattice(char* file,bool ishuman) {
+	if(ishuman) {
+		ifstream ifs(file);
+		int fileVal; //value from the file
+		string line;
+		while(std::getline(ifs,line)) { //take the first line of the file
+			std::istringstream iss(line); //make a stream out of the string
+			vector<LatElem> row;
+			while(iss >> fileVal) {
+				LatElem elem; //create a lattice element from that individual point
+				elem.setValue(fileVal); 
+				row.push_back(elem);
+			}
+			values.push_back(row);
 		}
-		values.push_back(row);
+		setElementNeighbours(); 
 	}
-	setElementNeighbours(); 
+	else {
+		cout << "This doesn't exist yet, bug Josh to fix it!\n";
+		//my version goes here
+	}
 }
 
 //Update all lattice element neighbour pointers
@@ -159,10 +165,8 @@ void Lattice::fileprint(void){
 	etc		
 	*/
 	outfile << cols << '\t' << rows << '\t';
-	for (int j = 0; j < rows; ++j)
-	{
-		for (int i = 0; i < cols; ++i)
-		{
+	for (int j = 0; j < rows; ++j) {
+		for (int i = 0; i < cols; ++i) {
 			outfile << Lattice::getElemVal(i, j) << '\t';
 		}
 	}
