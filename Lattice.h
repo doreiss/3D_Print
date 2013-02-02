@@ -33,7 +33,7 @@ public:
 
 	void print(void); //cout lattice values
 	void fileprint(bool); //print lattice values to file
-	//void fileprint(int); //print lattice values to file with  
+	//void fileprint(int,bool); //print lattice values to file with time  
 	//void fileread(&ofstream); //read a lattice from a file
 private: 
 	void setElementNeighbours(void);

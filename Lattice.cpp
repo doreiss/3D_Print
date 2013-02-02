@@ -156,7 +156,7 @@ void Lattice::fileprint(bool filetype){
 	ofstream outfile;
 	int rows = Lattice::rowSize();
 	int cols = Lattice::colSize();
-	if (filetype) {
+	if (filetype) { //move this to a function
 		outfile.open("latticeview.txt");
 		for (int j = 0; j < rows; ++j) {
 			for (int i = 0; i < cols; ++i) {
@@ -170,7 +170,7 @@ void Lattice::fileprint(bool filetype){
 			}
 		}
 	}
-	else {
+	else { //move this to a function
 		outfile.open("lattice.flow",ios::app); //ios:app opens the file in append mode
 		/* How this file works:
 		For a lattice of size n x n, element Li,j
@@ -191,7 +191,8 @@ void Lattice::fileprint(bool filetype){
 
 /*
 //Print the lattice to a file (include time)
-void Lattice::fileprint(int time){
+void Lattice::fileprint(int time,bool ishuman){
+
 }
 */
 
