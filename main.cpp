@@ -13,10 +13,10 @@ int main() {
 	Gas model(test);
  	for(int i = 0; i < 21; i++) {
 		model.iterate();
-		model.fileprint(false); //not a human file
+		model.filePrint(false); //not a human file
 	}
 	model.print();
-	model.fileprint(true);
+	model.filePrintAll();
 	//cout << model.timeSize() << endl; 
 
 	return 0; 
