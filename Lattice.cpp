@@ -1,5 +1,6 @@
 #include "Lattice.h"
 #include "LatElem.h"
+#include <algorithm>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -152,7 +153,7 @@ void Lattice::print(void) {
 }
 
 //Print the lattice to a file (initial version)
-void Lattice::fileprint(bool filetype){
+void Lattice::filePrint(bool filetype){
 	ofstream outfile;
 	int rows = Lattice::rowSize();
 	int cols = Lattice::colSize();
@@ -196,8 +197,18 @@ void Lattice::fileprint(int time,bool ishuman){
 }
 */
 
+//Read a given line from lattice.flow file
+void Lattice::fileRead(int line){
+	ifstream infile;
+	infile.open("lattice.flow");
+
+
+}
+
 /*
-void Lattice::fileread(&ofstream){
+//Read a given line from a file with a given name
+void Lattice::fileRead(string filename, int line){
+
 }
 */
 
@@ -228,4 +239,21 @@ int convertDirY(int dir) {
 	else if (dir == 1 || dir == 2 || dir == 3) y = 1;
 	else if (dir == 5 || dir == 6 || dir == 7) y = -1;
 	return y; 
+}
+
+//Function to count the number of lines in a Lattice.flow file
+int fileLines(void) {
+	int lines = fileLines("Lattice");
+	return lines;
+}
+
+//Function to coun the number of lines in a "X".flow file
+int fileLines(string filename) {
+	filename.append(".flow");
+	ifstream infile;
+	infile.open(filename);
+	int lines = (int)count( //this a function in <algorithm> designed specifically for counting
+			istreambuf_iterator<char>(infile),
+			istreambuf_iterator<char>(),'\n');
+	return lines;
 }

@@ -19,5 +19,8 @@ int main() {
 	model.filePrintAll();
 	//cout << model.timeSize() << endl; 
 
+	cout << "\n\nNumber of lines: " << fileLines() << "\n";
+	
+
 	return 0; 
 }

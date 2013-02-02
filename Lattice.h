@@ -1,6 +1,7 @@
 #pragma once //compile only once (replace #ifendf etc)
 #include <iostream>
 #include <vector> 
+#include <string>
 #include "LatElem.h"
 using namespace std; 
 class Lattice
@@ -32,9 +33,11 @@ public:
 	*/
 	//asdf
 	void print(void); //cout lattice values
-	void fileprint(bool); //print lattice values to file
+	void filePrint(bool); //print lattice values to file
 	//void fileprint(int,bool); //print lattice values to file with time  
-	//void fileread(&ofstream); //read a lattice from a file
+	void fileRead(int); //read a lattice from a file
+	//void fileRead(string,int);
+
 private: 
 	void setElementNeighbours(void);
 	vector< vector < LatElem > > values; //vector of vectors of lattice elements
@@ -43,5 +46,7 @@ private:
 int findMax(vector<int>); 
 
 int convertDirX(int); 
-int convertDirY(int); 
+int convertDirY(int);
 
+int fileLines(void);
+int fileLines(string);

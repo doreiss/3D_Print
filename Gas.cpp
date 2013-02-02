@@ -77,7 +77,7 @@ void Gas::print(void) {
 
 //prints the current state to a file
 void Gas::filePrint(bool ishuman) {
-	state->fileprint(ishuman);
+	state->filePrint(ishuman);
 }
 
 //prints the entire flow object to a file
@@ -85,7 +85,7 @@ void Gas::filePrintAll(void) {
 	Lattice toprint;
 	for (unsigned int i = 0; i < flow.size(); ++i) {
 		toprint = flow.at(i); //get a specific element
-		toprint.fileprint(false); //print this specific element
+		toprint.filePrint(false); //print this specific element
 	} //may be possible to redo this with pointers. only useful if we need to manage memory more
 }
 
