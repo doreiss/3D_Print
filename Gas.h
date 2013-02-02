@@ -18,6 +18,7 @@ public:
 	void filePrintAll(void); //Prints an entire flow member
 	int timeSize(void); //finds the current time step 
 	Lattice getLatT(int); //returns the Lattice at time T
+
 private:
 	Lattice* state;
 	vector < Lattice >  flow; //saves the Lattice

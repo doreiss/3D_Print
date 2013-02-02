@@ -153,7 +153,7 @@ void Lattice::print(void) {
 }
 
 //Print the lattice to a file (initial version)
-void Lattice::filePrint(bool filetype){
+void Lattice::filePrint(bool filetype,bool newfile){
 	ofstream outfile;
 	int rows = Lattice::rowSize();
 	int cols = Lattice::colSize();
@@ -172,13 +172,18 @@ void Lattice::filePrint(bool filetype){
 		}
 	}
 	else { //move this to a function
-		outfile.open("lattice.flow",ios::app); //ios:app opens the file in append mode
-		/* How this file works:
+		/* How this "computer readable" file works:
 		For a lattice of size n x n, element Li,j
 		Each line in the file:
 		x	y	L1,1  ...	L1,n   L2,1	 ...	L2,n   ...	Ln,1  ...	Ln,n NEWLINE
 		etc	*/
 
+		if(newfile) { //overwrite and create a new file
+			outfile.open("lattice.flow");
+		} 
+		else { //append to an existing file
+			outfile.open("lattice.flow",ios::app);
+		} 
 		outfile << cols << '\t' << rows << '\t';
 		for (int j = 0; j < rows; ++j) {
 			for (int i = 0; i < cols; ++i) {
@@ -241,6 +246,7 @@ int convertDirY(int dir) {
 	return y; 
 }
 
+//These are only useful if you are using Gas.cpp, or something else which creates/uses .flow files
 //Function to count the number of lines in a Lattice.flow file
 int fileLines(void) {
 	int lines = fileLines("Lattice");

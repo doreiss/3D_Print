@@ -33,7 +33,7 @@ public:
 	*/
 	//asdf
 	void print(void); //cout lattice values
-	void filePrint(bool); //print lattice values to file
+	void filePrint(bool,bool); //print lattice values to file
 	//void fileprint(int,bool); //print lattice values to file with time  
 	void fileRead(int); //read a lattice from a file
 	//void fileRead(string,int);
