@@ -9,10 +9,13 @@ class Lattice
 {
 public:
 	//Constructors
+
+	//Default
 	Lattice(void);
-	Lattice(int, int, int);
-	Lattice(char*, bool); //bool for different filetypes - human/computer readable files
-	Lattice(string, int);
+	//Rows, Columns, Initial Value (default 0)
+	Lattice(int, int, int init=0);
+	//Read from file. Filename, human/.flow file, line of flow file
+	Lattice(string, bool, int line=1);
 	//Lattice(ifstream&, int);
 	
 	//Functions
@@ -29,13 +32,10 @@ public:
 	int colSize(void); //get the column size
 	bool isEmpty(int, int); //is the lattice empty?
 	void setSubLattice(int,int,int,int,int); //create a sub lattice
-	/*
-		first row index, last row index
-		first column index, last column index
-
-	*/
-	//asdf
+	// first row index, last row index, first column index, last column index 
 	void print(void); //cout lattice values
+
+	//Make sure these work
 	void filePrint(bool,bool,int); //print lattice values to file
 	void filePrint(bool,bool);
 	void fileRead(int); //read a lattice from a file lattice.flow

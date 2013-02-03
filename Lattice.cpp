@@ -26,9 +26,12 @@ Lattice::Lattice(int rows, int columns, int init) {
 
 //Constructor to  create a lattice based upon a file with values
 //FIX
-Lattice::Lattice(char* file,bool ishuman) {
+Lattice::Lattice(string filename,bool ishuman, int line) {
 	if(ishuman) {
-		ifstream ifs(file);
+		if ( ){
+			filename.append(".txt");
+		}
+		ifstream ifs(filename);
 		int fileVal; //value from the file
 		string line;
 		while(std::getline(ifs,line)) { //take the first line of the file
@@ -44,47 +47,37 @@ Lattice::Lattice(char* file,bool ishuman) {
 		setElementNeighbours(); 
 	}
 	else {
-		cout << "This doesn't exist yet, bug Josh to fix it!\n";
-		//my version goes here
-	}
-}
-
-//Read a given line from filename.flow file - make this a constructor
-//FIX
-Lattice::Lattice(string filename,int line){
-	//open relevant streams
-	filename.append(".flow");
-	ifstream infile;
-	infile.open(filename);
-	//check to make sure we aren't reading from a nonexistant line in the flow file
-	int filelength = fileLines(infile);
-	if (line > filelength) {
-		line = filelength; //
-		cout << "Warning! Supplied line number too large. Using last line of .flow file";
-	}
-	else if (line <= 0) {
-		line = 1; //
-		cout << "Warning! Supplied line number too small. Using first line of .flow file";
-	}
-	//now get to the line we want
-	infile.seekg(ios::beg);
-	for(int i=1; i < line; ++i) {
-		infile.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-	}
-	string input; //generic handle for input
-	//Change the column and lattice size
+		//open relevant streams
+		filename.append(".flow");
+		ifstream infile;
+		infile.open(filename);
+		//check to make sure we aren't reading from a nonexistant line in the flow file
+		int filelength = fileLines(infile);
+		if (line > filelength) {
+			line = filelength; //
+			cout << "Warning! Supplied line number too large. Using last line of .flow file";
+		}
+		else if (line <= 0) {
+			line = 1; //
+			cout << "Warning! Supplied line number too small. Using first line of .flow file";
+		}
+		//now get to the line we want
+		infile.seekg(ios::beg);
+		for(int i=1; i < line; ++i) {
+			infile.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+		}
+		string input; //generic handle for input
+		//Change the column and lattice size
 	
-	getline(infile,input,'\t'); //cols
-	int cols = atoi(input.c_str());
-	//can't modify cols - to fix
+		getline(infile,input,'\t'); //cols
+		int cols = atoi(input.c_str());
+		//can't modify cols - to fix
 
-	getline(infile,input,'\t'); //rows
-	int rows = atoi(input.c_str());
-	//can't morify rows - to fix
-
-	infile.close();
+		getline(infile,input,'\t'); //rows
+		int rows = atoi(input.c_str());
+		//can't morify rows - to fix
+	}
 }
-
 
 //Update all lattice element neighbour pointers
 void Lattice::setElementNeighbours(void) { 
