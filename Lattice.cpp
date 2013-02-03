@@ -25,6 +25,7 @@ Lattice::Lattice(int rows, int columns, int init) {
 }
 
 //Constructor to  create a lattice based upon a file with values
+//FIX
 Lattice::Lattice(char* file,bool ishuman) {
 	if(ishuman) {
 		ifstream ifs(file);
@@ -47,6 +48,43 @@ Lattice::Lattice(char* file,bool ishuman) {
 		//my version goes here
 	}
 }
+
+//Read a given line from filename.flow file - make this a constructor
+//FIX
+Lattice::Lattice(string filename,int line){
+	//open relevant streams
+	filename.append(".flow");
+	ifstream infile;
+	infile.open(filename);
+	//check to make sure we aren't reading from a nonexistant line in the flow file
+	int filelength = fileLines(infile);
+	if (line > filelength) {
+		line = filelength; //
+		cout << "Warning! Supplied line number too large. Using last line of .flow file";
+	}
+	else if (line <= 0) {
+		line = 1; //
+		cout << "Warning! Supplied line number too small. Using first line of .flow file";
+	}
+	//now get to the line we want
+	infile.seekg(ios::beg);
+	for(int i=1; i < line; ++i) {
+		infile.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+	}
+	string input; //generic handle for input
+	//Change the column and lattice size
+	
+	getline(infile,input,'\t'); //cols
+	int cols = atoi(input.c_str());
+	//can't modify cols - to fix
+
+	getline(infile,input,'\t'); //rows
+	int rows = atoi(input.c_str());
+	//can't morify rows - to fix
+
+	infile.close();
+}
+
 
 //Update all lattice element neighbour pointers
 void Lattice::setElementNeighbours(void) { 
@@ -86,6 +124,7 @@ void Lattice::insertSubLattice(Lattice L, int topLeftRow, int topLeftCol) {
 }
 
 //Updates the forces throughout the Lattice
+//FIX
 void Lattice::updateForces(void) { 
 	for(int i = 0; i < rowSize(); i++) { 
 		for(int j = 0; j < colSize(); j++) { 
@@ -96,6 +135,7 @@ void Lattice::updateForces(void) {
 
 
 //Set the value of a lattice element
+//FIX
 void Lattice::setElement(int rowInd, int colInd, int init) {
 	getElement(rowInd,colInd)->setValue(init); 
 }
@@ -106,11 +146,12 @@ int	Lattice::getElemVal(int rowInd, int colInd) {
 }
 
 //Get the whole lattice element object
+//CHECK
 LatElem* Lattice::getElement(int rowInd, int colInd) {
 	return &values[rowInd][colInd];
 }
 
-//Get the height of a lattice - double check?
+//Get the height of a lattice
 int Lattice::rowSize(void) { 
 	return values.size(); 
 }
@@ -153,12 +194,20 @@ void Lattice::print(void) {
 }
 
 //Print the lattice to a file (initial version)
-void Lattice::filePrint(bool filetype,bool newfile){
+/* Usage
+filetype: true - output .txt file (human use, single step only)
+		  false - output .flow file (computer file, saves multiple steps)
+newfile: is this a new file? (.flow files only)
+step: .txt files - step number
+	  .flow files - time between successive steps (default 1)
+*/
+void Lattice::filePrint(bool filetype,bool newfile,int step){
 	ofstream outfile;
 	int rows = Lattice::rowSize();
 	int cols = Lattice::colSize();
 	if (filetype) { //move this to a function
 		outfile.open("latticeview.txt");
+		outfile << "Lattice size: " << cols << " x " << rows << "\tStep number: " << step << '\n';
 		for (int j = 0; j < rows; ++j) {
 			for (int i = 0; i < cols; ++i) {
 				outfile << Lattice::getElemVal(i, j);
@@ -171,23 +220,24 @@ void Lattice::filePrint(bool filetype,bool newfile){
 			}
 		}
 	}
-	else { //move this to a function
+	else {
 		/* How this "computer readable" file works:
-		For a lattice of size n x n, element Li,j
-		Each line in the file:
+		For a lattice size: N x M, elements: Li,j, time between steps: step
+		First line: N \t M \t t
+		Successive lines:
 		x	y	L1,1  ...	L1,n   L2,1	 ...	L2,n   ...	Ln,1  ...	Ln,n NEWLINE
 		etc	*/
-
 		if(newfile) { //overwrite and create a new file
 			outfile.open("lattice.flow");
+			outfile << cols << '\t' << rows << '\t' << step << '\n';
 		} 
 		else { //append to an existing file
 			outfile.open("lattice.flow",ios::app);
 		} 
-		outfile << cols << '\t' << rows << '\t';
 		for (int j = 0; j < rows; ++j) {
 			for (int i = 0; i < cols; ++i) {
 				outfile << Lattice::getElemVal(i, j) << '\t';
+				//print the element force, requires a complete reworking of the way we handle force
 			}
 		}
 		outfile << '\n';
@@ -195,27 +245,21 @@ void Lattice::filePrint(bool filetype,bool newfile){
 	outfile.close();
 }
 
-/*
-//Print the lattice to a file (include time)
-void Lattice::fileprint(int time,bool ishuman){
-
+//As above, but assume step size = 1
+void Lattice::filePrint(bool ishuman,bool newfile) {
+	Lattice::filePrint(ishuman,newfile,1);
 }
-*/
 
 //Read a given line from lattice.flow file
-void Lattice::fileRead(int line){
-	ifstream infile;
-	infile.open("lattice.flow");
-
-
+void Lattice::fileRead(int line) {
+	Lattice::fileRead("lattice",line);
 }
 
-/*
-//Read a given line from a file with a given name
-void Lattice::fileRead(string filename, int line){
-
+//Read a given line from filename.flow file
+void Lattice::fileRead(string,int) {
+	//here lies content
+	;
 }
-*/
 
 //Find the maximum value in a vector of ints
 int findMax(vector<int> v) { 
@@ -246,20 +290,29 @@ int convertDirY(int dir) {
 	return y; 
 }
 
-//These are only useful if you are using Gas.cpp, or something else which creates/uses .flow files
-//Function to count the number of lines in a Lattice.flow file
+/*
+Functions useful when using .flow files
+1st: Open a new stream of lattice.flow and return no. of lines
+2nd: Open a new stream of filename.flow and return no. of lines
+3rd: For an already open stream return no. of lines
+*/
 int fileLines(void) {
 	int lines = fileLines("Lattice");
-	return lines;
+	return (lines - 1);
 }
 
-//Function to coun the number of lines in a "X".flow file
 int fileLines(string filename) {
 	filename.append(".flow");
 	ifstream infile;
 	infile.open(filename);
+	int lines = fileLines(infile);
+	infile.close();
+	return (lines - 1);
+}
+
+int fileLines(ifstream& infile) {
 	int lines = (int)count( //this a function in <algorithm> designed specifically for counting
 			istreambuf_iterator<char>(infile),
 			istreambuf_iterator<char>(),'\n');
-	return lines;
+	return (lines - 1);
 }

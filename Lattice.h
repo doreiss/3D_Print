@@ -1,5 +1,6 @@
 #pragma once //compile only once (replace #ifendf etc)
 #include <iostream>
+#include <fstream>
 #include <vector> 
 #include <string>
 #include "LatElem.h"
@@ -11,6 +12,8 @@ public:
 	Lattice(void);
 	Lattice(int, int, int);
 	Lattice(char*, bool); //bool for different filetypes - human/computer readable files
+	Lattice(string, int);
+	//Lattice(ifstream&, int);
 	
 	//Functions
 	void setElement(int, int, int); //set a specific element - row, column, value
@@ -22,8 +25,8 @@ public:
 	void updateForces(void); //updatr all the force elements
 	int getElemVal(int,int); //get the value of a specific element
 	LatElem* getElement(int,int); //get a 'Lat_elem' object (includes pointers to neighbours)
-	int rowSize(void); //change the row size
-	int colSize(void); //change the column size
+	int rowSize(void); //get the row size
+	int colSize(void); //get the column size
 	bool isEmpty(int, int); //is the lattice empty?
 	void setSubLattice(int,int,int,int,int); //create a sub lattice
 	/*
@@ -33,10 +36,10 @@ public:
 	*/
 	//asdf
 	void print(void); //cout lattice values
-	void filePrint(bool,bool); //print lattice values to file
-	//void fileprint(int,bool); //print lattice values to file with time  
-	void fileRead(int); //read a lattice from a file
-	//void fileRead(string,int);
+	void filePrint(bool,bool,int); //print lattice values to file
+	void filePrint(bool,bool);
+	void fileRead(int); //read a lattice from a file lattice.flow
+	void fileRead(string,int); //ditto, from a general filename.flow
 
 private: 
 	void setElementNeighbours(void);
@@ -50,3 +53,4 @@ int convertDirY(int);
 
 int fileLines(void);
 int fileLines(string);
+int fileLines(ifstream&);

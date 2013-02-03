@@ -21,8 +21,7 @@ public:
 private:
 	int value; //Assign an integer value to the cell
 	LatElem* neighbours[8]; //Create pointers to the neighbouring cells
-	int forceDir; 
-	double forceMag;
+	int force[2]; //Size of force on that element; 0 == x, 1 == y
 };
 
 int convertXYDir(int,int); 

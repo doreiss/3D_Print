@@ -18,8 +18,13 @@ int main() {
 	model.print();
 	model.filePrintAll();
 
-	cout << "\n\nNumber of lines: " << fileLines() << "\n";
+	Lattice test2(20,20,1);
+	test2.filePrint(false,true);
+	test2.fileRead(1);
+
+	//cout << "\n\nNumber of lines: " << fileLines() << "\n";
 	
+
 
 	return 0; 
 }

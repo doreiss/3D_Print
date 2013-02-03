@@ -7,15 +7,15 @@ using namespace std;
 //Default lattice element constructor (empty)
 LatElem::LatElem(void) { 
 	value = 0; //value = 0
-	forceDir = 8;
-	forceMag = 0.0; 
+	force[0] = 0;
+	force[1] = 0;
 	setNullNeighbours(); //null pointer to neighbours
 }
 //Lattice element constructor with integer value
 LatElem::LatElem(int init) {
 	value = init; 
-	forceDir = 8;
-	forceMag = 0.0;
+	force[0] = 0;
+	force[1] = 0;
 	setNullNeighbours(); 
 }
 //Change the value of a lattice element to given integer value
@@ -26,23 +26,24 @@ void LatElem::setValue(int init) {
 //Calculates the force on a given element, given its surrounding elements
 void LatElem::setForce(void) { 
 	if (value == 0) {
-		forceDir = 8;
-		forceMag = 0.0;
+		force[0] = 0;
+		force[1] = 0;
 		return; 
-	} 
-	int f_x = getNValue(4) - getNValue(0); 
-	int f_y = getNValue(6) - getNValue(2);
-	forceDir = convertXYDir(f_x,f_y); 
-	forceMag = pow((f_x*f_x+f_y*f_y),0.5); 
+	}
+	force[0] = getNValue(4) - getNValue(0); 
+	force[1] = getNValue(6) - getNValue(2);
 }
 
 //Returns the direction of the force
-int LatElem::getForceDir(void) { 
-	return forceDir; 
+int LatElem::getForceDir(void) {
+	int forceDir = convertXYDir(force[0],force[1]); 
+	return forceDir;
 }
 
 //Returns the magnitude of the force
 double LatElem::getForceMag(void) {
+	double forceMag = (force[0]*force[0] + force[1]*force[1]);
+	forceMag = pow(forceMag,0.5); 
 	return forceMag; 
 }
 
@@ -51,7 +52,7 @@ int LatElem::getValue(void) {
 	return value; 
 }
 
-//Return the value of the one of the neighbours 
+//Return the value of the one of the neighbours
 int LatElem::getNValue(int nIndex) {
 	if (neighbours[nIndex] == NULL) return 0; 
 	return neighbours[nIndex]->getValue(); 
@@ -92,6 +93,10 @@ int convertXYDir(int x, int y) {
 		else if (y > 0) jensenval = 2; 
 		else if (y < 0) jensenval = 6;
 	}
-	else jensenval = 8; //should never happen, default case
+	else { //should never happen, default case
+		cout << "ERROR: Problem converting x and y value into Jensen Notation!\n"
+			 << "Using default value of 8 (0,0)\n";
+		jensenval = 8; 
+	}
 	return jensenval;
 }
