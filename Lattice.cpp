@@ -27,15 +27,17 @@ Lattice::Lattice(int rows, int columns, int init) {
 //Constructor to  create a lattice based upon a file with values
 //FIX
 Lattice::Lattice(string filename,bool ishuman, int line) {
+	ifstream infile;
+	string input;
 	if(ishuman) {
-		if ( ){
+		input.assign(filename.end()+4,filename.end()); //check filename to see if extension given
+		if (input != ".txt") {
 			filename.append(".txt");
 		}
-		ifstream ifs(filename);
+		infile.open(filename); //open the file
 		int fileVal; //value from the file
-		string line;
-		while(std::getline(ifs,line)) { //take the first line of the file
-			std::istringstream iss(line); //make a stream out of the string
+		while(getline(infile,input)) { //take the first line of the file
+			istringstream iss(input); //make a stream out of the string
 			vector<LatElem> row;
 			while(iss >> fileVal) {
 				LatElem elem; //create a lattice element from that individual point
@@ -44,15 +46,16 @@ Lattice::Lattice(string filename,bool ishuman, int line) {
 			}
 			values.push_back(row);
 		}
-		setElementNeighbours(); 
 	}
 	else {
-		//open relevant streams
+		input.assign(filename.end()+4,filename.end()); //check filename to see if extension given
+		if (input != ".flow") {
+			filename.append(".flow");
+		}
 		filename.append(".flow");
-		ifstream infile;
-		infile.open(filename);
+		infile.open(filename); //open relevant stream
 		//check to make sure we aren't reading from a nonexistant line in the flow file
-		int filelength = fileLines(infile);
+		int filelength = fileLines(infile); //fileLines function takes into account first line with information
 		if (line > filelength) {
 			line = filelength; //
 			cout << "Warning! Supplied line number too large. Using last line of .flow file";
@@ -61,22 +64,31 @@ Lattice::Lattice(string filename,bool ishuman, int line) {
 			line = 1; //
 			cout << "Warning! Supplied line number too small. Using first line of .flow file";
 		}
-		//now get to the line we want
-		infile.seekg(ios::beg);
-		for(int i=1; i < line; ++i) {
+		infile.seekg(ios::beg); //reset stream position
+		getline(infile,input,'\n'); //take the first line in the file
+		istringstream iss(input);
+		getline(iss,input,'\t');
+		int cols = atoi(input.c_str()); //number of columns (x direction)
+		getline(iss,input,'\t');
+		int rows = atoi(input.c_str()); //number of rows (y direction)
+		for(int i=0; i < line; ++i) { //move stream to required position
 			infile.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
 		}
-		string input; //generic handle for input
-		//Change the column and lattice size
-	
-		getline(infile,input,'\t'); //cols
-		int cols = atoi(input.c_str());
-		//can't modify cols - to fix
 
-		getline(infile,input,'\t'); //rows
-		int rows = atoi(input.c_str());
-		//can't morify rows - to fix
+		//now begin adding things to the 
+		for(int i = 0; i < rows; i++) {
+			vector<LatElem> row; 
+			for(int j = 0; j < cols; i++) {
+				getline(infile,input,'\t');
+				int fileVal = atoi(input.c_str());
+				LatElem elem; 
+				elem.setValue(fileVal); 
+				row.push_back(elem);
+			}
+			values.push_back(row); 
+		}
 	}
+	setElementNeighbours(); 
 }
 
 //Update all lattice element neighbour pointers
