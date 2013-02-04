@@ -74,7 +74,7 @@ int Gas::timeSize(void) {
 	return flow.size(); 
 }
 
-//prints the current state
+//Prints the current state
 void Gas::print(void) { 
 	state->print(); 
 }

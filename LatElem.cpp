@@ -7,15 +7,15 @@ using namespace std;
 //Default lattice element constructor (empty)
 LatElem::LatElem(void) { 
 	value = 0; //value = 0
-	force[0] = 0;
-	force[1] = 0;
+	force_x = 0;
+	force_y = 0;
 	setNullNeighbours(); //null pointer to neighbours
 }
 //Lattice element constructor with integer value
 LatElem::LatElem(int init) {
 	value = init; 
-	force[0] = 0;
-	force[1] = 0;
+	force_x = 0;
+	force_y = 0;
 	setNullNeighbours(); 
 }
 //Change the value of a lattice element to given integer value

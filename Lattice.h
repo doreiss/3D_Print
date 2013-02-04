@@ -9,7 +9,6 @@ class Lattice
 {
 public:
 	//Constructors
-
 	//Default
 	Lattice(void);
 	//Rows, Columns, Initial Value (default 0)

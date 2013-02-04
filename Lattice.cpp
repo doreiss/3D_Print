@@ -25,11 +25,11 @@ Lattice::Lattice(int rows, int columns, int init) {
 }
 
 //Constructor to  create a lattice based upon a file with values
-Lattice::Lattice(string filename,bool ishuman, int line) {
+Lattice::Lattice(string filename, bool ishuman, int line) {
 	ifstream infile;
 	string input;
 	if(ishuman) {
-		input.assign(filename.end()+4,filename.end()); //check filename to see if extension given
+		input.assign(filename.end()-4,filename.end()); //check filename to see if extension given
 		if (input != ".txt") {
 			filename.append(".txt");
 		}
@@ -47,14 +47,14 @@ Lattice::Lattice(string filename,bool ishuman, int line) {
 		}
 	}
 	else {
-		input.assign(filename.end()+4,filename.end()); //check filename to see if extension given
+		/*input.assign(filename.end()-4,filename.end()); //check filename to see if extension given
 		if (input != ".flow") {
 			filename.append(".flow");
-		}
-		filename.append(".flow");
+		}*/
 		infile.open(filename); //open relevant stream
 		//check to make sure we aren't reading from a nonexistant line in the flow file
 		int filelength = fileLines(infile); //fileLines function takes into account first line with information
+		//cout << filelength;
 		if (line > filelength) {
 			line = filelength; //
 			cout << "Warning! Supplied line number too large. Using last line of .flow file";
@@ -63,28 +63,29 @@ Lattice::Lattice(string filename,bool ishuman, int line) {
 			line = 1; //
 			cout << "Warning! Supplied line number too small. Using first line of .flow file";
 		}
+		//cout << line;
 		infile.seekg(ios::beg); //reset stream position
-		getline(infile,input,'\n'); //take the first line in the file
-		istringstream iss(input);
-		getline(iss,input,'\t');
+		getline(infile,input,'\t'); //take the first line in the file
 		int cols = atoi(input.c_str()); //number of columns (x direction)
-		getline(iss,input,'\t');
+		//cout << cols;
+		getline(infile,input,'\t');
 		int rows = atoi(input.c_str()); //number of rows (y direction)
-		for(int i=0; i < line; ++i) { //move stream to required position
+		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		for(int i = 1; i < line; ++i) { //move stream to required position
 			infile.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
 		}
-
 		//Now we can start to read from the file
-		for(int i = 0; i < rows; i++) {
+		for(int i = 0; i < rows; ++i) {
 			vector<LatElem> row; 
-			for(int j = 0; j < cols; i++) {
+			for(int j = 0; j < cols; ++j) {
 				getline(infile,input,'\t');
 				int fileVal = atoi(input.c_str());
 				LatElem elem; 
-				elem.setValue(fileVal); 
+				elem.setValue(fileVal);
+				//cout << elem.getValue();
 				row.push_back(elem);
 			}
-			values.push_back(row); 
+			values.push_back(row);
 		}
 	}
 	infile.close();
@@ -303,7 +304,7 @@ Functions useful when using .flow files
 //Check the number of useful lines in Lattice.flow
 int fileLines(void) {
 	int lines = fileLines("Lattice");
-	return (lines - 1);
+	return lines;
 }
 
 //Check the number of useful lines in filename.flow
@@ -313,14 +314,15 @@ int fileLines(string filename) {
 	infile.open(filename);
 	int lines = fileLines(infile);
 	infile.close();
-	return (lines - 1);
+	return lines;
 }
 
 //Check the number of useful lines for a file already open in a given stream
 int fileLines(ifstream& infile) {
-	//infile.seekg(ios::beg); //reset stream position to beginning of file
+	infile.seekg(ios::beg); //reset stream position to beginning of file
 	int lines = (int)count( //this a function in <algorithm> designed specifically for counting
 			istreambuf_iterator<char>(infile),
 			istreambuf_iterator<char>(),'\n');
-	return (lines - 1);
+	--lines;
+	return lines;
 }

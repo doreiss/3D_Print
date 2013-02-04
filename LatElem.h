@@ -14,14 +14,18 @@ public:
 	//Methods
 	//set the value of a cell to given integer (lat gas 1 or 0)
 	void setValue(int);
-	//set the force of a cell to given integer (lat gas 0 - 9)
+	//Calculate the force at this point
 	void setForce(void);
-
-	int getForceDir(void); 
-	double getForceMag(void); 
-	int getValue(void); //get the value of a cell
-	int getNValue(int);  //get the value of a specific neighbour
-	void setNeighbours(int, LatElem&); //set the neighbour pointer 
+	//Return the direction of the force (Jensen notation)
+	int getForceDir(void);
+	//Return the magnitude of the force vector
+	double getForceMag(void);
+	//Return the value of the cell
+	int getValue(void);
+	//Return the values of neighbouring cells
+	int getNValue(int);
+	//set the value of neighboruing cells
+	void setNeighbours(int, LatElem&);
 	void setNullNeighbours(void); //set the neighbour pointer to be null
 	LatElem* getNeighbour(int i); 
 private:
