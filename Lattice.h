@@ -8,7 +8,8 @@ using namespace std;
 class Lattice
 {
 public:
-	//Constructors
+	//Constructors:
+
 	//Default
 	Lattice(void);
 	//Rows, Columns, Initial Value (default 0)
@@ -18,7 +19,8 @@ public:
 	//Read from an already open stream - Stream name, line number
 	//Lattice(ifstream&, int line=1);
 	
-	//Methods
+	//Methods:
+
 	//Set a specific element in the latice - row, column, value
 	void setElement(int, int, int);
 	//Insert another lattice object into the lattice as a sublattice
@@ -53,7 +55,8 @@ private:
 	vector< vector < LatElem > > values; //vector of vectors of lattice elements
 };
 
-//Functions
+//Functions:
+
 //Find the largest integer in a vector
 int findMax(vector<int>); 
 //Convert "Jensen notation" direction to x value
