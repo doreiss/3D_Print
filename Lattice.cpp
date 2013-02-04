@@ -6,7 +6,7 @@
 #include <string>
 using namespace std; 
 
-//Emprt constructor (default)
+//Empty constructor (default)
 Lattice::Lattice(void){
 }
 

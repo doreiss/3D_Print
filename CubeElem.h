@@ -1,6 +1,5 @@
 #pragma once
 
-#include <vector>
 #include <iostream> 
 
 class CubeElem 
@@ -18,7 +17,7 @@ public:
 	//Constructors: 
 	
 	//Default Constructor
-	CubeElem(CubeType = Empty);
+	CubeElem(CubeType init = Empty);
 	
 	
 	//Methods:
