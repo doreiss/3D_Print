@@ -16,9 +16,8 @@ public:
 	};
 	CubeElem(CubeType = Empty);
 private: 
-
 	CubeType type;
-	
+
 	// Pointers to neighbouring CubeElem as defined below 
 	CubeElem* face_neighbours[6]; 
 

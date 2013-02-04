@@ -5,14 +5,16 @@
 class LatElem
 {
 public:
-	//Constructors
+	//Constructors :
+
 	//default(0)
 	LatElem(void);
 	//initialize value of a cell to given integer
 	LatElem(int);
 
-	//Methods
-	//set the value of a cell to given integer (lat gas 1 or 0)
+	//Methods :
+	
+	//Set the value of a cell to given integer (lat gas 1 or 0)
 	void setValue(int);
 	//Calculate the force at this point
 	void setForce(void);
@@ -24,11 +26,15 @@ public:
 	int getValue(void);
 	//Return the values of neighbouring cells
 	int getNValue(int);
-	//set the value of neighboruing cells
+	//Set the value of neighboruing cells
 	void setNeighbours(int, LatElem&);
-	void setNullNeighbours(void); //set the neighbour pointer to be null
+	//Set the neighbour pointer to be null
+	void setNullNeighbours(void); 
+	//Gets a pointer which points to neighbour i 
 	LatElem* getNeighbour(int i); 
+
 private:
+
 	//Value of the cell
 	int value; 
 	//Pointers to neighbouring cells
@@ -37,9 +43,11 @@ private:
 	int force_x;
 	//Force acting on element - y direction
 	int force_y;
+
 };
 
-//Functions
+//Functions:
+
 //Convert X,Y values to "Jensen Notation"
 int convertXYDir(int,int); 
 
