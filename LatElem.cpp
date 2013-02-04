@@ -26,23 +26,23 @@ void LatElem::setValue(int init) {
 //Calculates the force on a given element, given its surrounding elements
 void LatElem::setForce(void) { 
 	if (value == 0) {
-		force[0] = 0;
-		force[1] = 0;
+		force_x = 0;
+		force_y = 0;
 		return; 
 	}
-	force[0] = getNValue(4) - getNValue(0); 
-	force[1] = getNValue(6) - getNValue(2);
+	force_x = getNValue(4) - getNValue(0); 
+	force_y = getNValue(6) - getNValue(2);
 }
 
 //Returns the direction of the force
 int LatElem::getForceDir(void) {
-	int forceDir = convertXYDir(force[0],force[1]); 
+	int forceDir = convertXYDir(force_x,force_y); 
 	return forceDir;
 }
 
 //Returns the magnitude of the force
 double LatElem::getForceMag(void) {
-	double forceMag = (force[0]*force[0] + force[1]*force[1]);
+	double forceMag = (force_x*force_x + force_y*force_y);
 	forceMag = pow(forceMag,0.5); 
 	return forceMag; 
 }

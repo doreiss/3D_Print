@@ -25,7 +25,6 @@ Lattice::Lattice(int rows, int columns, int init) {
 }
 
 //Constructor to  create a lattice based upon a file with values
-//FIX
 Lattice::Lattice(string filename,bool ishuman, int line) {
 	ifstream infile;
 	string input;
@@ -75,7 +74,7 @@ Lattice::Lattice(string filename,bool ishuman, int line) {
 			infile.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
 		}
 
-		//now begin adding things to the 
+		//Now we can start to read from the file
 		for(int i = 0; i < rows; i++) {
 			vector<LatElem> row; 
 			for(int j = 0; j < cols; i++) {
@@ -88,6 +87,7 @@ Lattice::Lattice(string filename,bool ishuman, int line) {
 			values.push_back(row); 
 		}
 	}
+	infile.close();
 	setElementNeighbours(); 
 }
 
@@ -121,6 +121,8 @@ void Lattice::setElementNeighbours(void) {
 
 //Inset a sub-lattice into the system
 void Lattice::insertSubLattice(Lattice L, int topLeftRow, int topLeftCol) {
+	/*	sub-lattice to be inserted, top left row position, top right row position
+		corresponds to point of insertion */
 	for (int i = 0; i < L.rowSize(); i++) { 
 		for (int j = 0; j < L.colSize(); j++) { 
 			setElement(topLeftRow+i, topLeftCol+j, L.getElemVal(i,j)); 
@@ -129,7 +131,6 @@ void Lattice::insertSubLattice(Lattice L, int topLeftRow, int topLeftCol) {
 }
 
 //Updates the forces throughout the Lattice
-//FIX
 void Lattice::updateForces(void) { 
 	for(int i = 0; i < rowSize(); i++) { 
 		for(int j = 0; j < colSize(); j++) { 
@@ -138,9 +139,7 @@ void Lattice::updateForces(void) {
 	}
 }
 
-
 //Set the value of a lattice element
-//FIX
 void Lattice::setElement(int rowInd, int colInd, int init) {
 	getElement(rowInd,colInd)->setValue(init); 
 }
@@ -151,7 +150,6 @@ int	Lattice::getElemVal(int rowInd, int colInd) {
 }
 
 //Get the whole lattice element object
-//CHECK
 LatElem* Lattice::getElement(int rowInd, int colInd) {
 	return &values[rowInd][colInd];
 }
@@ -262,7 +260,7 @@ void Lattice::fileRead(int line) {
 
 //Read a given line from filename.flow file
 void Lattice::fileRead(string,int) {
-	//here lies content
+	
 	;
 }
 
@@ -301,11 +299,14 @@ Functions useful when using .flow files
 2nd: Open a new stream of filename.flow and return no. of lines
 3rd: For an already open stream return no. of lines
 */
+
+//Check the number of useful lines in Lattice.flow
 int fileLines(void) {
 	int lines = fileLines("Lattice");
 	return (lines - 1);
 }
 
+//Check the number of useful lines in filename.flow
 int fileLines(string filename) {
 	filename.append(".flow");
 	ifstream infile;
@@ -315,7 +316,9 @@ int fileLines(string filename) {
 	return (lines - 1);
 }
 
+//Check the number of useful lines for a file already open in a given stream
 int fileLines(ifstream& infile) {
+	//infile.seekg(ios::beg); //reset stream position to beginning of file
 	int lines = (int)count( //this a function in <algorithm> designed specifically for counting
 			istreambuf_iterator<char>(infile),
 			istreambuf_iterator<char>(),'\n');

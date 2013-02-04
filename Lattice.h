@@ -14,43 +14,57 @@ public:
 	Lattice(void);
 	//Rows, Columns, Initial Value (default 0)
 	Lattice(int, int, int init=0);
-	//Read from file. Filename, human/.flow file, line of flow file
+	//Read from file - Filename, human/.flow file, line of flow file
 	Lattice(string, bool, int line=1);
-	//Lattice(ifstream&, int);
+	//Read from an already open stream - Stream name, line number
+	//Lattice(ifstream&, int line=1);
 	
-	//Functions
-	void setElement(int, int, int); //set a specific element - row, column, value
-	void insertSubLattice(Lattice, int, int); //insert another lattice object as a sublattice
-	/*
-		sub-lattice to be inserted, top left row position, top right row position
-		corresponds to point of insertion
-	*/
-	void updateForces(void); //updatr all the force elements
-	int getElemVal(int,int); //get the value of a specific element
-	LatElem* getElement(int,int); //get a 'Lat_elem' object (includes pointers to neighbours)
-	int rowSize(void); //get the row size
-	int colSize(void); //get the column size
-	bool isEmpty(int, int); //is the lattice empty?
-	void setSubLattice(int,int,int,int,int); //create a sub lattice
+	//Methods
+	//Set a specific element in the latice - row, column, value
+	void setElement(int, int, int);
+	//Insert another lattice object into the lattice as a sublattice
+	void insertSubLattice(Lattice, int, int);
+	//Update all the force elements of the lattice
+	void updateForces(void);
+	//Return the value of a specific element in the lattice - row, column
+	int getElemVal(int,int); 
+	//Return a pointer to a specific LatElem object in the lattice - row, column
+	LatElem* getElement(int,int);
+	//Return the number of columns? //get the row size
+	int rowSize(void); 
+	//Return the number of rows? //get the column size
+	int colSize(void);
+	//Return true if a specific element is empty - row, column
+	bool isEmpty(int, int);
+	//Create a sub lattice
+	void setSubLattice(int,int,int,int,int); 
 	// first row index, last row index, first column index, last column index 
 	void print(void); //cout lattice values
 
-	//Make sure these work
-	void filePrint(bool,bool,int); //print lattice values to file
+	//Print lattice values to file
+	void filePrint(bool,bool,int);
 	void filePrint(bool,bool);
 	void fileRead(int); //read a lattice from a file lattice.flow
 	void fileRead(string,int); //ditto, from a general filename.flow
 
 private: 
+	//'Recognise' element neighbours
 	void setElementNeighbours(void);
+	//2D array of LatElem values
 	vector< vector < LatElem > > values; //vector of vectors of lattice elements
 };
 
+//Functions
+//Find the largest integer in a vector
 int findMax(vector<int>); 
-
+//Convert "Jensen notation" direction to x value
 int convertDirX(int); 
+//Convert "Jensen notation" direction to y value
 int convertDirY(int);
 
+//Check the number of useful lines in Lattice.flow
 int fileLines(void);
+//Check the number of useful lines in filename.flow
 int fileLines(string);
+//Check the number of useful lines for a file already open in a given stream
 int fileLines(ifstream&);

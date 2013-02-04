@@ -6,14 +6,18 @@
 
 using namespace std;
 
-Gas::Gas(void) { //default empty constructor
+//default empty constructor
+Gas::Gas(void) { 
 }
 
-Gas::Gas(Lattice& initial) { //default constructor for a given lattice object
+//default constructor for a given lattice object
+Gas::Gas(Lattice& initial) { 
 	state = &initial;
 	Lattice save = *state; 
 	flow.push_back(save); 
 }
+
+//Return a pointer to a lattice of the current gas state
 Lattice* Gas::getLattice(void) { 
 	return state; 
 }
@@ -94,7 +98,7 @@ void Gas::filePrintAll(void) {
 	} //may be possible to redo this with pointers. only useful if we need to manage memory more
 }
 
-//Gets Lattice at time t
+//Gets Lattice at time t from flow vector
 Lattice Gas::getLatT(int t) { 
 	return flow[t]; 
 }
