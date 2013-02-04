@@ -2,17 +2,17 @@
 #include "Lattice.h"
 #include "LatElem.h"
 #include "Gas.h"
+#include "CubeArray.h" 
+#include "CubeElem.h"
 
 using namespace std; 
 
 int main() {
-	//Some test cases for the lattice, does it work ok?
 	/*
+	Some test cases for the lattice, does it work ok?
+	
 	Lattice L("lattice.flow",false,1);
-
 	L.print();
-	*/
-
 	Lattice test(10,10,1); 
 	test.setSubLattice(1,8,1,8,0); 
 	test.setSubLattice(3,6,3,6,1);
@@ -28,6 +28,13 @@ int main() {
 	Lattice test2(20,20,1);
 	test2.filePrint(false,true);
 	test2.fileRead(1);
-	//cout << "\n\nNumber of lines: " << fileLines() << "\n";
+	*/ 
+
+	/* Some test cases for Cubes */ 
+	CubeArray c(1,2,3); 
+	cout << "Rows\tCols\tStacks"<< endl; 
+	cout << c.rowSize() << "\t" << c.colSize() << "\t" << c.stackSize() << endl; 
+
+
 	return 0; 
 }

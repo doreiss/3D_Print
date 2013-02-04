@@ -50,22 +50,22 @@ private:
 
 Face Definitions 
 			
-				 Top # 1
-					|
-					|
-					v
-				  ________
-				 /|		 /|
-				/_______/ |
- Left # 2 --->  | |	____| |  <--- Right # 0
-				| / 	| /
-				|_______|/
+								 Top # 1 (decreasing stack)
+									|
+									|
+									v
+								  ________
+								 /|		 /|
+								/_______/ |
+				 Left # 2 --->  | |	____| |  <--- Right # 0
+             (decreasing col)	| / 	| /     (increasing col)
+								|_______|/
 		    
-					^
-					|
-					|
-			   Bottom # 3
+									^
+									|
+									|
+							   Bottom # 3 (increasing stack)
 
-AND Front # 4,  Back # 5 
+			AND Front # 4 (increasing row),  Back # 5 (decreasing row)
 					
 */

@@ -8,7 +8,7 @@ class CubeArray
 { 
 public: 
 	//Default Constructor
-	CubeArray(int rows = 20, int cols = 20, int stacks = 20, CubeElem::CubeType init = CubeElem::Empty);  
+	CubeArray (int stacks = 20, int rows = 20, int cols = 20, CubeElem::CubeType init = CubeElem::Empty);  
 	
 	//Methods: 
 
