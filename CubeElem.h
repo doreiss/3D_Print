@@ -67,6 +67,6 @@ sense for cartesian coordinates)
 									|
 							   Bottom # 3 (decreasing stack)
 
-			AND Front # 4 (decreasing row),  Back # 5 (increasing row)
+			//AND Front # 4 (decreasing row),  Back # 5 (increasing row)
 					
 */
