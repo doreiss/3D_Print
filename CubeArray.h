@@ -25,6 +25,9 @@ public:
 	//Returns the number of 'stacks' (time)
 	int stackSize(void);
 
+	//Prints to stl 
+	void print_stl(char* filename); 
+
 private:
 	//'Recognizes' the cube neighbours and assigns them
 	void setCubeNeighbours(void); 

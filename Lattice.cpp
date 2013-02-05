@@ -188,8 +188,8 @@ void Lattice::setSubLattice(int bRowInd, int eRowInd, int bColInd, int eColInd, 
 
 //Prints the lattice to cout
 void Lattice::print(void) {
-	for (unsigned int i = 0; i < values.size(); i++) { 
-		for(unsigned int j = 0; j < values[0].size(); j++) { 
+	for (unsigned int i = 0; i < rowSize(); i++) { 
+		for(unsigned int j = 0; j < colSize(); j++) { 
 			cout << getElemVal(i,j) << '\t'; 
 		}
 		cout << endl; 

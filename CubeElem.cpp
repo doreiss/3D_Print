@@ -20,7 +20,11 @@ void CubeElem::setFaceNeighbour(int nIndex, CubeElem& neighbour) {
 } 
 
 bool CubeElem::isNEmpty(int nIndex) {
-	return face_neighbours[nIndex]->isEmpty(); 
+	bool status = true; 
+	if(!isNNull(nIndex)) { 
+		status = face_neighbours[nIndex]->isEmpty(); 
+	}
+	return status; 
 }
 
 bool CubeElem::isNNull(int nIndex) { 

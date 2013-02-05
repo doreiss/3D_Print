@@ -31,9 +31,9 @@ public:
 	int getElemVal(int,int); 
 	//Return a pointer to a specific LatElem object in the lattice - row, column
 	LatElem* getElement(int,int);
-	//Return the number of columns? //get the row size
+	//Return the number of rows
 	int rowSize(void); 
-	//Return the number of rows? //get the column size
+	//Return the number of columns
 	int colSize(void);
 	//Return true if a specific element is empty - row, column
 	bool isEmpty(int, int);
