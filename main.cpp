@@ -21,7 +21,7 @@ int main() {
 	l.setSubLattice(3,6,3,6,t); 
 	Gas g(l); 
 	g.iterate(5); 
-	CubeArray cube(g);
+	CubeArray cube(g,3,true);
 	cube.print_stl("test.stl");
 	return 0; 
 }

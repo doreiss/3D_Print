@@ -4,6 +4,8 @@
 #include <string>
 #include <fstream>
 using namespace std; 
+
+//Constructor which creates a rows x cols x stacks array of cubes initialized to init
 CubeArray::CubeArray( int rows, int cols, int stacks,  CubeElem::CubeType init) {
 	for(int i = 0; i < stacks; i++) { 
 		vector < vector < CubeElem > > stack; 
@@ -21,7 +23,9 @@ CubeArray::CubeArray( int rows, int cols, int stacks,  CubeElem::CubeType init) 
 	setCubeNeighbours(); 
 }
 
-CubeArray::CubeArray(Gas model, int dim) {
+//Constructor which creates a cubeArray from a gas, assigning each LatElem dim cubes in each dimension
+//Boolean will remove the boundary of gas model
+CubeArray::CubeArray(Gas model, int dim, bool boundariesRemoved) {
 	int stacks = model.timeSize(); 
 	int rows = 0; 
 	int cols = 0;
@@ -30,9 +34,11 @@ CubeArray::CubeArray(Gas model, int dim) {
 		cols = model.getLatT(0).colSize(); 
 	}
 	int n = (dim - 1); 
-	int newStacks = (2*stacks - 3) + 2*n;
-	int newRows = 2*rows - 7 + 2*n;
-	int newCols = 2*cols - 7 + 2*n; 
+	int rowsBoolConsider = (boundariesRemoved ? rows - 2 : rows); 
+	int colsBoolConsider = (boundariesRemoved ? cols - 2 : cols); 
+	int newStacks = 2*n + (n-1)*(stacks-2) + (stacks-1); 
+	int newRows = 2*n + (n-1)*(rowsBoolConsider - 2) + (rowsBoolConsider - 1); 
+	int newCols = 2*n + (n-1)*(colsBoolConsider - 2) + (colsBoolConsider - 1); 
 	cubes.resize(newStacks); 
 	for(int i = 0; i < (newStacks); i++) {
 		cubes[i].resize(newRows);
@@ -47,15 +53,18 @@ CubeArray::CubeArray(Gas model, int dim) {
 			}
 		} 
 	} 
-	int stackInd = 0,rowInd,colInd; 
-	for(int k = 0 ; k < stacks; k++) { 
+	int stackInd = 0,rowInd,colInd;
+	int lowerBound = (boundariesRemoved ? 1:0);
+	int rowsUpperBound = (boundariesRemoved ? rows - 1 : rows);
+	int colsUpperBound = (boundariesRemoved ? cols - 1 : cols);
+	for(int k = 0; k < stacks; k++) { 
 		rowInd = 0; 
 		Lattice l = model.getLatT(k); 
 		vector < vector < CubeElem > > stack; 
-		for(int i = 1; i < rows - 1; i++) {
+		for(int i = lowerBound ; i < rowsUpperBound ; i++) {
 			colInd = 0; 
 			vector< CubeElem > row;  
-			for(int j = 1; j < cols - 1; j++) {
+			for(int j = lowerBound; j < colsUpperBound; j++) {
 				CubeElem::CubeType t = (l.getElement(i,j)->getValue() == 0 ? CubeElem::Empty : CubeElem::Full); 
 				if(t == CubeElem::Full) {
 					for(int x = 0; x <= n; x++) { 
@@ -75,19 +84,23 @@ CubeArray::CubeArray(Gas model, int dim) {
 	setCubeNeighbours();
 }
 
+//Gets the pointer to cubeElem at row x col x stack
 CubeElem* CubeArray::getCube(int rowInd, int colInd, int stackInd) { 
 	return &(cubes[stackInd][rowInd][colInd]); 
 }
 
+//Sets the CubeType of row x col x stack
 void CubeArray::setCubeType(int rowInd, int colInd, int stackInd, CubeElem::CubeType tnew) { 
 	CubeElem* elem = getCube(rowInd,colInd,stackInd); 
 	elem->setType(tnew);
 } 
 
+//Returns the CubeType of CubeElem row x col x stack
 CubeElem::CubeType CubeArray::getCubeType(int rowInd, int colInd, int stackInd) { 
 	return cubes[stackInd][rowInd][colInd].getType(); 
 } 
 
+//Returns the number of rows in the cubeArray
 int CubeArray::rowSize(void) { 
 	int size = 0; 
 	if(stackSize() > 0) { 
@@ -96,6 +109,7 @@ int CubeArray::rowSize(void) {
 	return size;
 }
 
+//Returns the number of cols in the CubeArray
 int CubeArray::colSize(void) { 
 	int size = 0; 
 	if(rowSize() > 0) { 
@@ -104,16 +118,19 @@ int CubeArray::colSize(void) {
 	return size; 
 }
 
+//Returns the number of stacks in the CubeArray
 int CubeArray::stackSize(void) { 
 	int size = cubes.size(); 
 	return size; 
 }
 
+//Returns true if the CubeElem at row x col x stackInd is empty
 bool CubeArray::isEmpty(int rowInd, int colInd, int stackInd) { 
 	CubeElem* elem = getCube(rowInd,colInd,stackInd); 
 	return elem->isEmpty(); 
 } 
 
+//Prints the cubearray to a triangulated stl file
 void CubeArray::print_stl(string filename, string object, double cubeSize) { 
 	ofstream outfile(filename);
 	outfile << stl_header(object) << endl; 
@@ -139,6 +156,7 @@ void CubeArray::print_stl(string filename, string object, double cubeSize) {
 	outfile.close(); 
 }
 
+//'Recognizes' the neighbours of each elem in the lattice and sets its neighbours accordingly
 void CubeArray::setCubeNeighbours(void) {
 	int stacks = stackSize(); 
 	int rows = rowSize(); 
@@ -172,18 +190,21 @@ void CubeArray::setCubeNeighbours(void) {
 	}
 }
 
+//Returns a string corresponding to the header of a stl file
 string stl_header(string object_name) { 
 	string head = " solid "; 
 	head += object_name; 
 	return head; 
 }
 
+//Returns a string corresponding to the footer of a stl file
 string stl_footer(string object_name) { 
 	string foot = " endsolid "; 
 	foot += object_name;
 	return foot; 
 }
 
+//Prints the stl formatted facet of cube faceInd at rowInd, colInd in outfile
 void stl_face(int rowInd, int colInd, int stackInd, int faceInd, double cubeSize, ofstream& outfile) {
 	if(outfile.good()) {
 		vector < vector < double > > v6 = six_vertex(rowInd, colInd, stackInd, faceInd, cubeSize); 
@@ -223,6 +244,7 @@ void stl_face(int rowInd, int colInd, int stackInd, int faceInd, double cubeSize
 	}
 } 
 
+//Returns a xyz normal vector to given facet
 vector < double > normal_vector(int face) { 
 	double x = 0.0, y = 0.0, z = 0.0; 
 	switch (face) { 
@@ -253,6 +275,8 @@ vector < double > normal_vector(int face) {
 	normalvec.push_back(z); 
 	return normalvec;
 }
+
+//Returns the 6 vectors defining the verticies of a triangulated face
 vector < vector < double > > six_vertex(int rowInd, int colInd, int stackInd, int faceInd, double cubeSize) { 
 	double cx = (colInd*cubeSize);
 	double cy = (rowInd*cubeSize);
