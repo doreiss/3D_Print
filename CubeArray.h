@@ -19,7 +19,7 @@ public:
 	//Default Constructor
 	CubeArray (int rows = 20, int cols = 20, int stacks = 20,  CubeElem::CubeType init = CubeElem::Empty); 
 	//Reads the CubeArray in from a predefined gas
-	CubeArray (Gas); 
+	CubeArray (Gas, int dim = 3); 
 
 
 	//Methods: 
