@@ -1,5 +1,5 @@
 #include "CubeArray.h"
-CubeArray::CubeArray(int stacks, int rows, int cols,  CubeElem::CubeType init) {
+CubeArray::CubeArray( int rows, int cols, int stacks,  CubeElem::CubeType init) {
 	for(int i = 0; i < stacks; i++) { 
 		vector < vector < CubeElem > > stack; 
 		for(int j = 0; j < rows; j++) {
@@ -15,6 +15,19 @@ CubeArray::CubeArray(int stacks, int rows, int cols,  CubeElem::CubeType init) {
 	}
 	setCubeNeighbours(); 
 }
+
+CubeElem* CubeArray::getCube(int rowInd, int colInd, int stackInd) { 
+	return &(cubes[stackInd][rowInd][colInd]); 
+}
+
+void CubeArray::setCubeType(int rowInd, int colInd, int stackInd, CubeElem::CubeType tnew) { 
+	CubeElem* elem = getCube(rowInd,colInd,stackInd); 
+	elem->setType(tnew);
+} 
+
+CubeElem::CubeType CubeArray::getCubeType(int rowInd, int colInd, int stackInd) { 
+	return cubes[stackInd][rowInd][colInd].getType(); 
+} 
 
 int CubeArray::rowSize(void) { 
 	int size = 0; 

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include "Lattice.h"
 #include "LatElem.h"
 #include "Gas.h"
@@ -30,11 +31,13 @@ int main() {
 	test2.fileRead(1);
 	*/ 
 
-	/* Some test cases for Cubes */ 
+	/* Some test cases for Cubes 
 	CubeArray c(1,2,3); 
 	cout << "Rows\tCols\tStacks"<< endl; 
 	cout << c.rowSize() << "\t" << c.colSize() << "\t" << c.stackSize() << endl; 
-
+	*/
+	double val = 5.5005;
+	cout <<  scientific << val << endl; 
 
 	return 0; 
 }
