@@ -24,4 +24,5 @@ int main() {
 	g.iterate(5); 
 	CubeArray cube(g);
 	cube.print_stl("test.stl");
+	return 0; 
 }
