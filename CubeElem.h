@@ -48,9 +48,10 @@ private:
 
 /*
 
-Face Definitions 
+Face Definitions (as opposed to Lattice which was layed out like a matrix, we lay out the cubes in a way which makes
+sense for cartesian coordinates)
 			
-								 Top # 1 (decreasing stack)
+								 Top # 1 (increasing stack)
 									|
 									|
 									v
@@ -64,8 +65,8 @@ Face Definitions
 									^
 									|
 									|
-							   Bottom # 3 (increasing stack)
+							   Bottom # 3 (decreasing stack)
 
-			AND Front # 4 (increasing row),  Back # 5 (decreasing row)
+			AND Front # 4 (decreasing row),  Back # 5 (increasing row)
 					
 */

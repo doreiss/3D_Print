@@ -1,5 +1,4 @@
 #include "CubeArray.h"
-
 CubeArray::CubeArray(int stacks, int rows, int cols,  CubeElem::CubeType init) {
 	for(int i = 0; i < stacks; i++) { 
 		vector < vector < CubeElem > > stack; 
@@ -16,7 +15,6 @@ CubeArray::CubeArray(int stacks, int rows, int cols,  CubeElem::CubeType init) {
 	}
 	setCubeNeighbours(); 
 }
-
 
 int CubeArray::rowSize(void) { 
 	int size = 0; 
@@ -62,11 +60,11 @@ void CubeArray::setCubeNeighbours(void) {
 
 				//Sets neighbours and takes into account boundary conditions
 				if (!isFinalCol)	current->setFaceNeighbour(0, cubes[stackIndex][rowIndex][colIndex+1]); 
-				if (!isFirstStack)	current->setFaceNeighbour(1, cubes[stackIndex-1][rowIndex][colIndex]); 
+				if (!isFinalStack)	current->setFaceNeighbour(1, cubes[stackIndex-1][rowIndex][colIndex]); 
 				if (!isFirstCol)	current->setFaceNeighbour(2, cubes[stackIndex][rowIndex][colIndex-1]); 
-				if (!isFinalStack)	current->setFaceNeighbour(3, cubes[stackIndex+1][rowIndex][colIndex]); 
-				if (!isFinalRow)    current->setFaceNeighbour(4, cubes[stackIndex][rowIndex+1][colIndex]); 
-				if (!isFirstRow)	current->setFaceNeighbour(5, cubes[stackIndex][rowIndex-1][colIndex]);  
+				if (!isFirstStack)	current->setFaceNeighbour(3, cubes[stackIndex+1][rowIndex][colIndex]); 
+				if (!isFirstRow)    current->setFaceNeighbour(4, cubes[stackIndex][rowIndex+1][colIndex]); 
+				if (!isFinalRow)	current->setFaceNeighbour(5, cubes[stackIndex][rowIndex-1][colIndex]);  
 			}
 		} 
 	}
