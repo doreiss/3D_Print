@@ -188,8 +188,8 @@ void Lattice::setSubLattice(int bRowInd, int eRowInd, int bColInd, int eColInd, 
 
 //Prints the lattice to cout
 void Lattice::print(void) {
-	for (unsigned int i = 0; i < rowSize(); i++) { 
-		for(unsigned int j = 0; j < colSize(); j++) { 
+	for (int i = 0; i < rowSize(); i++) { 
+		for(int j = 0; j < colSize(); j++) { 
 			cout << getElemVal(i,j) << '\t'; 
 		}
 		cout << endl; 
@@ -259,7 +259,7 @@ void Lattice::fileRead(int line) {
 	Lattice::fileRead("lattice",line);
 }
 
-//Read a given line from filename.flow file
+//Read a given line from filename.flow file //This isn't implemented ! - Dom
 void Lattice::fileRead(string,int) {
 	
 	;

@@ -9,9 +9,7 @@
 using namespace std; 
 
 int main() {
-	Lattice test2(10,20,1);
-	test2.filePrint(false,true);
-	test2.fileRead(1);
+	CubeArray cube(1,1,1,CubeElem::Full);
+	cube.print_stl("test.stl"); 
 
-	return 0; 
 }

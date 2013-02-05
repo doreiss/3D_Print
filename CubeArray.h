@@ -1,15 +1,26 @@
 #pragma once
 
 #include <vector>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <iostream>
+#include <istream>
 #include "CubeElem.h"
+#include "Gas.h"
 using namespace std; 
 
 class CubeArray 
 { 
 public: 
+	//Constructors: 
+
 	//Default Constructor
-	CubeArray (int rows = 20, int cols = 20, int stacks = 20,  CubeElem::CubeType init = CubeElem::Empty);  
-	
+	CubeArray (int rows = 20, int cols = 20, int stacks = 20,  CubeElem::CubeType init = CubeElem::Empty); 
+	//Reads the CubeArray in from a predefined
+	CubeArray (Gas g); 
+
+
 	//Methods: 
 
 	//Returns a pointer to CubeElem at row,col,stack
@@ -24,9 +35,11 @@ public:
 	int colSize(void);
 	//Returns the number of 'stacks' (time)
 	int stackSize(void);
+	//Checks if cube at row,col,stack is empty
+	bool isEmpty(int,int,int); 
 
 	//Prints to stl 
-	void print_stl(char* filename); 
+	void print_stl(string, string = "OBJNAME", double = 1.0); 
 
 private:
 	//'Recognizes' the cube neighbours and assigns them
@@ -35,3 +48,16 @@ private:
 	vector < vector < vector < CubeElem > > > cubes;
 
 };
+
+//Functions: 
+
+//Generates a stl header
+string stl_header(string);
+//Generates a stl footer
+string stl_footer(string);
+//Generates a stl facet
+void stl_face(int,int,int,int,double,ofstream&); 
+
+//Gives the normal vector to face described by int
+vector<double> normal_vector(int);
+vector < vector < double > > six_vertex(int,int,int,int,double); 
