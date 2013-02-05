@@ -10,16 +10,15 @@
 using namespace std; 
 
 int main() {
-	int rows = 15; 
-	int cols = 15; 
+	int rows = 10; 
+	int cols = 10; 
 	int p = 20;
+	LatElem::LatType t = LatElem::Full;
 	srand(time(NULL)); 
-	Lattice l(rows,cols,1); 
-	l.setSubLattice(1,rows - 2,1,cols - 2,0); 
-	l.setSubLattice(2,4,2,4,1);
-	l.setSubLattice(2,4,10,12,1);
-	l.setSubLattice(10,12,2,4,1);
-	l.setSubLattice(10,12,10,12,1);
+	Lattice l(rows,cols,t); 
+	l.setSubLattice(1,rows - 2,1,cols - 2,LatElem::Empty); 
+	l.print(); 
+	l.setSubLattice(3,6,3,6,t); 
 	Gas g(l); 
 	g.iterate(5); 
 	CubeArray cube(g);

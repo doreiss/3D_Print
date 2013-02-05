@@ -5,17 +5,19 @@
 class LatElem
 {
 public:
+	enum LatType { 
+		Empty, 
+		Full
+	};
 	//Constructors :
 
-	//default(0)
-	LatElem(void);
-	//initialize value of a cell to given integer
-	LatElem(int);
+	//Default : initialize value of a cell to given integer
+	LatElem(LatType init = Empty);
 
 	//Methods :
 	
 	//Set the value of a cell to given integer (lat gas 1 or 0)
-	void setValue(int);
+	void setValue(LatType);
 	//Calculate the force at this point
 	void setForce(void);
 	//Return the direction of the force (Jensen notation)
@@ -23,9 +25,9 @@ public:
 	//Return the magnitude of the force vector
 	double getForceMag(void);
 	//Return the value of the cell
-	int getValue(void);
+	LatType getValue(void);
 	//Return the values of neighbouring cells
-	int getNValue(int);
+	LatType getNValue(int);
 	//Set the value of neighboruing cells
 	void setNeighbours(int, LatElem&);
 	//Set the neighbour pointer to be null
@@ -36,7 +38,7 @@ public:
 private:
 
 	//Value of the cell
-	int value; 
+	LatType value; 
 	//Pointers to neighbouring cells
 	LatElem* neighbours[8];
 	//Force acting on element - x direction

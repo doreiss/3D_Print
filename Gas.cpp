@@ -58,8 +58,8 @@ void Gas::iterate(void) {
 						}
 					}
 					if(counter == 1) { 
-						state->setElement(i,j,1);
-						state->setElement(i-convertDirY(valid_dir[mmax]),j+convertDirX(valid_dir[mmax]),0);
+						state->setElement(i,j,LatElem::Full);
+						state->setElement(i-convertDirY(valid_dir[mmax]),j+convertDirX(valid_dir[mmax]),LatElem::Empty);
 					}
 				}
 			}
