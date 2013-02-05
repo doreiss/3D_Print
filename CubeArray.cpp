@@ -21,8 +21,54 @@ CubeArray::CubeArray( int rows, int cols, int stacks,  CubeElem::CubeType init) 
 	setCubeNeighbours(); 
 }
 
-CubeArray::CubeArray(Gas G) {
-
+CubeArray::CubeArray(Gas model) {
+	int stacks = model.timeSize(); 
+	int rows = 0; 
+	int cols = 0; 
+	if(stacks > 0) {
+		rows = model.getLatT(0).rowSize(); 
+		cols = model.getLatT(0).colSize(); 
+	}
+	cubes.resize(stacks + 1); 
+	for(int i = 0; i < (stacks+1); i++) {
+		cubes[i].resize(rows-1);
+		for(int j = 0; j < (rows-1); j++) { 
+		cubes[i][j].resize(cols-1); 
+		}
+	}
+	for(int i = 0; i < stackSize(); i++) { 
+		for(int j = 0; j < rowSize(); j++) { 
+			for(int k = 0; k < colSize(); k++) { 
+				cubes[i][j][k].setType(CubeElem::Empty); 
+			}
+		} 
+	} 
+	for(int k = 0 ; k < stacks; k++) { 
+		int stackInd = k; 
+		Lattice l = model.getLatT(k); 
+		vector < vector < CubeElem > > stack; 
+		for(int i = 1; i < rows - 1; i++) { 
+			int rowInd = i - 1; 
+			vector< CubeElem > row;  
+			for(int j = 1; j < cols - 1; j++) {
+				int colInd = j-1; 
+				CubeElem::CubeType t = (l.getElement(i,j)->getValue() == 0 ? CubeElem::Empty : CubeElem::Full); 
+				if(t == CubeElem::Full) { 
+					cubes[stackInd][rowInd][colInd].setType(t); 
+					cubes[stackInd][rowInd][colInd+1].setType(t);
+					cubes[stackInd][rowInd+1][colInd].setType(t);
+					cubes[stackInd][rowInd+1][colInd+1].setType(t);
+					cubes[stackInd+1][rowInd][colInd].setType(t);
+					cubes[stackInd+1][rowInd][colInd+1].setType(t);
+					cubes[stackInd+1][rowInd+1][colInd].setType(t);
+				}
+				colInd++;
+			}
+			rowInd++;
+		}
+		stackInd++;
+	}
+	setCubeNeighbours();
 }
 
 CubeElem* CubeArray::getCube(int rowInd, int colInd, int stackInd) { 

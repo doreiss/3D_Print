@@ -8,6 +8,7 @@
 #include <istream>
 #include "CubeElem.h"
 #include "Gas.h"
+#include "Lattice.h"
 using namespace std; 
 
 class CubeArray 
@@ -17,8 +18,8 @@ public:
 
 	//Default Constructor
 	CubeArray (int rows = 20, int cols = 20, int stacks = 20,  CubeElem::CubeType init = CubeElem::Empty); 
-	//Reads the CubeArray in from a predefined
-	CubeArray (Gas g); 
+	//Reads the CubeArray in from a predefined gas
+	CubeArray (Gas); 
 
 
 	//Methods: 

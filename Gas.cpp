@@ -69,6 +69,13 @@ void Gas::iterate(void) {
 	flow.push_back(save); 
 }
 
+//Updates State n times
+void Gas::iterate(int n) { 
+	for(int i = 0; i < n; i++) { 
+		iterate(); 
+	}
+}
+
 //Finds how many steps have been taken
 int Gas::timeSize(void) { 
 	return flow.size(); 

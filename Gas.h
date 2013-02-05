@@ -21,6 +21,8 @@ public:
 	Lattice* getLattice(void);
 	//Update gas to next time step
 	void iterate(void);
+	//Update gas n times
+	void iterate(int); 
 	//Print current gas state to cout
 	void print(void);
 	//Print current gas state to file
