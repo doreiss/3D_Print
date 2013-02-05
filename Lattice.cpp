@@ -240,7 +240,7 @@ void Lattice::filePrint(bool filetype,bool newfile,int step){
 		} 
 		for (int j = 0; j < rows; ++j) {
 			for (int i = 0; i < cols; ++i) {
-				outfile << Lattice::getElemVal(i, j) << '\t';
+				outfile << Lattice::getElemVal(j, i) << '\t';
 				//print the element force, requires a complete reworking of the way we handle force
 			}
 		}
