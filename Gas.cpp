@@ -58,8 +58,8 @@ void Gas::iterate(void) {
 						}
 					}
 					if(counter == 1) { 
-						state->setElement(i,j,1);
-						state->setElement(i-convertDirY(valid_dir[mmax]),j+convertDirX(valid_dir[mmax]),0);
+						state->setElement(i,j,LatElem::Full);
+						state->setElement(i-convertDirY(valid_dir[mmax]),j+convertDirX(valid_dir[mmax]),LatElem::Empty);
 					}
 				}
 			}
@@ -67,6 +67,13 @@ void Gas::iterate(void) {
 	}
 	Lattice save = *state; 
 	flow.push_back(save); 
+}
+
+//Updates State n times
+void Gas::iterate(int n) { 
+	for(int i = 0; i < n; i++) { 
+		iterate(); 
+	}
 }
 
 //Finds how many steps have been taken

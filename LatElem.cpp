@@ -4,22 +4,15 @@
 
 using namespace std; 
 
-//Default lattice element constructor (empty)
-LatElem::LatElem(void) { 
-	value = 0; //value = 0
-	force_x = 0;
-	force_y = 0;
-	setNullNeighbours(); //null pointer to neighbours
-}
 //Lattice element constructor with integer value
-LatElem::LatElem(int init) {
+LatElem::LatElem(LatType init) {
 	value = init; 
 	force_x = 0;
 	force_y = 0;
 	setNullNeighbours(); 
 }
 //Change the value of a lattice element to given integer value
-void LatElem::setValue(int init) {
+void LatElem::setValue(LatType init) {
 	value = init;
 }
 
@@ -48,13 +41,13 @@ double LatElem::getForceMag(void) {
 }
 
 //Return the value of a lattice element as an integer
-int LatElem::getValue(void) { 
+LatElem::LatType LatElem::getValue(void) { 
 	return value; 
 }
 
 //Return the value of the one of the neighbours
-int LatElem::getNValue(int nIndex) {
-	if (neighbours[nIndex] == NULL) return 0; 
+LatElem::LatType LatElem::getNValue(int nIndex) {
+	if (neighbours[nIndex] == NULL) return LatElem::Empty; 
 	return neighbours[nIndex]->getValue(); 
 }
 

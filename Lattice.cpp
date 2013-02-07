@@ -6,12 +6,12 @@
 #include <string>
 using namespace std; 
 
-//Emprt constructor (default)
+//Empty constructor (default)
 Lattice::Lattice(void){
 }
 
 //Constructor to create a lattice with a given number of rows, columns and starting value
-Lattice::Lattice(int rows, int columns, int init) {
+Lattice::Lattice(int rows, int columns, LatElem::LatType init) {
 	for(int i = 0; i < rows; i++) {
 		vector<LatElem> row; 
 		for(int i = 0; i < columns; i++) {
@@ -40,7 +40,8 @@ Lattice::Lattice(string filename, bool ishuman, int line) {
 			vector<LatElem> row;
 			while(iss >> fileVal) {
 				LatElem elem; //create a lattice element from that individual point
-				elem.setValue(fileVal); 
+				LatElem::LatType newVal = (fileVal == 0 ? LatElem::Empty : LatElem::Full); 
+				elem.setValue(newVal); 
 				row.push_back(elem);
 			}
 			values.push_back(row);
@@ -80,9 +81,9 @@ Lattice::Lattice(string filename, bool ishuman, int line) {
 			for(int j = 0; j < cols; ++j) {
 				getline(infile,input,'\t');
 				int fileVal = atoi(input.c_str());
-				LatElem elem; 
-				elem.setValue(fileVal);
-				//cout << elem.getValue();
+				LatElem elem;
+				LatElem::LatType newVal = (fileVal == 0 ? LatElem::Empty : LatElem::Full); 
+				elem.setValue (newVal);
 				row.push_back(elem);
 			}
 			values.push_back(row);
@@ -141,12 +142,12 @@ void Lattice::updateForces(void) {
 }
 
 //Set the value of a lattice element
-void Lattice::setElement(int rowInd, int colInd, int init) {
+void Lattice::setElement(int rowInd, int colInd, LatElem::LatType init) {
 	getElement(rowInd,colInd)->setValue(init); 
 }
 
 //Return the value of a lattice element
-int	Lattice::getElemVal(int rowInd, int colInd) {
+LatElem::LatType Lattice::getElemVal(int rowInd, int colInd) {
 	return values[rowInd][colInd].getValue(); 
 }
 
@@ -167,11 +168,11 @@ int Lattice::colSize(void) {
 
 //Is a specific cell in the lattice occupied?
 bool Lattice::isEmpty(int rowInd, int colInd) { 
-	return (getElemVal(rowInd,colInd) == 0);
+	return (getElemVal(rowInd,colInd) == LatElem::Empty);
 }
 
 //Create a sub lattice
-void Lattice::setSubLattice(int bRowInd, int eRowInd, int bColInd, int eColInd, int init) {
+void Lattice::setSubLattice(int bRowInd, int eRowInd, int bColInd, int eColInd, LatElem::LatType init) {
 	int rows = 0, columns = 0; 
 	columns = values.size(); 
 	if (columns > 0) {
@@ -188,8 +189,8 @@ void Lattice::setSubLattice(int bRowInd, int eRowInd, int bColInd, int eColInd, 
 
 //Prints the lattice to cout
 void Lattice::print(void) {
-	for (unsigned int i = 0; i < values.size(); i++) { 
-		for(unsigned int j = 0; j < values[0].size(); j++) { 
+	for (int i = 0; i < rowSize(); i++) { 
+		for(int j = 0; j < colSize(); j++) { 
 			cout << getElemVal(i,j) << '\t'; 
 		}
 		cout << endl; 
@@ -240,7 +241,7 @@ void Lattice::filePrint(bool filetype,bool newfile,int step){
 		} 
 		for (int j = 0; j < rows; ++j) {
 			for (int i = 0; i < cols; ++i) {
-				outfile << Lattice::getElemVal(i, j) << '\t';
+				outfile << Lattice::getElemVal(j, i) << '\t';
 				//print the element force, requires a complete reworking of the way we handle force
 			}
 		}
@@ -259,7 +260,7 @@ void Lattice::fileRead(int line) {
 	Lattice::fileRead("lattice",line);
 }
 
-//Read a given line from filename.flow file
+//Read a given line from filename.flow file //This isn't implemented ! - Dom
 void Lattice::fileRead(string,int) {
 	
 	;
