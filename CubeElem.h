@@ -47,7 +47,6 @@ private:
 };
 
 /*
-
 Face Definitions (as opposed to Lattice which was layed out like a matrix, we lay out the cubes in a way which makes
 sense for cartesian coordinates)
 			

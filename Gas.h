@@ -39,4 +39,5 @@ private:
 	Lattice* state;
 	//Vector containing all gas states, initial to current
 	vector < Lattice >  flow;
+	//flow system;
 };

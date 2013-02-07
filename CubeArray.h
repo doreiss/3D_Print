@@ -16,15 +16,12 @@ class CubeArray
 { 
 public: 
 	//Constructors: 
-
 	//Default Constructor
 	CubeArray (int rows = 20, int cols = 20, int stacks = 20,  CubeElem::CubeType init = CubeElem::Empty); 
 	//Reads the CubeArray in from a predefined gas
-	CubeArray (Gas, int dim = 3, bool boundariesRemoved = true); 
-
+	CubeArray (Gas, int dim = 3, bool boundariesRemoved = true);
 
 	//Methods: 
-
 	//Returns a pointer to CubeElem at row,col,stack
 	CubeElem* getCube(int,int,int);
 	//Sets the cube at row,col,stack's type
@@ -45,10 +42,8 @@ private:
 	void setCubeNeighbours(void); 
 	// 3D array of CubeElem
 	vector < vector < vector < CubeElem > > > cubes;
-
 };
 
 //Functions: 
-
 //Gives the normal vector to face described by int
 Vec3 normal_vector(int);

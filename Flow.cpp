@@ -97,8 +97,8 @@ void Flow::print(int timestep) {
 	toprint.print();
 }
 
-/*
+
 //Print information to .flow file
 void Flow::filePrint(void) {
+
 }
-*/
