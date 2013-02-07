@@ -9,6 +9,7 @@
 #include "CubeElem.h"
 #include "Gas.h"
 #include "Lattice.h"
+#include "Vec3.h"
 using namespace std; 
 
 class CubeArray 
@@ -39,9 +40,6 @@ public:
 	//Checks if cube at row,col,stack is empty
 	bool isEmpty(int,int,int); 
 
-	//Prints to stl 
-	void print_stl(string, string = "OBJNAME", double = 1.0); 
-
 private:
 	//'Recognizes' the cube neighbours and assigns them
 	void setCubeNeighbours(void); 
@@ -52,13 +50,5 @@ private:
 
 //Functions: 
 
-//Generates a stl header
-string stl_header(string);
-//Generates a stl footer
-string stl_footer(string);
-//Generates a stl facet
-void stl_face(int,int,int,int,double,ofstream&); 
-
 //Gives the normal vector to face described by int
-vector<double> normal_vector(int);
-vector < vector < double > > six_vertex(int,int,int,int,double); 
+Vec3 normal_vector(int);

@@ -3,6 +3,8 @@
 #include <iostream> 
 #include <string>
 #include <fstream>
+#include "Vec3.h" 
+#include "Face.h"
 using namespace std; 
 
 //Constructor which creates a rows x cols x stacks array of cubes initialized to init
@@ -130,32 +132,6 @@ bool CubeArray::isEmpty(int rowInd, int colInd, int stackInd) {
 	return elem->isEmpty(); 
 } 
 
-//Prints the cubearray to a triangulated stl file
-void CubeArray::print_stl(string filename, string object, double cubeSize) { 
-	ofstream outfile(filename);
-	outfile << stl_header(object) << endl; 
-	for(int k = 0; k < stackSize(); k++) { 
-		for(int i = 0; i < rowSize(); i++) { 
-			for(int j = 0; j < colSize(); j++) {
-				CubeElem* elem = getCube(i,j,k);
-				if(!(elem->isEmpty())) {
-					vector<int> emptyNInd; 
-					for(int nInd = 0; nInd < 6; nInd++) { 
-						if((elem->isNEmpty(nInd))) {
-							emptyNInd.push_back(nInd); 
-						}
-					}
-					for(unsigned int vecInd = 0; vecInd < emptyNInd.size(); vecInd++) { 
-						stl_face(i,j,k,emptyNInd[vecInd],cubeSize,outfile);
-					}
-				}
-			}
-		}
-	}
-	outfile << stl_footer(object) << endl; 
-	outfile.close(); 
-}
-
 //'Recognizes' the neighbours of each elem in the lattice and sets its neighbours accordingly
 void CubeArray::setCubeNeighbours(void) {
 	int stacks = stackSize(); 
@@ -190,170 +166,32 @@ void CubeArray::setCubeNeighbours(void) {
 	}
 }
 
-//Returns a string corresponding to the header of a stl file
-string stl_header(string object_name) { 
-	string head = " solid "; 
-	head += object_name; 
-	return head; 
-}
-
-//Returns a string corresponding to the footer of a stl file
-string stl_footer(string object_name) { 
-	string foot = " endsolid "; 
-	foot += object_name;
-	return foot; 
-}
-
-//Prints the stl formatted facet of cube faceInd at rowInd, colInd in outfile
-void stl_face(int rowInd, int colInd, int stackInd, int faceInd, double cubeSize, ofstream& outfile) {
-	if(outfile.good()) {
-		vector < vector < double > > v6 = six_vertex(rowInd, colInd, stackInd, faceInd, cubeSize); 
-		vector<double> nVec = normal_vector(faceInd);
-		
-		outfile << "facet normal "; 
-		outfile << scientific << nVec[0] << " "; 
-		outfile << scientific << nVec[1] << " "; 
-		outfile << scientific << nVec[2] << " " << endl;
-
-		outfile << " outer loop" << endl;
-		for(int i = 0; i < 3; i++) { 
-			outfile << "  vertex "; 
-			for(int j = 0; j < 3; j++) { 
-				outfile << scientific << v6[i][j] << " "; 
-			}
-			outfile << endl; 
-		}
-		outfile << " endloop" << endl;
-		outfile << "endfacet" << endl; 
-
-		outfile << "facet normal "; 
-		outfile << scientific << nVec[0] << " "; 
-		outfile << scientific << nVec[1] << " "; 
-		outfile << scientific << nVec[2] << " " << endl;
-
-		outfile << " outer loop" << endl;
-		for(int i = 3; i < 6; i++) { 
-			outfile << "  vertex "; 
-			for(int j = 0; j < 3; j++) { 
-				outfile << scientific << v6[i][j] << " "; 
-			}
-			outfile << endl; 
-		}
-		outfile << " endloop" << endl;
-		outfile << "endfacet" << endl; 
-	}
-} 
-
 //Returns a xyz normal vector to given facet
-vector < double > normal_vector(int face) { 
-	double x = 0.0, y = 0.0, z = 0.0; 
+Vec3 normal_vector(int face) { 
+	Vec3 v(0.0,0.0,0.0); 
 	switch (face) { 
 	case 0:
-		x = 1.0; 
+		v.setX(1.0); 
 		break; 
 	case 1: 
-		z = 1.0; 
+		v.setZ(1.0); 
 		break; 
 	case 2: 
-		x = -1.0;
+		v.setX(-1.0);
 		break; 
 	case 3: 
-		z = -1.0;
+		v.setZ(-1.0);
 		break;
 	case 4: 
-		y = -1.0;
+		v.setY(-1.0);
 		break;
 	case 5: 
-		y = 1.0;
+		v.setY(1.0);
 		break;
 	default: 
 		break; 
 	}
-	vector<double> normalvec; 
-	normalvec.push_back(x); 
-	normalvec.push_back(y); 
-	normalvec.push_back(z); 
-	return normalvec;
-}
-
-//Returns the 6 vectors defining the verticies of a triangulated face
-vector < vector < double > > six_vertex(int rowInd, int colInd, int stackInd, int faceInd, double cubeSize) { 
-	double cx = (colInd*cubeSize);
-	double cy = (rowInd*cubeSize);
-	double cz = (stackInd*cubeSize); 
-	vector < vector < double > > verticies; 
-	for(int k = 0; k <= 1; k++) { 
-		for (int j = 0; j <= 1; j++) { 
-			for (int i = 0; i <= 1; i++) { 
-				vector < double > v; 
-				double newx = (cubeSize*i);
-				newx += cx; 
-				double newy = (cubeSize*j); 
-				newy += cy; 
-				double newz = (cubeSize*k); 
-				newz += cz; 
-				v.push_back(newx); 
-				v.push_back(newy); 
-				v.push_back(newz); 
-				verticies.push_back(v); 
-			} 
-		} 
-	} 
-	vector < vector < double > > rel_vert; 
-	switch (faceInd) { 
-	case 0:
-		rel_vert.push_back(verticies[7]); 
-		rel_vert.push_back(verticies[5]); 
-		rel_vert.push_back(verticies[1]); 
-		rel_vert.push_back(verticies[1]); 
-		rel_vert.push_back(verticies[3]);
-		rel_vert.push_back(verticies[7]);
-		break; 
-	case 1:
-		rel_vert.push_back(verticies[5]); 
-		rel_vert.push_back(verticies[7]); 
-		rel_vert.push_back(verticies[6]); 
-		rel_vert.push_back(verticies[6]); 
-		rel_vert.push_back(verticies[4]);
-		rel_vert.push_back(verticies[5]);
-		break; 
-	case 2:
-		rel_vert.push_back(verticies[4]); 
-		rel_vert.push_back(verticies[6]); 
-		rel_vert.push_back(verticies[2]); 
-		rel_vert.push_back(verticies[2]); 
-		rel_vert.push_back(verticies[0]);
-		rel_vert.push_back(verticies[4]);
-		break;
-	case 3:
-		rel_vert.push_back(verticies[0]); 
-		rel_vert.push_back(verticies[2]); 
-		rel_vert.push_back(verticies[3]); 
-		rel_vert.push_back(verticies[3]); 
-		rel_vert.push_back(verticies[1]);
-		rel_vert.push_back(verticies[0]);
-		break; 
-	case 4: 
-		rel_vert.push_back(verticies[5]); 
-		rel_vert.push_back(verticies[4]); 
-		rel_vert.push_back(verticies[0]); 
-		rel_vert.push_back(verticies[0]); 
-		rel_vert.push_back(verticies[1]);
-		rel_vert.push_back(verticies[5]);
-		break; 
-	case 5:
-		rel_vert.push_back(verticies[6]); 
-		rel_vert.push_back(verticies[7]); 
-		rel_vert.push_back(verticies[3]); 
-		rel_vert.push_back(verticies[3]); 
-		rel_vert.push_back(verticies[2]);
-		rel_vert.push_back(verticies[6]);
-		break; 
-	default: 
-		break; 
-	}
-	return rel_vert; 
-	
+	return v;
 }
 	/* 
 
