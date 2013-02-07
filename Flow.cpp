@@ -82,15 +82,22 @@ Lattice Flow::readLattice(void) {
 	return toreturn;
 }
 
-/*
-//Cout a specific lattice state
-void Flow::print(void) {
-}
 
 //Cout last lattice state
-void Flow::print(int) {
+void Flow::print(void) {
+	int laststate = system.size();
+	Flow::print(laststate);
 }
 
+
+//Cout a specific lattice state
+void Flow::print(int timestep) {
+	timestep -= 1;
+	Lattice toprint = system[timestep];
+	toprint.print();
+}
+
+/*
 //Print information to .flow file
 void Flow::filePrint(void) {
 }

@@ -39,7 +39,7 @@ public:
 	//Cout last lattice state
 	void print(void);
 	//Print information to .flow file
-	void filePrint(void);
+	//void filePrint(void);
 
 private:
 	//number of columns per lattice

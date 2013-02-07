@@ -8,7 +8,7 @@
 using namespace std; 
 
 //Constructor which creates a rows x cols x stacks array of cubes initialized to init
-CubeArray::CubeArray( int rows, int cols, int stacks,  CubeElem::CubeType init) {
+CubeArray::CubeArray(int rows, int cols, int stacks,  CubeElem::CubeType init) {
 	for(int i = 0; i < stacks; i++) { 
 		vector < vector < CubeElem > > stack; 
 		for(int j = 0; j < rows; j++) {
