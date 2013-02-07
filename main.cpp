@@ -63,7 +63,7 @@ int main() {
 	CubeArray cube(g,3,true);
 	Polyhedron P(cube,0.0005,1);
 	P.print_ply("plytest.ply");
-	//P.print_stl("stltest.stl");
+	P.print_stl("stltest.stl");
 	
 	return 0; 
 }

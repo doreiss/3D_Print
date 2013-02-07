@@ -5,10 +5,15 @@
 class LatElem
 {
 public:
+	/*
+	This enumerated type defines whether or not this LatElem is occupied or not. 
+	This will allow for easy extension in the future. 
+	*/
 	enum LatType { 
 		Empty, 
 		Full
 	};
+
 	//Constructors :
 
 	//Default : initialize value of a cell to given integer
@@ -53,7 +58,8 @@ private:
 //Convert X,Y values to "Jensen Notation"
 int convertXYDir(int,int); 
 
-/* Naming convention for neighbouring cells around a cell X for 2D lattice gas model
+/* 
+Naming convention for neighbouring cells around a cell X for 2D lattice gas model
 "Jensen Notation"
 
 -------------

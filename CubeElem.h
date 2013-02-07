@@ -19,7 +19,6 @@ public:
 	//Default Constructor
 	CubeElem(CubeType init = Empty);
 	
-	
 	//Methods:
 
 	//Get the CubeType

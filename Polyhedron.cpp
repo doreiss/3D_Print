@@ -134,12 +134,10 @@ void Polyhedron::constructVF(int rowInd, int colInd, int stackInd, int faceInd, 
 
 void Polyhedron::print_stl(string filename, string objname) {
 	ofstream myfile(filename);
-	//cout << "got 1" << endl;
 	stl_head(myfile,objname); 
-	//cout << "got 2" << endl;
 	stl_facet(myfile);
-	//cout << "got 3" << endl;
-	stl_foot(myfile,objname); 
+	stl_foot(myfile,objname);
+	myfile.close();
 } 
 
 void Polyhedron::stl_head(ofstream& outfile, string objname) {
