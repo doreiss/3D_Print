@@ -57,13 +57,16 @@ int main() {
 	srand(time(NULL)); 
 	Lattice l(rows,cols,t); 
 	l.setSubLattice(1,rows - 2,1,cols - 2,LatElem::Empty); 
-	l.setSubLattice(4,10,4,10,t); 
+	l.setSubLattice(1,6,1,6,t); 
+	l.setSubLattice(18,23,18,23,t); 
+	l.setSubLattice(1,6,18,23,t); 
+	l.setSubLattice(18,23,1,6,t); 
 	Gas g(l);
-	g.iterate(5);
+	g.iterate(10);
 	CubeArray cube(g,3,true);
 	Polyhedron P(cube,0.0005,1);
 	P.print_ply("plytest.ply");
-	P.print_stl("stltest.stl");
+	//P.print_stl("stltest.stl");
 	
 	return 0; 
 }
