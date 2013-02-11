@@ -103,7 +103,7 @@ void Flow::filePrint(void) {
 	Flow::filePrint("lattice.flow");
 }
 
-//Print information to filename.flow - Test
+//Print information to filename.flow
 void Flow::filePrint(string filename) {
 	string input;
 	input.assign(filename.end()-4,filename.end()); //check filename to see if extension given
