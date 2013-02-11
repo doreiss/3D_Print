@@ -1,6 +1,7 @@
 #pragma once
 #include "LatElem.h"
 #include "Lattice.h"
+#include "Flow.h"
 #include <vector>
 #include <cmath> 
 

@@ -48,10 +48,10 @@ Lattice::Lattice(string filename, bool ishuman, int line) {
 		}
 	}
 	else {
-		/*input.assign(filename.end()-4,filename.end()); //check filename to see if extension given
+		input.assign(filename.end()-4,filename.end()); //check filename to see if extension given
 		if (input != ".flow") {
 			filename.append(".flow");
-		}*/
+		}
 		infile.open(filename); //open relevant stream
 		//check to make sure we aren't reading from a nonexistant line in the flow file
 		int filelength = fileLines(infile); //fileLines function takes into account first line with information
@@ -69,7 +69,7 @@ Lattice::Lattice(string filename, bool ishuman, int line) {
 		getline(infile,input,'\t'); //take the first line in the file
 		int cols = atoi(input.c_str()); //number of columns (x direction)
 		//cout << cols;
-		getline(infile,input,'\t');
+		getline(infile,input,'\n');
 		int rows = atoi(input.c_str()); //number of rows (y direction)
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		for(int i = 1; i < line; ++i) { //move stream to required position
@@ -234,7 +234,7 @@ void Lattice::filePrint(bool filetype,bool newfile,int step){
 		etc	*/
 		if(newfile) { //overwrite and create a new file
 			outfile.open("lattice.flow");
-			outfile << cols << '\t' << rows << '\t' << step << '\n';
+			outfile << cols << '\t' << rows << '\t' << '\n';
 		} 
 		else { //append to an existing file
 			outfile.open("lattice.flow",ios::app);

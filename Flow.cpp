@@ -98,7 +98,30 @@ void Flow::print(int timestep) {
 }
 
 
-//Print information to .flow file
+//Print information to lattice.flow
 void Flow::filePrint(void) {
+	Flow::filePrint("lattice.flow");
+}
 
+//Print information to filename.flow - Test
+void Flow::filePrint(string filename) {
+	string input;
+	input.assign(filename.end()-4,filename.end()); //check filename to see if extension given
+		if (input != ".flow") {
+			filename.append(".flow");
+		}
+	ofstream outfile;
+	outfile.open(filename); //open the stream
+	outfile << cols << '\t' << rows << '\n';
+	for (unsigned int i = 0; i < system.size(); ++i) {
+		Lattice toprint = Flow::readLattice(i);
+		//move this next function to lattice.cpp
+		for (int j = 0; j < rows; ++j) {
+			for (int k = 0; k < cols; ++k) {
+				outfile << toprint.getElemVal(j,k) << '\t';
+			}
+		}
+		outfile << '\n';	
+	}
+	outfile.close();
 }
