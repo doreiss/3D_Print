@@ -11,7 +11,6 @@
 
 using namespace std; 
 int main() {
-	/*
 	Lattice testificate(10,10,LatElem::Full);
 
 	Flow f2(10,10);
@@ -24,12 +23,14 @@ int main() {
 	
 
 	//Some test cases for the lattice, does it work ok?
-	
+	//This section below does not work - fix this, check constructor of lattice given a flow object/file
+	/*
 	Lattice L("lattice.flow",false,1);
 
 	L.print();
 	*/
 
+	//This all works
 	/*
 	Lattice test(10,10,1); 
 	test.setSubLattice(1,8,1,8,0); 
@@ -49,7 +50,7 @@ int main() {
 	//cout << "\n\nNumber of lines: " << fileLines() << "\n";
 	*/
 
-	
+	/*
 	int rows = 25; 
 	int cols = 25; 
 	int p = 20;
@@ -67,6 +68,7 @@ int main() {
 	Polyhedron P(cube,0.0005,1);
 	P.print_ply("plytest.ply");
 	//P.print_stl("stltest.stl");
-	
+	*/
+
 	return 0; 
 }
