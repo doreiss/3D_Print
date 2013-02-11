@@ -10,6 +10,15 @@
 class Gas 
 {
 public:
+
+/*
+enum Model_type {
+	static_gas,
+	dynamic_gas,
+	forest_fire,
+};
+*/
+
 	//Constructors
 	//Default constructor
 	Gas(void);
