@@ -52,15 +52,11 @@ int main() {
 	
 	int rows = 25; 
 	int cols = 25; 
-	int p = 20;
 	LatElem::LatType t = LatElem::Full;
 	srand(time(NULL)); 
 	Lattice l(rows,cols,t); 
 	l.setSubLattice(1,rows - 2,1,cols - 2,LatElem::Empty); 
-	l.setSubLattice(1,6,1,6,t); 
-	l.setSubLattice(18,23,18,23,t); 
-	l.setSubLattice(1,6,18,23,t); 
-	l.setSubLattice(18,23,1,6,t); 
+	l.setSubLattice(7,17,7,17,t); 
 	Gas g(l);
 	g.iterate(10);
 	CubeArray cube(g,3,true);

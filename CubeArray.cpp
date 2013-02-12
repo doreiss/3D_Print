@@ -79,7 +79,7 @@ CubeArray::CubeArray(Gas model, int dim, bool boundariesRemoved) {
 				}
 				colInd += n;
 			}
-			rowInd += n;; 
+			rowInd += n; 
 		}
 		stackInd += n; 
 	}
