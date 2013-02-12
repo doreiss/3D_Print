@@ -1,12 +1,14 @@
 #include <iostream>
+#include <ctime>
 
 #include "gridcell.h"
 
 using namespace std;
 
-GridCell::GridCell(LatElem* fromModel, QWidget *parent)
+GridCell::GridCell(LatElem* fromModel, QWidget *parent, bool border)
 : QFrame(parent)
 {  
+	bordered = border; 
 	elem = fromModel; 
 	setFrameStyle(QFrame::Box);
     this->button = new QPushButton(this);
@@ -28,18 +30,23 @@ GridCell::~GridCell() {
     delete this->button;
 }
 
-void GridCell::setAndDraw(int val) {
+void GridCell::setAndDraw(LatElem::LatType val) {
     elem->setValue(val); 
     redrawCell();
+}
+
+void GridCell::set_random(int p) {
+	int ptest = rand() % 100;  
+	if (ptest < p) setAndDraw(LatElem::Full);  
 }
 
 Qt::GlobalColor GridCell::getColorForCellType()
 {
     switch(this->elem->getValue())
     {
-        case 0:
+	case LatElem::Empty:
             return Qt::white;
-        case 1:
+	case LatElem::Full:
 			for(int i = 0; i < 8 ; i++) { 
 				if(this->elem->getNeighbour(i) == NULL){ 
 					return Qt::gray; 
@@ -51,9 +58,8 @@ Qt::GlobalColor GridCell::getColorForCellType()
     }
 }
 
-
 void GridCell::handleClick() {
-	int newval = (elem->getValue() == 1 ? 0 : 1);
+	LatElem::LatType newval = (elem->getValue() == LatElem::Full ? LatElem::Empty : LatElem::Full);
 	setAndDraw(newval);
 }
 

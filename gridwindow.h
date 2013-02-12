@@ -12,28 +12,33 @@
 #include <string>
 #include "gridcell.h"
 #include "Gas.h"
+#include "CubeArray.h"
+#include "Polyhedron.h"
 
 class GridWindow : public QWidget
 {
     Q_OBJECT
 
     private:
-        std::vector<std::vector<GridCell*> > cells;
+        std::vector< std::vector< GridCell* > > cells;
         QLabel *title;
 		QTextEdit *counter; 
         QTimer *timer;
 		Gas *model;
 		int steps;
 		int speed;
-		bool running; 
+		bool running;
+
 
     public slots:
-		void handleStep();
-        void handleStart();
-        void handlePause();
-		void handleClear();
-		void handleSlider(int); 
-        void timerFired();
+		void handleStep(void);
+        void handleStart(void);
+        void handlePause(void);
+		void handleClear(void);
+		void handleSlider(int);
+		void handleRandom(void);
+		void handleExport(void); 
+        void timerFired(void);
 
     public:
         GridWindow(Gas&,QWidget *parent = NULL);
@@ -41,11 +46,11 @@ class GridWindow : public QWidget
         std::vector<std::vector<GridCell*> >& getCells();
 
     private:
-        QHBoxLayout* setupHeader();
-        QGridLayout* setupGrid(int rows,int cols);
-        QHBoxLayout* setupButtonRow();
-		QHBoxLayout* setupSlider();
-		QHBoxLayout* setupCounter(); 
+		void ChangeModel(Gas&,bool); 
+        QHBoxLayout* setupHeader(void);
+        QGridLayout* setupGrid(int rows,int cols, bool = true);
+        QHBoxLayout* setupButtonRow(void);
+		QHBoxLayout* setupSlider(void);
 
 		string convertInt(int); 
 };

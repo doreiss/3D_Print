@@ -15,17 +15,19 @@ class GridCell : public QFrame {
 
     private:
         QPushButton* button;
-		LatElem* elem; 
+		LatElem* elem;
+		bool bordered;
 
     public slots:
-		void setAndDraw(int);
+		void setAndDraw(LatElem::LatType);
 		void handleClick();
 
     signals:
        void typeChanged(int val);
 
     public:
-        GridCell(LatElem* fromModel,QWidget *parent = NULL);
+        GridCell(LatElem* fromModel,QWidget *parent = NULL, bool = true);
+		void set_random(int); 
         virtual ~GridCell();
         void redrawCell();
 
