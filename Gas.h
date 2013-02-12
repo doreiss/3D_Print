@@ -1,6 +1,7 @@
 #pragma once
 #include "LatElem.h"
 #include "Lattice.h"
+#include "Flow.h"
 #include <vector>
 #include <cmath> 
 
@@ -9,6 +10,15 @@
 class Gas 
 {
 public:
+
+/*
+enum Model_type {
+	static_gas,
+	dynamic_gas,
+	forest_fire,
+};
+*/
+
 	//Constructors
 	//Default constructor
 	Gas(void);

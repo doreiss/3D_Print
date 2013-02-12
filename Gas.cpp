@@ -1,6 +1,7 @@
 #include "Gas.h"
 #include "Lattice.h"
 #include "LatElem.h"
+#include "Flow.h"
 #include <cmath> 
 #include <vector> 
 

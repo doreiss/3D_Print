@@ -5,7 +5,6 @@ Vec3::Vec3(void) {
 	x = 0; 
 	y = 0; 
 	z = 0; 
-	int pos = 0; //how is this used? surely it does not exist outside the braces?
 }
 
 //Constructor for 3 given doubles: x, y, & z
@@ -13,7 +12,6 @@ Vec3::Vec3(double xInit, double yInit, double zInit) {
 	x = xInit; 
 	y = yInit; 
 	z = zInit; 
-	int pos = 0; //how is this used? surely it does not exist outside the braces?
 }
 
 //Return x

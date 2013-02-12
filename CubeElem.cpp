@@ -8,12 +8,12 @@ CubeElem::CubeElem(CubeType init) {
 	setNullFaceNeighbours(); 
 }
 
-//Returns the type of this CellElem
+//Returns the type of this CubeElem
 CubeElem::CubeType CubeElem::getType(void) { 
 	return type; 
 }
 
-//Set the type of this CellElem
+//Set the type of this CubeElem
 void CubeElem::setType(CubeType tnew) { 
 	type = tnew; 
 }
