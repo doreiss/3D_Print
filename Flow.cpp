@@ -70,8 +70,15 @@ void Flow::addLattice(Lattice current_state, int step) {
 
 //Return a lattice object at a given time
 Lattice Flow::readLattice(int value) {
-	value -= 1;
-	return system[value];
+	if (system.size() == 0) {
+		Lattice empty;
+		cout << "Flow has no Lattice members stored, returning empty lattice! "
+			 << "Check your Syntax.\n";
+		return empty;
+	}
+	else {
+		return system[value];
+	}
 }
 
 //Returtn the last lattice object in the flow
@@ -115,7 +122,7 @@ void Flow::filePrint(string filename) {
 	outfile << cols << '\t' << rows << '\n';
 	for (unsigned int i = 0; i < system.size(); ++i) {
 		Lattice toprint = Flow::readLattice(i);
-		//move this next function to lattice.cpp
+		//move this next function to lareadttice.cpp
 		for (int j = 0; j < rows; ++j) {
 			for (int k = 0; k < cols; ++k) {
 				outfile << toprint.getElemVal(j,k) << '\t';
