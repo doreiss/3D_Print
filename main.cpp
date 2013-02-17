@@ -21,9 +21,12 @@ int main() {
 	cout << f3.getCols() << '\t';
 	cout << f4.getRows() << '\n';
 	
-	Lattice test = f3.readLattice();
+	Lattice test = f4.readLattice();
+	f4.print();
+	f4.print(1);
 
-	//cout << test.colSize() << '\n';
+
+	cout << test.colSize() << '\n';
 
 	//Some test cases for the lattice, does it work ok?
 	//This section below does not work - fix this, check constructor of lattice given a flow object/file

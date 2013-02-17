@@ -7,6 +7,7 @@ using namespace std;
 
 //default empty constructor
 Flow::Flow(void) {
+	cout << "Warning, empty constructor called!\n";
 }
 
 //Specify initial row, column
@@ -100,8 +101,25 @@ void Flow::print(void) {
 //Cout a specific lattice state
 void Flow::print(int timestep) {
 	timestep -= 1;
-	Lattice toprint = system[timestep];
-	toprint.print();
+	if (timestep >= (int)system.size()) {
+		cout << "Warning, requested timestep outside of range, printing last step instead."
+			 << "Check your syntax!\n";
+		timestep = system.size();
+		timestep--;
+	}
+	else if (timestep < 0) {
+		cout << "Warning, requested timestep outside of range, printing first step instead."
+			 << "Check your syntax!\n";
+		timestep = 0;
+	}
+	if (system.size() == 0) {
+		cout << "No lattices stored in flow object, nothing to print! "
+			 << "Check your syntax!\n";
+	}
+	else {
+		Lattice toprint = system[timestep];
+		toprint.print();
+	}
 }
 
 
