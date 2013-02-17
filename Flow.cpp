@@ -112,41 +112,22 @@ Lattice Flow::readLattice(int value) {
 
 //Returtn the last lattice object in the flow
 Lattice Flow::readLattice(void) {
-	int size = system.size();
-	size -= 1;
+	int size = (system.size() - 1);
 	Lattice toreturn = system[size];
 	return toreturn;
 }
 
-
 //Cout last lattice state
 void Flow::print(void) {
-	int laststate = system.size();
+	int laststate = (system.size() - 1);
 	Flow::print(laststate);
 }
 
-
 //Cout a specific lattice state
 void Flow::print(int timestep) {
-	timestep -= 1;
-	if (timestep >= (int)system.size()) {
-		cout << "Warning, requested timestep outside of range, printing last step instead. ";
-		timestep = system.size();
-		timestep--;
-	}
-	else if (timestep < 0) {
-		cout << "Warning, requested timestep outside of range, printing first step instead. ";
-		timestep = 0;
-	}
-	if (system.size() == 0) {
-		cout << "No lattices stored in flow object, nothing to print! ";
-	}
-	else {
-		Lattice toprint = system[timestep];
-		toprint.print();
-	}
+	Lattice toprint = Flow::readLattice(timestep);
+	toprint.print();
 }
-
 
 //Print information to lattice.flow
 void Flow::filePrint(void) {
