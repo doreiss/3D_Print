@@ -60,9 +60,6 @@ void Flow::checkLatticeSize(Lattice testlattice) {
 //Does the system vector have a given lattice? (Eg, is there a lattice number 3 in the flow?)
 void Flow::checkSystem(int step) {
 	int systemsize = Flow::numStates();
-	if (systemsize != 0) {
-		systemsize--;
-	}
 	if (step < 0) {
 		throw runtime_error("Timestep given less than zero.\n");
 	}
@@ -76,7 +73,7 @@ int Flow::numStates(void) {
 	return system.size();
 }
 
-//Add a lattice to end of the file - Redo this
+//Add a lattice to end of the file
 void Flow::addLattice(Lattice current_state) {
 	try {
 		Flow::checkLatticeSize(current_state);
@@ -87,57 +84,28 @@ void Flow::addLattice(Lattice current_state) {
 	}
 } //this works fine for empty vectors, apparently
 
-//Add a lattice after a given line number (0 for beginning) - Redo this
+//Add a lattice after a given line number (0 for beginning)
 void Flow::addLattice(Lattice current_state, int step) {
-	/*
-	try { //testing exceptions, this is drawn out but is an example case
+	try {
 		Flow::checkLatticeSize(current_state);
+		Flow::checkSystem(step);
+		vector<Lattice>::iterator it = system.begin() + step;
+		system.insert(it,current_state);
 	}
-	catch (exception mistake) {
-		cout << mistake.what();
+	catch (exception problem) {
+		cout << problem.what();
 	}
-	if(Flow::checkLatticeSize(current_state))
-	{
-		int systemsize = Flow::numStates();
-		vector<Lattice>::iterator it;
-		if (systemsize != 0) {
-			systemsize -= 1;
-		} //allows the check of step to function correctly for all cases
-		if(step < 0) {
-			it = system.begin();
-			system.insert(it,current_state);
-			cout << "Trying to add Lattice at a negative step. Adding at beginning.\n";
-		} //Allow values of step < 0, but give a warning
-		else if(step > systemsize) {
-			system.push_back(current_state);
-			cout << "Trying to add Lattice at a step with too high a value. Adding lattice to end.\n";
-		} //Allow values of step too big, but give a warning
-		else {
-			it = system.begin() + step;
-			system.insert(it,current_state);
-		}
-	}
-	*/
 }
 
 //Return a lattice object at a given time - Redo this
-Lattice Flow::readLattice(int value) {
-
-/* REDO WITH EXCEPTION HANDLING
-	int states = Flow::numStates();
-	if (states == 0) {
-		Lattice empty;
-		cout << "Requested Lattice from a step with too high a value. Returning last step.";
+Lattice Flow::readLattice(int value) {.
+	/*
+	try {
 	}
-	else if (value > states) {
-		cout << "Requested Lattice from a step with too high a value. Returning last step.";
+	catch (exception problem) {
+		cout << problem.what();
 	}
-	else if (value < 0) {
-
-	}
-		return system[value];
-	}
-*/
+	*/
 	return Lattice(10,10,LatElem::Full);
 }
 
