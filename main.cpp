@@ -11,15 +11,15 @@
 
 using namespace std; 
 int main() {
-	Lattice testificate(10,10,LatElem::Full);
+	Lattice l1(10,10,LatElem::Full);
+	Lattice l2(5,5,LatElem::Full);
 
-	Flow f2(10,10);
-	Flow f3(testificate,false);
-	Flow f4(testificate,true);
+	Flow f1(l1,false);
 
-	f3.addLattice(testificate,0);
+	f1.addLattice(l1);
+	f1.addLattice(l2);
 
-	f3.print();
+	f1.print();
 
 	//Some test cases for the lattice, does it work ok?
 	//This section below does not work - fix this, check constructor of lattice given a flow object/file

@@ -2,6 +2,7 @@
 #include "LatElem.h"
 #include "Lattice.h"
 #include <fstream>
+#include <stdexcept>
 
 using namespace std;
 
@@ -47,46 +48,54 @@ bool Flow::isEmpty(void) {
 }
 
 //Return true if Lattice size matches up with that dictated by flow file, false otherwise
-bool Flow::checkLatticeSize(Lattice testlattice) {
-	bool test = false;
-	if (testlattice.rowSize() == Flow::getRows()) {
-		if(testlattice.colSize() == Flow::getCols()) {
-			test = true;
-		}
-		else {
-			cout << "Column size inequal.\n";
-		}
+void Flow::checkLatticeSize(Lattice testlattice) {
+	if (testlattice.rowSize() != Flow::getRows()) {
+		throw runtime_error("Row size inequal.\n");
 	}
-	else {
-		cout << "Row size inequal.\n";
+	if(testlattice.colSize() != Flow::getCols()) {
+		throw runtime_error("Column size inequal.\n");
 	}
-	return test;
+}
+
+//Does the system vector have a given lattice? (Eg, is there a lattice number 3 in the flow?)
+void Flow::checkSystem(int step) {
+	int systemsize = Flow::numStates();
+	if (systemsize != 0) {
+		systemsize--;
+	}
+	if (step < 0) {
+		throw runtime_error("Timestep given less than zero.\n");
+	}
+	else if (step > systemsize) {
+		throw runtime_error("Timestep given greater than system size.\n");
+	}
 }
 
 //Return the number of total lattice states in the vector
 int Flow::numStates(void) {
-	int states;
-	if(Flow::isEmpty()) {
-		states = 0;
-	}
-	else {
-		states = system.size();
-	}
-	return states;
+	return system.size();
 }
 
-//Add a lattice to end of the file
+//Add a lattice to end of the file - Redo this
 void Flow::addLattice(Lattice current_state) {
-	if (Flow::checkLatticeSize(current_state)) {
+	try {
+		Flow::checkLatticeSize(current_state);
 		system.push_back(current_state);
 	}
-	else {
-		checkSyntax();
+	catch (exception problem) {
+		cout << problem.what();
 	}
 } //this works fine for empty vectors, apparently
 
-//Add a lattice after a given line number (0 for beginning)
+//Add a lattice after a given line number (0 for beginning) - Redo this
 void Flow::addLattice(Lattice current_state, int step) {
+	/*
+	try { //testing exceptions, this is drawn out but is an example case
+		Flow::checkLatticeSize(current_state);
+	}
+	catch (exception mistake) {
+		cout << mistake.what();
+	}
 	if(Flow::checkLatticeSize(current_state))
 	{
 		int systemsize = Flow::numStates();
@@ -98,34 +107,38 @@ void Flow::addLattice(Lattice current_state, int step) {
 			it = system.begin();
 			system.insert(it,current_state);
 			cout << "Trying to add Lattice at a negative step. Adding at beginning.\n";
-			checkSyntax();
 		} //Allow values of step < 0, but give a warning
 		else if(step > systemsize) {
 			system.push_back(current_state);
 			cout << "Trying to add Lattice at a step with too high a value. Adding lattice to end.\n";
-			checkSyntax();
 		} //Allow values of step too big, but give a warning
 		else {
 			it = system.begin() + step;
 			system.insert(it,current_state);
 		}
 	}
-	else {
-		checkSyntax();
-	}
+	*/
 }
 
-//Return a lattice object at a given time
+//Return a lattice object at a given time - Redo this
 Lattice Flow::readLattice(int value) {
-	if (system.size() == 0) {
+
+/* REDO WITH EXCEPTION HANDLING
+	int states = Flow::numStates();
+	if (states == 0) {
 		Lattice empty;
-		cout << "Flow has no Lattice members stored, returning empty lattice! ";
-		checkSyntax();
-		return empty;
+		cout << "Requested Lattice from a step with too high a value. Returning last step.";
 	}
-	else {
+	else if (value > states) {
+		cout << "Requested Lattice from a step with too high a value. Returning last step.";
+	}
+	else if (value < 0) {
+
+	}
 		return system[value];
 	}
+*/
+	return Lattice(10,10,LatElem::Full);
 }
 
 //Returtn the last lattice object in the flow
@@ -149,18 +162,15 @@ void Flow::print(int timestep) {
 	timestep -= 1;
 	if (timestep >= (int)system.size()) {
 		cout << "Warning, requested timestep outside of range, printing last step instead. ";
-		checkSyntax();
 		timestep = system.size();
 		timestep--;
 	}
 	else if (timestep < 0) {
 		cout << "Warning, requested timestep outside of range, printing first step instead. ";
-		checkSyntax();
 		timestep = 0;
 	}
 	if (system.size() == 0) {
 		cout << "No lattices stored in flow object, nothing to print! ";
-		checkSyntax();
 	}
 	else {
 		Lattice toprint = system[timestep];
@@ -195,8 +205,4 @@ void Flow::filePrint(string filename) {
 		outfile << '\n';	
 	}
 	outfile.close();
-}
-
-void checkSyntax(void) {
-	cout << "Check your Syntax!\n";
 }

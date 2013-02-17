@@ -31,8 +31,10 @@ public:
 	int getRows(void);
 	//Is the flow empty?
 	bool isEmpty(void);
-	//Is the lattice able to be inserted into the flow?
-	bool checkLatticeSize(Lattice); //Check the size of a Lattice against those stored in a flow
+	//Check the size of a Lattice against those stored in a flow
+	void checkLatticeSize(Lattice);  //give an exception only if there's a problem
+	//Check the size of the system vector
+	void checkSystem(int);
 	//Return the number of total lattice states in the vector
 	int numStates(void);
 	//Add a lattice to end of the file
@@ -62,4 +64,3 @@ private:
 } ;
 
 //Functions
-void checkSyntax(void); //Cout warning to check syntax
