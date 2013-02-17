@@ -41,9 +41,20 @@ int Flow::getRows(void) {
 	return rows;
 }
 
+//Return true if the system vector is empty, false if not
+bool Flow::isEmpty(void) {
+	return system.empty();
+}
+
 //Return the number of total lattice states in the vector
 int Flow::numStates(void) {
-	int states = system.size();
+	int states;
+	if(Flow::isEmpty()) {
+		states = 0;
+	}
+	else {
+		states = system.size();
+	}
 	return states;
 }
 

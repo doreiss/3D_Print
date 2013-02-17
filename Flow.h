@@ -4,7 +4,12 @@
 #include <fstream>
 #include <string>
 
-//Flow = vector<Lattice>
+/*
+Flow objects = vector<Lattice>
+Size of lattice contained in flow 
+
+WARNING: When using Flow objects, it is possible to have an empty vector (just specifying lattice size)
+*/
 
 class Flow
 {
@@ -24,6 +29,8 @@ public:
 	int getCols(void);
 	//Return the row size of the flow file
 	int getRows(void);
+	//Is the flow empty?
+	bool isEmpty(void);
 	//Return the number of total lattice states in the vector
 	int numStates(void);
 	//Add a lattice to end of the file
