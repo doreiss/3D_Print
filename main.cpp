@@ -17,16 +17,9 @@ int main() {
 	Flow f3(testificate,false);
 	Flow f4(testificate,true);
 
-	cout << f2.getCols() << '\t';
-	cout << f3.getCols() << '\t';
-	cout << f4.getRows() << '\n';
-	
-	Lattice test = f4.readLattice();
-	f4.print();
-	f4.print(1);
+	f3.addLattice(testificate,0);
 
-
-	cout << test.colSize() << '\n';
+	f3.print();
 
 	//Some test cases for the lattice, does it work ok?
 	//This section below does not work - fix this, check constructor of lattice given a flow object/file

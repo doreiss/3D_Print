@@ -46,6 +46,23 @@ bool Flow::isEmpty(void) {
 	return system.empty();
 }
 
+//Return true if Lattice size matches up with that dictated by flow file, false otherwise
+bool Flow::checkLatticeSize(Lattice testlattice) {
+	bool test = false;
+	if (testlattice.rowSize() == Flow::getRows()) {
+		if(testlattice.colSize() == Flow::getCols()) {
+			test = true;
+		}
+		else {
+			cout << "Column size inequal.\n";
+		}
+	}
+	else {
+		cout << "Row size inequal.\n";
+	}
+	return test;
+}
+
 //Return the number of total lattice states in the vector
 int Flow::numStates(void) {
 	int states;
@@ -60,11 +77,20 @@ int Flow::numStates(void) {
 
 //Add a lattice to end of the file
 void Flow::addLattice(Lattice current_state) {
-	system.push_back(current_state);
-}
+	if (Flow::checkLatticeSize(current_state)) {
+		system.push_back(current_state);
+	}
+	else {
+		checkSyntax();
+	}
+} //this works fine for empty vectors, apparently
 
 //Add a lattice after a given line number (0 for beginning)
 void Flow::addLattice(Lattice current_state, int step) {
+	if(Flow::isEmpty()) {system.push_back(current_state);}
+
+
+	/*
 	int size = system.size(); //avoids signed/unsigned warnings
 	if (step < 0) {
 		step = 0;
@@ -78,14 +104,15 @@ void Flow::addLattice(Lattice current_state, int step) {
 	//vector iterator defining where the lattice needs to be inserted
 	vector<Lattice>::iterator it = system.begin()+step;  
 	system.insert(it,current_state);
+	*/
 }
 
 //Return a lattice object at a given time
 Lattice Flow::readLattice(int value) {
 	if (system.size() == 0) {
 		Lattice empty;
-		cout << "Flow has no Lattice members stored, returning empty lattice! "
-			 << "Check your Syntax.\n";
+		cout << "Flow has no Lattice members stored, returning empty lattice! ";
+		checkSyntax();
 		return empty;
 	}
 	else {
@@ -113,19 +140,19 @@ void Flow::print(void) {
 void Flow::print(int timestep) {
 	timestep -= 1;
 	if (timestep >= (int)system.size()) {
-		cout << "Warning, requested timestep outside of range, printing last step instead."
-			 << "Check your syntax!\n";
+		cout << "Warning, requested timestep outside of range, printing last step instead. ";
+		checkSyntax();
 		timestep = system.size();
 		timestep--;
 	}
 	else if (timestep < 0) {
-		cout << "Warning, requested timestep outside of range, printing first step instead."
-			 << "Check your syntax!\n";
+		cout << "Warning, requested timestep outside of range, printing first step instead. ";
+		checkSyntax();
 		timestep = 0;
 	}
 	if (system.size() == 0) {
-		cout << "No lattices stored in flow object, nothing to print! "
-			 << "Check your syntax!\n";
+		cout << "No lattices stored in flow object, nothing to print! ";
+		checkSyntax();
 	}
 	else {
 		Lattice toprint = system[timestep];
@@ -160,4 +187,8 @@ void Flow::filePrint(string filename) {
 		outfile << '\n';	
 	}
 	outfile.close();
+}
+
+void checkSyntax(void) {
+	cout << "Check your Syntax!\n";
 }
