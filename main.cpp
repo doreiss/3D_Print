@@ -14,17 +14,17 @@ int main() {
 	Lattice l1(10,10,LatElem::Full);
 	Lattice l2(10,10,LatElem::Empty);
 
-	Flow f1(l1,false);
-	f1.addLattice(l1,0);
-	f1.addLattice(l2,1);
+	Flow f1(l1,true);
+	f1.addLattice(l2);
 
-	f1.print();
+	Lattice l2b = f1.readLattice();
+	l2b.print();
 
-	Flow f2(l1,false);
-	f2.addLattice(l1,0);
-	f2.addLattice(l2,0);
+	Lattice l1b = f1.readLattice(0);
+	l1b.print();
 
-	f2.print();
+	Lattice l3b = f1.readLattice(-1);
+	l3b.print();
 
 	//Some test cases for the lattice, does it work ok?
 	//This section below does not work - fix this, check constructor of lattice given a flow object/file

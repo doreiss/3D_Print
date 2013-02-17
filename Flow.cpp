@@ -98,22 +98,23 @@ void Flow::addLattice(Lattice current_state, int step) {
 }
 
 //Return a lattice object at a given time - Redo this
-Lattice Flow::readLattice(int value) {.
-	/*
+Lattice Flow::readLattice(int value) {
+	Lattice toreturn;
 	try {
+		Flow::checkSystem(value);
+		toreturn = system[value];
 	}
 	catch (exception problem) {
 		cout << problem.what();
 	}
-	*/
-	return Lattice(10,10,LatElem::Full);
+	return toreturn;
 }
 
 //Returtn the last lattice object in the flow
 Lattice Flow::readLattice(void) {
 	int size = system.size();
 	size -= 1;
-	Lattice toreturn = Flow::readLattice(size);
+	Lattice toreturn = system[size];
 	return toreturn;
 }
 
