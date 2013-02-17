@@ -87,24 +87,32 @@ void Flow::addLattice(Lattice current_state) {
 
 //Add a lattice after a given line number (0 for beginning)
 void Flow::addLattice(Lattice current_state, int step) {
-	if(Flow::isEmpty()) {system.push_back(current_state);}
-
-
-	/*
-	int size = system.size(); //avoids signed/unsigned warnings
-	if (step < 0) {
-		step = 0;
-		cout << "Warning! Check your syntax on where you are inserting your lattice into the flow object!\n";
-	} //allow values of step <0, but give a warning message: it makes no sense to insert at an element < 0
-	else if (step >= size) {
-		step = system.size();
-		step -= 1;
-		cout << "Warning! Check your syntax on where you are inserting your lattice into the flow object!\n";
-	} //allow values of step > vector size, but give a warning message: you should keep track of how big the vector is
-	//vector iterator defining where the lattice needs to be inserted
-	vector<Lattice>::iterator it = system.begin()+step;  
-	system.insert(it,current_state);
-	*/
+	if(Flow::checkLatticeSize(current_state))
+	{
+		int systemsize = Flow::numStates();
+		vector<Lattice>::iterator it;
+		if (systemsize != 0) {
+			systemsize -= 1;
+		} //allows the check of step to function correctly for all cases
+		if(step < 0) {
+			it = system.begin();
+			system.insert(it,current_state);
+			cout << "Trying to add Lattice at a negative step. Adding at beginning.\n";
+			checkSyntax();
+		} //Allow values of step < 0, but give a warning
+		else if(step > systemsize) {
+			system.push_back(current_state);
+			cout << "Trying to add Lattice at a step with too high a value. Adding lattice to end.\n";
+			checkSyntax();
+		} //Allow values of step too big, but give a warning
+		else {
+			it = system.begin() + step;
+			system.insert(it,current_state);
+		}
+	}
+	else {
+		checkSyntax();
+	}
 }
 
 //Return a lattice object at a given time

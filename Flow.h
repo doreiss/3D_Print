@@ -62,5 +62,4 @@ private:
 } ;
 
 //Functions
-
 void checkSyntax(void); //Cout warning to check syntax
