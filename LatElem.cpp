@@ -11,6 +11,7 @@ LatElem::LatElem(LatType init) {
 	force_y = 0;
 	setNullNeighbours(); 
 }
+
 //Change the value of a lattice element to given integer value
 void LatElem::setValue(LatType init) {
 	value = init;
@@ -38,6 +39,25 @@ double LatElem::getForceMag(void) {
 	double forceMag = (force_x*force_x + force_y*force_y);
 	forceMag = pow(forceMag,0.5); 
 	return forceMag; 
+}
+
+//Get burn time
+void LatElem::setBurnTime(int newval) {
+	burn_time = newval;
+}
+
+//Set burn time
+int LatElem::getBurnTime(void) {
+	return burn_time;
+}
+
+//Return true if the lattice element has Latype::Empty
+bool LatElem::isEmpty(void) {
+	bool toreturn = false;
+	if (getValue() == LatType::Empty) {
+		toreturn = true;
+	}
+	return toreturn;
 }
 
 //Return the value of a lattice element as an integer

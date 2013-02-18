@@ -5,7 +5,13 @@
 #include <vector>
 #include <cmath> 
 
-// Lattice gas model
+// Lattice gas model & "Makeshift" Forest Fire
+// Forest Fire Percentage
+#define GROWTH 20
+#define LIGHTNING_BASE 1
+#define LIGHTNING_GROWTH 2
+#define BURNING_SPREAD 50
+#define BURNING_TIME 2
 
 class Gas
 {
@@ -52,3 +58,6 @@ private:
 	Flow system_states;
 
 };
+
+//Functions
+int random(void);

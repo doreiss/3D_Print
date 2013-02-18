@@ -11,7 +11,8 @@ public:
 	*/
 	enum LatType { 
 		Empty, 
-		Full
+		Full,
+		Burning,
 	};
 
 	//Constructors :
@@ -19,8 +20,7 @@ public:
 	//Default : initialize value of a cell to given integer
 	LatElem(LatType init = Empty);
 
-	//Methods :
-	
+	//Methods:
 	//Set the value of a cell to given integer (lat gas 1 or 0)
 	void setValue(LatType);
 	//Calculate the force at this point
@@ -29,6 +29,12 @@ public:
 	int getForceDir(void);
 	//Return the magnitude of the force vector
 	double getForceMag(void);
+	//Get burn time
+	void setBurnTime(int);
+	//Set burn time
+	int getBurnTime(void);
+	//Is the lattice element empty? - Will simplify some code later
+	bool isEmpty(void);
 	//Return the value of the cell
 	LatType getValue(void);
 	//Return the values of neighbouring cells
@@ -50,7 +56,8 @@ private:
 	int force_x;
 	//Force acting on element - y direction
 	int force_y;
-
+	//Timer
+	int burn_time;
 };
 
 //Functions:

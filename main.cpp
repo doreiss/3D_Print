@@ -38,6 +38,7 @@ int main() {
 	*/
 
 	//This all works
+	/*
 	Lattice test(10,10,LatElem::Full); 
 	test.setSubLattice(1,8,1,8,LatElem::Empty); 
 	test.setSubLattice(3,6,3,6,LatElem::Full);
@@ -53,8 +54,9 @@ int main() {
 	test2.filePrint(false,true);
 	test2.fileRead(1);
 	//cout << "\n\nNumber of lines: " << fileLines() << "\n";
+	*/
 
-	/*
+	
 	int rows = 25; 
 	int cols = 25; 
 	LatElem::LatType t = LatElem::Full;
@@ -63,12 +65,12 @@ int main() {
 	l.setSubLattice(1,rows - 2,1,cols - 2,LatElem::Empty); 
 	l.setSubLattice(7,17,7,17,t); 
 	Gas g(l);
+	cout << "Hi";
 	g.iterate(10);
 	CubeArray cube(g,3,true);
 	Polyhedron P(cube,0.0005,1);
 	P.print_ply("plytest.ply");
 	//P.print_stl("stltest.stl");
-	*/
 
 	return 0; 
 }
