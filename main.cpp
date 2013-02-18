@@ -2,8 +2,10 @@
 #include <sstream>
 #include "Lattice.h"
 #include "LatElem.h"
-#include "Gas.h"
 #include "Flow.h"
+#include "Model.h"
+#include "GasModel.h"
+#include "FireModel.h"
 #include "CubeArray.h" 
 #include "CubeElem.h"
 #include "Polyhedron.h"
@@ -63,12 +65,12 @@ int main() {
 	int cols = 25; 
 	LatElem::LatType t = LatElem::Full;
 	srand(time(NULL)); 
-	Lattice l(rows,cols,t); 
-	l.setSubLattice(1,rows - 2,1,cols - 2,LatElem::Empty); 
+	Lattice l(rows,cols,LatElem::Empty);
 	l.setSubLattice(7,17,7,17,t); 
-	Gas g(l,Gas::static_gas);
-	g.iterate(10);
-	CubeArray cube(g,3,true);
+	FireModel g(l);
+	g.iterate(5);
+	
+	CubeArray cube(g,3,false);
 	Polyhedron P(cube,0.0005,1);
 	P.print_ply("plytest.ply");
 	//P.print_stl("stltest.stl");

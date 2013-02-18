@@ -27,7 +27,7 @@ CubeArray::CubeArray(int rows, int cols, int stacks,  CubeElem::CubeType init) {
 
 //Constructor which creates a cubeArray from a gas, assigning each LatElem dim cubes in each dimension
 //Boolean will remove the boundary of gas model
-CubeArray::CubeArray(Gas model, int dim, bool boundariesRemoved) {
+CubeArray::CubeArray(Model model, int dim, bool boundariesRemoved) {
 	int stacks = model.timeSize(); 
 	int rows = 0; 
 	int cols = 0;
@@ -67,7 +67,7 @@ CubeArray::CubeArray(Gas model, int dim, bool boundariesRemoved) {
 			colInd = 0; 
 			vector< CubeElem > row;  
 			for(int j = lowerBound; j < colsUpperBound; j++) {
-				CubeElem::CubeType t = (l.getElement(i,j)->getValue() == 0 ? CubeElem::Empty : CubeElem::Full); 
+				CubeElem::CubeType t = (l.getElement(i,j)->getValue() == 1 ? CubeElem::Full : CubeElem::Empty); 
 				if(t == CubeElem::Full) {
 					for(int x = 0; x <= n; x++) { 
 						for (int y = 0; y <= n; y++) { 

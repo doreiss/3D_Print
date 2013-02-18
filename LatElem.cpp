@@ -55,7 +55,7 @@ int LatElem::getBurnTime(void) {
 //Return true if the lattice element has Latype::Empty
 bool LatElem::isEmpty(void) {
 	bool toreturn = false;
-	if (getValue() == LatType::Empty) {
+	if (getValue() == Empty) {
 		toreturn = true;
 	}
 	return toreturn;

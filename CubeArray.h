@@ -7,9 +7,9 @@
 #include <iostream>
 #include <istream>
 #include "CubeElem.h"
-#include "Gas.h"
 #include "Lattice.h"
 #include "Vec3.h"
+#include "Model.h"
 using namespace std; 
 
 class CubeArray 
@@ -19,7 +19,7 @@ public:
 	//Default Constructor
 	CubeArray (int rows = 20, int cols = 20, int stacks = 20,  CubeElem::CubeType init = CubeElem::Empty); 
 	//Reads the CubeArray in from a predefined gas
-	CubeArray (Gas, int dim = 3, bool boundariesRemoved = true);
+	CubeArray (Model, int dim = 3, bool boundariesRemoved = true);
 
 	//Methods: 
 	//Returns a pointer to CubeElem at row,col,stack
