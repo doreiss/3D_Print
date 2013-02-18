@@ -12,10 +12,12 @@ Gas::Gas(void) {
 }
 
 //default constructor for a given lattice object
-Gas::Gas(Lattice& initial) { 
+Gas::Gas(Lattice& initial, Model type) { 
+	system_type = type;
 	state = &initial;
 	Lattice save = *state; 
-	flow.push_back(save); 
+	Flow fsave(save,true);
+	system_states = fsave;
 }
 
 //Return a pointer to a lattice of the current gas state
@@ -67,7 +69,7 @@ void Gas::iterate(void) {
 		}
 	}
 	Lattice save = *state; 
-	flow.push_back(save); 
+	system_states.addLattice(save);
 }
 
 //Updates State n times
@@ -79,7 +81,7 @@ void Gas::iterate(int n) {
 
 //Finds how many steps have been taken
 int Gas::timeSize(void) { 
-	return flow.size(); 
+	return system_states.numStates(); 
 }
 
 //Prints the current state
@@ -95,8 +97,8 @@ void Gas::filePrint(bool ishuman) {
 //prints the entire flow object to a file
 void Gas::filePrintAll(void) {
 	Lattice toprint;
-	for (unsigned int i = 0; i < flow.size(); ++i) {
-		toprint = flow.at(i); //get a specific element
+	for (int i = 0; i < system_states.numStates(); ++i) {
+		toprint = system_states.readLattice(i); //get a specific element
 		if (i == 0) { //print this specific element
 			toprint.filePrint(false,true);
 		}
@@ -108,5 +110,5 @@ void Gas::filePrintAll(void) {
 
 //Gets Lattice at time t from flow vector
 Lattice Gas::getLatT(int t) { 
-	return flow[t]; 
+	return system_states.readLattice(t); 
 }

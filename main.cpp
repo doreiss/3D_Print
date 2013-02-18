@@ -11,6 +11,8 @@
 
 using namespace std; 
 int main() {
+	/*
+	//Some test cases for flow objects
 	Lattice l1(10,10,LatElem::Full);
 	Lattice l2(10,10,LatElem::Empty);
 
@@ -25,6 +27,7 @@ int main() {
 
 	Lattice l3b = f1.readLattice(-1);
 	l3b.print();
+	*/
 
 	//Some test cases for the lattice, does it work ok?
 	//This section below does not work - fix this, check constructor of lattice given a flow object/file
@@ -35,10 +38,9 @@ int main() {
 	*/
 
 	//This all works
-	/*
-	Lattice test(10,10,1); 
-	test.setSubLattice(1,8,1,8,0); 
-	test.setSubLattice(3,6,3,6,1);
+	Lattice test(10,10,LatElem::Full); 
+	test.setSubLattice(1,8,1,8,LatElem::Empty); 
+	test.setSubLattice(3,6,3,6,LatElem::Full);
 	Gas model(test);
  	for(int i = 0; i < 21; i++) {
 		model.iterate();
@@ -47,11 +49,10 @@ int main() {
 	model.print();
 	model.filePrintAll();
 
-	Lattice test2(20,20,1);
+	Lattice test2(20,20,LatElem::Full);
 	test2.filePrint(false,true);
 	test2.fileRead(1);
 	//cout << "\n\nNumber of lines: " << fileLines() << "\n";
-	*/
 
 	/*
 	int rows = 25; 

@@ -310,7 +310,11 @@ int fileLines(void) {
 
 //Check the number of useful lines in filename.flow
 int fileLines(string filename) {
-	filename.append(".flow");
+	string input;
+	input.assign(filename.end()-4,filename.end()); //make sure filename ends in .flow
+	if (input != ".flow") {
+		filename.append(".flow");
+	}
 	ifstream infile;
 	infile.open(filename);
 	int lines = fileLines(infile);

@@ -7,23 +7,22 @@
 
 // Lattice gas model
 
-class Gas 
+class Gas
 {
 public:
 
-/*
-enum Model_type {
+enum Model {
 	static_gas,
 	dynamic_gas,
 	forest_fire,
 };
-*/
+
 
 	//Constructors
 	//Default constructor
 	Gas(void);
 	//Create a gas using a given lattice
-	Gas(Lattice&);
+	Gas(Lattice&,Model = static_gas);
 	//Create a gas using from a given state in a .flow file
 
 	//Methods
@@ -45,9 +44,11 @@ enum Model_type {
 	Lattice getLatT(int); 
 
 private:
+	//Model type
+	Model system_type;
 	//Lattice representing current gas states
 	Lattice* state;
 	//Vector containing all gas states, initial to current
-	vector < Lattice >  flow;
-	//flow system;
+	Flow system_states;
+
 };

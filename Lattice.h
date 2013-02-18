@@ -20,7 +20,6 @@ public:
 	//Lattice(ifstream&, int line=1);
 	
 	//Methods:
-
 	//Set a specific element in the latice - row, column, value
 	void setElement(int, int, LatElem::LatType);
 	//Insert another lattice object into the lattice as a sublattice

@@ -8,7 +8,6 @@ using namespace std;
 
 //default empty constructor
 Flow::Flow(void) {
-	cout << "Warning, empty constructor called!\n";
 }
 
 //Specify initial row, column
@@ -26,11 +25,29 @@ Flow::Flow(Lattice& state, bool firstrow) {
 	}
 }
 
-/*
 //From a file
 Flow::Flow(string filename) {
+	ifstream infile;
+	string input;
+	input.assign(filename.end()-4,filename.end()); //make sure filename ends in .flow
+	if (input != ".flow") {
+		filename.append(".flow");
+	}
+	//columns
+	getline(infile,input,'\t');
+	cols = atoi(input.c_str());
+	//rows
+	getline(infile,input,'\n');
+	rows = atoi(input.c_str());
+	infile.seekg(ios::beg);
+	int lines = fileLines(filename);
+	lines--;
+	infile.close();
+	//now comes for the horrible part
+	for (int i = 0; i < lines; ++i) {
+		Lattice(filename,false,i);
+	}
 }
-*/
 
 //Return the column size of the flow file
 int Flow::getCols(void) {
@@ -137,7 +154,7 @@ void Flow::filePrint(void) {
 //Print information to filename.flow
 void Flow::filePrint(string filename) {
 	string input;
-	input.assign(filename.end()-4,filename.end()); //check filename to see if extension given
+	input.assign(filename.end()-4,filename.end()); //make sure filename ends in .flow
 		if (input != ".flow") {
 			filename.append(".flow");
 		}
