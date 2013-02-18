@@ -6,7 +6,8 @@ using namespace std;
 
 //Lattice element constructor with integer value
 LatElem::LatElem(LatType init) {
-	value = init; 
+	value = init;
+	burn_time = 0;
 	force_x = 0;
 	force_y = 0;
 	setNullNeighbours(); 

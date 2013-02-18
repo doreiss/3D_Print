@@ -27,7 +27,7 @@ Lattice* Gas::getLattice(void) {
 
 //Updates State 1 Time Step
 void Gas::iterate(void) {
-	if(system_type = static_gas) {
+	if(system_type = Gas::static_gas) {
 		state->updateForces(); //Update the forces in each cell
 		for(int i = 0; i < state->rowSize(); i++) { 
 			for(int j = 0; j < state->colSize(); j++) { 
@@ -72,8 +72,8 @@ void Gas::iterate(void) {
 		Lattice save = *state; 
 		system_states.addLattice(save);
 	}
-	else if (system_type = forest_fire) {
-		//update the forest
+	else if (system_type = Gas::forest_fire) {
+		//update the forest - one iteration through all cells
 		for (int i = 0; i < state->rowSize(); ++i) {
 			for (int j = 0; j < state->colSize(); ++j) {
 				LatElem* elem = state->getElement(i,j);
@@ -81,7 +81,7 @@ void Gas::iterate(void) {
 					bool update = false;
 					for (int k = 0; k < 8; k++) { //look at neighbouring cells
 						LatElem* neighbour = elem->getNeighbour(k);
-						if (!(neighbour->isEmpty())) {
+						if (!(neighbour->isEmpty())) { //if any neighbour is not empty
 							update = true; //are any of the neighbouring cells occupied
 						}
 					}
@@ -98,10 +98,7 @@ void Gas::iterate(void) {
 		}
 		//update which trees are being burnt
 		for (int i = 0; i < state->rowSize(); ++i) {
-			for (int j = 0; i <  state->colSize(); ++j) {
-				int strike = random();
-				int strike_prob = 10;
-				strike_prob *= LIGHTNING_BASE;
+			for (int j = 0; j < state->colSize(); ++j) {
 				LatElem* elem = state->getElement(i,j);
 				LatElem::LatType current_type = elem->getValue();
 				if (current_type == LatElem::Burning) {
@@ -112,30 +109,36 @@ void Gas::iterate(void) {
 					}
 					elem->setBurnTime(burn_time);
 				}
+				int strike = random();
+				int strike_prob = 10;
+				strike_prob *= LIGHTNING_BASE;
 				if (strike < strike_prob) {
 					if (current_type == LatElem::Full) {
 						elem->setValue(LatElem::Burning);
 						elem->setBurnTime(5);
 					}
 				}
-				else if (current_type == LatElem::Full) {
+				//Problem between here
+				if (current_type == LatElem::Full) {
 					bool ignite = false;
 					for (int k = 0; k < 8; ++k) {
 						LatElem* neighbour = elem->getNeighbour(k);
-						if(neighbour->getValue() == LatElem::Burning) {
-							ignite = true;
+						LatElem::LatType state_test = neighbour->getValue();
+						if(state_test == LatElem::Burning) {
+							int ignite_chance = random();
+							int ignite_prob = 10;
+							ignite_prob *= BURNING_SPREAD;
+							if (ignite_chance < ignite_prob) {
+								ignite = true;
+							}
 						}
 					}
 					if(ignite) {
-						int ignite_chance = random();
-						int ignite_prob = 10;
-						ignite_prob *= BURNING_SPREAD;
-						if (ignite_chance < ignite_prob) {
-							elem->setValue(LatElem::Burning);
-							elem->setBurnTime(5);
-						}
+						elem->setValue(LatElem::Burning);
+						elem->setBurnTime(5);
 					}
 				}
+			//And here
 			}
 		}
 	}
@@ -180,6 +183,11 @@ void Gas::filePrintAll(void) {
 //Gets Lattice at time t from flow vector
 Lattice Gas::getLatT(int t) { 
 	return system_states.readLattice(t); 
+}
+
+//Return the Model type
+Gas::Model Gas::systemType(void) {
+	return system_type;
 }
 
 //RNG from 0 -> 999

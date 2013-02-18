@@ -29,7 +29,7 @@ enum Model {
 	Gas(void);
 	//Create a gas using a given lattice
 	Gas(Lattice&,Model = static_gas);
-	//Create a gas using from a given state in a .flow file
+	//Create a gas using from a given state in a .flow file - TO IMPLEMENT
 
 	//Methods
 	//Return a pointer to a lattice of the current gas state
@@ -47,7 +47,9 @@ enum Model {
 	//Returns the number of time steps taken
 	int timeSize(void); 
 	//return the current gas state at a time t as a lattice
-	Lattice getLatT(int); 
+	Lattice getLatT(int);
+	//Return the system type
+	Model systemType(void);
 
 private:
 	//Model type

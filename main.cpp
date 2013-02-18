@@ -64,9 +64,8 @@ int main() {
 	Lattice l(rows,cols,t); 
 	l.setSubLattice(1,rows - 2,1,cols - 2,LatElem::Empty); 
 	l.setSubLattice(7,17,7,17,t); 
-	Gas g(l);
-	cout << "Hi";
-	g.iterate(10);
+	Gas g(l,Gas::forest_fire);
+	g.iterate(10); //there is a problem here
 	CubeArray cube(g,3,true);
 	Polyhedron P(cube,0.0005,1);
 	P.print_ply("plytest.ply");
