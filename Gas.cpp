@@ -74,8 +74,8 @@ void Gas::iterate(void) {
 	}
 	else if (system_type = Gas::forest_fire) {
 		//update the forest - one iteration through all cells
-		for (int i = 0; i < state->rowSize(); ++i) {
-			for (int j = 0; j < state->colSize(); ++j) {
+		for (int i = 1; i < (state->rowSize() - 1); ++i) {
+			for (int j = 1; j < (state->colSize() - 1); ++j) {
 				LatElem* elem = state->getElement(i,j);
 				if (elem->isEmpty()) { //update only for "empty cells"
 					bool update = false;
@@ -97,8 +97,8 @@ void Gas::iterate(void) {
 			}
 		}
 		//update which trees are being burnt
-		for (int i = 0; i < state->rowSize(); ++i) {
-			for (int j = 0; j < state->colSize(); ++j) {
+		for (int i = 1; i < (state->rowSize() - 1); ++i) {
+			for (int j = 1; j < (state->colSize() - 1); ++j) {
 				LatElem* elem = state->getElement(i,j);
 				LatElem::LatType current_type = elem->getValue();
 				if (current_type == LatElem::Burning) {
@@ -118,7 +118,6 @@ void Gas::iterate(void) {
 						elem->setBurnTime(5);
 					}
 				}
-				//Problem between here
 				if (current_type == LatElem::Full) {
 					bool ignite = false;
 					for (int k = 0; k < 8; ++k) {
@@ -138,7 +137,6 @@ void Gas::iterate(void) {
 						elem->setBurnTime(5);
 					}
 				}
-			//And here
 			}
 		}
 	}
