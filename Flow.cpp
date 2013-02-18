@@ -80,7 +80,7 @@ void Flow::checkSystem(int step) {
 	if (step < 0) {
 		throw runtime_error("Timestep given less than zero.\n");
 	}
-	else if (step > systemsize) {
+	if (step >= systemsize) {
 		throw runtime_error("Timestep given greater than system size.\n");
 	}
 }
@@ -115,7 +115,7 @@ void Flow::addLattice(Lattice current_state, int step) {
 }
 
 //Return a lattice object at a given time - Redo this
-Lattice Flow::readLattice(int value) {
+Lattice Flow::getLattice(int value) {
 	Lattice toreturn;
 	try {
 		Flow::checkSystem(value);
@@ -128,7 +128,7 @@ Lattice Flow::readLattice(int value) {
 }
 
 //Returtn the last lattice object in the flow
-Lattice Flow::readLattice(void) {
+Lattice Flow::getLattice(void) {
 	int size = (system.size() - 1);
 	Lattice toreturn = system[size];
 	return toreturn;
@@ -142,7 +142,7 @@ void Flow::print(void) {
 
 //Cout a specific lattice state
 void Flow::print(int timestep) {
-	Lattice toprint = Flow::readLattice(timestep);
+	Lattice toprint = Flow::getLattice(timestep);
 	toprint.print();
 }
 
@@ -162,7 +162,7 @@ void Flow::filePrint(string filename) {
 	outfile.open(filename); //open the stream
 	outfile << cols << '\t' << rows << '\n';
 	for (unsigned int i = 0; i < system.size(); ++i) {
-		Lattice toprint = Flow::readLattice(i);
+		Lattice toprint = Flow::getLattice(i);
 		//move this next function to lareadttice.cpp
 		for (int j = 0; j < rows; ++j) {
 			for (int k = 0; k < cols; ++k) {

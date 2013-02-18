@@ -42,9 +42,9 @@ public:
 	//Add a lattice after a given line number (0 for beginning)
 	void addLattice(Lattice,int);
 	//Return a lattice object at a given time
-	Lattice readLattice(int);
+	Lattice getLattice(int);
 	//Returtn the last lattice object in the flow
-	Lattice readLattice(void);
+	Lattice getLattice(void);
 	//Cout a specific lattice state
 	void print(int);
 	//Cout last lattice state

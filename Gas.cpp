@@ -168,7 +168,7 @@ void Gas::filePrint(bool ishuman) {
 void Gas::filePrintAll(void) {
 	Lattice toprint;
 	for (int i = 0; i < system_states.numStates(); ++i) {
-		toprint = system_states.readLattice(i); //get a specific element
+		toprint = system_states.getLattice(i); //get a specific element
 		if (i == 0) { //print this specific element
 			toprint.filePrint(false,true);
 		}
@@ -180,7 +180,7 @@ void Gas::filePrintAll(void) {
 
 //Gets Lattice at time t from flow vector
 Lattice Gas::getLatT(int t) { 
-	return system_states.readLattice(t); 
+	return system_states.getLattice(t); 
 }
 
 //Return the Model type

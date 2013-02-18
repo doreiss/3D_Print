@@ -19,14 +19,17 @@ int main() {
 	Flow f1(l1,true);
 	f1.addLattice(l2);
 
-	Lattice l2b = f1.readLattice();
-	l2b.print();
+	Lattice test = f1.getLattice();
+	test.print();
 
-	Lattice l1b = f1.readLattice(0);
-	l1b.print();
+	test = f1.getLattice(0);
+	test.print();
 
-	Lattice l3b = f1.readLattice(-1);
-	l3b.print();
+	test = f1.getLattice(-1);
+	test.print();
+
+	test = f1.getLattice(2);
+	test.print();
 	*/
 
 	//Some test cases for the lattice, does it work ok?
@@ -56,7 +59,6 @@ int main() {
 	//cout << "\n\nNumber of lines: " << fileLines() << "\n";
 	*/
 
-	
 	int rows = 25; 
 	int cols = 25; 
 	LatElem::LatType t = LatElem::Full;
@@ -64,8 +66,8 @@ int main() {
 	Lattice l(rows,cols,t); 
 	l.setSubLattice(1,rows - 2,1,cols - 2,LatElem::Empty); 
 	l.setSubLattice(7,17,7,17,t); 
-	Gas g(l,Gas::forest_fire);
-	g.iterate(10); //there is a problem here
+	Gas g(l,Gas::static_gas);
+	g.iterate(10);
 	CubeArray cube(g,3,true);
 	Polyhedron P(cube,0.0005,1);
 	P.print_ply("plytest.ply");
