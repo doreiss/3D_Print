@@ -27,7 +27,7 @@ Lattice* Gas::getLattice(void) {
 
 //Updates State 1 Time Step
 void Gas::iterate(void) {
-	if(system_type = Gas::static_gas) {
+	if(system_type == Gas::static_gas) {
 		state->updateForces(); //Update the forces in each cell
 		for(int i = 0; i < state->rowSize(); i++) { 
 			for(int j = 0; j < state->colSize(); j++) { 
@@ -72,7 +72,7 @@ void Gas::iterate(void) {
 		Lattice save = *state; 
 		system_states.addLattice(save);
 	}
-	else if (system_type = Gas::forest_fire) {
+	else if (system_type == Gas::forest_fire) {
 		//update the forest - one iteration through all cells
 		for (int i = 1; i < (state->rowSize() - 1); ++i) {
 			for (int j = 1; j < (state->colSize() - 1); ++j) {
