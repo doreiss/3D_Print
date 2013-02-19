@@ -75,7 +75,7 @@ public:
 					}
 					else {
 						int strike = random();
-						int strike_prob = 10;
+						int strike_prob = 1;
 						strike_prob *= lightning;
 						if (strike < strike_prob) {
 							elem->setValue(LatElem::Burning);
@@ -100,7 +100,8 @@ public:
 	}
 	void iterate(int n) { 
 		for(int i = 0; i < n; i++) { 
-			iterate(); 
+			iterate();
+			cout << i << endl;
 		}
 	}
 	int random(void) {

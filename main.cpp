@@ -61,14 +61,16 @@ int main() {
 	//cout << "\n\nNumber of lines: " << fileLines() << "\n";
 	*/
 
-	int rows = 50; 
-	int cols = 50; 
+	int rows = 100; 
+	int cols = 100; 
 	LatElem::LatType t = LatElem::Full;
 	srand(time(NULL)); 
 	Lattice l(rows,cols,LatElem::Empty);
-	l.setSubLattice(7,17,7,17,t); 
+	l.setSubLattice(5,10,5,10,t);
+	l.setSubLattice(18,24,18,24,t); 
+	l.setSubLattice(85,90,85,90,t); 
 	FireModel g(l);
-	g.iterate(40);
+	g.iterate(100);
 	
 	CubeArray cube(g,2,false);
 	Polyhedron P(cube,0.0005,0.25);
