@@ -12,7 +12,7 @@ public:
 		burning_spread = 0; 
 		burning_time = 0; 
 	}
-	FireModel(Lattice& l,int G = 25, int LB = 2, int BS = 60, int BT = 3) : Model(l) {
+	FireModel(Lattice& l,int G = 60, int LB = 1, int BS = 75, int BT = 3) : Model(l) {
 		growth = G; 
 		lightning = LB; 
 		burning_spread = BS; 
@@ -75,7 +75,7 @@ public:
 					}
 					else {
 						int strike = random();
-						int strike_prob = 10;
+						int strike_prob = 1;
 						strike_prob *= lightning;
 						if (strike < strike_prob) {
 							elem->setValue(LatElem::Burning);
@@ -100,7 +100,8 @@ public:
 	}
 	void iterate(int n) { 
 		for(int i = 0; i < n; i++) { 
-			iterate(); 
+			iterate();
+			cout << i << endl;
 		}
 	}
 	int random(void) {

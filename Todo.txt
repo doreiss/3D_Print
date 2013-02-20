@@ -1,3 +1,6 @@
 Last updated: 18/02
 >Move lattice reading from .flow to a separate function which can be used with an existing stream
->Implement Forest Fire
+>Create an .stl model to send to Paul Brown
+>Any other models we wish to try?
+
+>Consider ways of improving the cubes
