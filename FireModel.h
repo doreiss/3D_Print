@@ -12,7 +12,7 @@ public:
 		burning_spread = 0; 
 		burning_time = 0; 
 	}
-	FireModel(Lattice& l,int G = 35, int LB = 2, int BS = 50, int BT = 3) : Model(l) {
+	FireModel(Lattice& l,int G = 25, int LB = 2, int BS = 60, int BT = 3) : Model(l) {
 		growth = G; 
 		lightning = LB; 
 		burning_spread = BS; 
