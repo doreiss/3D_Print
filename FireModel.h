@@ -10,7 +10,8 @@ public:
 		growth = 0; 
 		lightning = 0; 
 		burning_spread = 0; 
-		burning_time = 0; 
+		burning_time = 0;
+		srand(time(NULL));
 	}
 	FireModel(Lattice& l,int G = 60, int LB = 1, int BS = 75, int BT = 3) : Model(l) {
 		growth = G; 
