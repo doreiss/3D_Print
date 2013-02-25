@@ -24,7 +24,7 @@ public:
 	//Set the value of a cell to given integer (lat gas 1 or 0)
 	void setValue(LatType);
 	//Calculate the force at this point
-	void setForce(void);
+	void setForce(char&);
 	//Return the direction of the force (Jensen notation)
 	int getForceDir(void);
 	//Return the magnitude of the force vector

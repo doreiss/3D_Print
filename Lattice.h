@@ -25,7 +25,7 @@ public:
 	//Insert another lattice object into the lattice as a sublattice
 	void insertSubLattice(Lattice, int, int);
 	//Update all the force elements of the lattice
-	void updateForces(void);
+	void updateForces(char);
 	//Return the value of a specific element in the lattice - row, column
 	LatElem::LatType getElemVal(int,int); 
 	//Return a pointer to a specific LatElem object in the lattice - row, column

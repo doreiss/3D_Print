@@ -9,7 +9,7 @@ public:
 
 	//Iterate methods for the Lattice Gas
 	void iterate(void) {
-		state->updateForces(); //Update the forces in each cell
+		state->updateForces('g'); //Update the forces in each cell
 		for(int i = 0; i < state->rowSize(); i++) { 
 			for(int j = 0; j < state->colSize(); j++) { 
 				LatElem* elem = state->getElement(i,j);  //get the element where iterator is

@@ -19,14 +19,36 @@ void LatElem::setValue(LatType init) {
 }
 
 //Calculates the force on a given element, given its surrounding elements
-void LatElem::setForce(void) { 
-	if (value == 0) {
+void LatElem::setForce(char& model_type) {
+	if (model_type == 'G' || model_type == 'g') { //Modify to check from array of acceptable characters
+		if (value == 0) {
+			force_x = 0;
+			force_y = 0;
+		}
+		force_x = getNValue(4) - getNValue(0); 
+		force_y = getNValue(6) - getNValue(2);
+	}
+	else if (model_type == 'D' || model_type == 'd') {
+		if (value == 0) {
+			force_x = 0;
+			force_y = 0;
+		}
+		force_x = getNValue(4) - getNValue(0); 
+		force_y = getNValue(6) - getNValue(2);
+
+		//Now look at diagonal forces too
+		int topl = getNValue(3);
+		int topr = getNValue(1);
+		int botl = getNValue(5);
+		int botr = getNValue(7);
+
+
+	}
+	else {
+		cout << "Model type specified incorrectly when updating forces!\n";
 		force_x = 0;
 		force_y = 0;
-		return; 
 	}
-	force_x = getNValue(4) - getNValue(0); 
-	force_y = getNValue(6) - getNValue(2);
 }
 
 //Returns the direction of the force

@@ -163,7 +163,7 @@ void Flow::filePrint(string filename) {
 	outfile << cols << '\t' << rows << '\n';
 	for (unsigned int i = 0; i < system.size(); ++i) {
 		Lattice toprint = Flow::getLattice(i);
-		//move this next function to lareadttice.cpp
+		//move this next function to lattice.cpp
 		for (int j = 0; j < rows; ++j) {
 			for (int k = 0; k < cols; ++k) {
 				outfile << toprint.getElemVal(j,k) << '\t';

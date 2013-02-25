@@ -133,10 +133,10 @@ void Lattice::insertSubLattice(Lattice L, int topLeftRow, int topLeftCol) {
 }
 
 //Updates the forces throughout the Lattice
-void Lattice::updateForces(void) { 
+void Lattice::updateForces(char model_type) { 
 	for(int i = 0; i < rowSize(); i++) { 
 		for(int j = 0; j < colSize(); j++) { 
-			values[i][j].setForce();
+			values[i][j].setForce(model_type);
 		}
 	}
 }
