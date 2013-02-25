@@ -102,6 +102,9 @@ void LatElem::setForce(char& model_type) {
 			else if (right > 0 && left == 0) {
 				force_x = -1;
 			}
+			else if (right == 0 && left == 0) {
+				force_x = force_x; //do nothing
+			}
 			else {
 				force_x = 0;
 			}
@@ -111,6 +114,9 @@ void LatElem::setForce(char& model_type) {
 			}
 			else if (top > 0 && bottom == 0) {
 				force_y = -1;
+			}
+			else if (top == 0 && bottom == 0) {
+				force_y = force_y; //do nothing
 			}
 			else {
 				force_y = 0;

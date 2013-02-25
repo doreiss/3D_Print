@@ -2,22 +2,28 @@
 #include "Model.h"
 
 class DynGasModel : public Model {
-	//constructors
+	//Constructors
 	DynGasModel() : Model() {}
 	DynGasModel(Lattice& l) : Model(l) {}
 
-	//iterate method for the dynamic gas model
+	//Iterate method for the dynamic gas model
 	void iterate(void) {
 		state->updateForces('d'); //Update the forces in each cell
 		//cout << "here2" << endl; 
-
-
-		/*
 		for(int i = 0; i < state->rowSize(); i++) { 
-			for(int j = 0; j < state->colSize(); j++) { 
-
+			for(int j = 0; j < state->colSize(); j++) {
 				LatElem* elem = state->getElement(i,j);  //get the element where iterator is
 				if(elem->getValue() == 0) { //Only look at empty cells
+
+				}
+			}
+		}
+
+		Lattice save = *state; 
+		system_states.addLattice(save);
+
+				/*
+
 					vector < int > valid_dir; //Stores the valid directions of incoming cells
 					vector < double > valid_mag; //Stores the corresponding magnitudes of incoming cells
 					for(int k = 0; k < 8; k++) {
