@@ -11,6 +11,8 @@ class DynGasModel : public Model {
 		state->updateForces('d'); //Update the forces in each cell
 		//cout << "here2" << endl; 
 
+
+		/*
 		for(int i = 0; i < state->rowSize(); i++) { 
 			for(int j = 0; j < state->colSize(); j++) { 
 
@@ -55,6 +57,7 @@ class DynGasModel : public Model {
 		Lattice save = *state; 
 		system_states.addLattice(save);
 	}
+	*/
 
 	void iterate(int n) { 
 		for(int i = 0; i < n; i++) { 

@@ -20,14 +20,16 @@ void LatElem::setValue(LatType init) {
 
 //Calculates the force on a given element, given its surrounding elements
 void LatElem::setForce(char& model_type) {
-	if (model_type == 'g' || model_type == 'd') {
+	if (model_type == 'g' || model_type == 'd' || model_type == 's') {
 		if (value == 0) {
 			force_x = 0;
 			force_y = 0;
 		}
-		force_x = getNValue(4) - getNValue(0); 
-		force_y = getNValue(6) - getNValue(2);
-		if (model_type == 'd') {
+		if (model_type == 'g') {
+			force_x = getNValue(4) - getNValue(0); 
+			force_y = getNValue(6) - getNValue(2);
+		}
+		else if (model_type == 's') { //Strongest side wins - leaving in incase useful
 			//Now look at diagonal forces too for the diagonal gas case
 			int topl = getNValue(3);
 			int topr = getNValue(1);
@@ -49,6 +51,69 @@ void LatElem::setForce(char& model_type) {
 			}
 			else if (force_y < 0) {
 				force_y = -1;
+			}
+		}
+		else if (model_type == 'd') {
+			//are the selection of cells empty? 
+			int right = 0; //7,0,1
+			int left = 0; //3,4,5
+			int top = 0; //1,2,3
+			int bottom = 0; //5,6,7
+			for(int i = 0; i <= 7; ++i) {
+				int val = getNValue(i);
+				switch (i) {
+					case 0:
+						right += val;
+						break;
+					case 1:
+						right += val;
+						top += val;
+						break;
+					case 2:
+						top += val;
+						break;
+					case 3:
+						top += val;
+						left += val;
+						break;
+					case 4:
+						left += val;
+						break;
+					case 5:
+						left += val;
+						bottom += val;
+						break;
+					case 6:
+						bottom += val;
+						break;
+					case 7:
+						bottom += val;
+						right += val;
+						break;
+					default:
+						cout << "If you see this, you've really broken something.\n";
+						break;
+				}
+			}
+			//x dir
+			if (right == 0 && left > 0) {
+				force_x = 1;
+			}
+			else if (right > 0 && left == 0) {
+				force_x = -1;
+			}
+			else {
+				force_x = 0;
+			}
+			//y dir
+			if (top == 0 && bottom > 0) {
+				force_y = 1;
+			}
+			else if (top > 0 && bottom == 0) {
+				force_y = -1;
+			}
+			else {
+				force_y = 0;
 			}
 		}
 	}
