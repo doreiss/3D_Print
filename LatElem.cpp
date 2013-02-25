@@ -20,29 +20,37 @@ void LatElem::setValue(LatType init) {
 
 //Calculates the force on a given element, given its surrounding elements
 void LatElem::setForce(char& model_type) {
-	if (model_type == 'G' || model_type == 'g') { //Modify to check from array of acceptable characters
+	if (model_type == 'g' || model_type == 'd') {
 		if (value == 0) {
 			force_x = 0;
 			force_y = 0;
 		}
 		force_x = getNValue(4) - getNValue(0); 
 		force_y = getNValue(6) - getNValue(2);
-	}
-	else if (model_type == 'D' || model_type == 'd') {
-		if (value == 0) {
-			force_x = 0;
-			force_y = 0;
+		if (model_type == 'd') {
+			//Now look at diagonal forces too for the diagonal gas case
+			int topl = getNValue(3);
+			int topr = getNValue(1);
+			int botl = getNValue(5);
+			int botr = getNValue(7);
+			force_x += (topl + botl);
+			force_x -= (topr + botr);
+			force_y += (botr + botl);
+			force_y -= (topr + topl);
+			//'Normalise' the size of the forces
+			if (force_x > 0) {
+				force_x = 1;
+			}
+			else if (force_x < 0) {
+				force_x = -1;
+			}
+			if (force_y > 0) {
+				force_y = 1;
+			}
+			else if (force_y < 0) {
+				force_y = -1;
+			}
 		}
-		force_x = getNValue(4) - getNValue(0); 
-		force_y = getNValue(6) - getNValue(2);
-
-		//Now look at diagonal forces too
-		int topl = getNValue(3);
-		int topr = getNValue(1);
-		int botl = getNValue(5);
-		int botr = getNValue(7);
-
-
 	}
 	else {
 		cout << "Model type specified incorrectly when updating forces!\n";

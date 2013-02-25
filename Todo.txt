@@ -1,6 +1,8 @@
 Last updated: 18/02
 >Move lattice reading from .flow to a separate function which can be used with an existing stream
->Create an .stl model to send to Paul Brown
+
 >Any other models we wish to try?
+>>Dynamic gas
+>>Other models?
 
 >Consider ways of improving the cubes

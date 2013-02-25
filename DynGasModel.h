@@ -9,9 +9,11 @@ class DynGasModel : public Model {
 	//iterate method for the dynamic gas model
 	void iterate(void) {
 		state->updateForces('d'); //Update the forces in each cell
-		cout << "here2" << endl; 
+		//cout << "here2" << endl; 
+
 		for(int i = 0; i < state->rowSize(); i++) { 
 			for(int j = 0; j < state->colSize(); j++) { 
+
 				LatElem* elem = state->getElement(i,j);  //get the element where iterator is
 				if(elem->getValue() == 0) { //Only look at empty cells
 					vector < int > valid_dir; //Stores the valid directions of incoming cells
@@ -53,6 +55,7 @@ class DynGasModel : public Model {
 		Lattice save = *state; 
 		system_states.addLattice(save);
 	}
+
 	void iterate(int n) { 
 		for(int i = 0; i < n; i++) { 
 			iterate(); 
