@@ -181,7 +181,7 @@ void Lattice::setSubLattice(int bRowInd, int eRowInd, int bColInd, int eColInd, 
 	if (((eRowInd+1) <= rows) && ((eColInd+1) <= columns)) {
 		for (int i = bRowInd; i <= eRowInd; i++ ){
 			for(int j = bColInd; j <= eColInd; j++) {
-				setElement(i,j,init);
+				getElement(i,j)->setValue(init); 
 			}
 		}
 	}
