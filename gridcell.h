@@ -16,7 +16,6 @@ class GridCell : public QFrame {
     private:
         QPushButton* button;
 		LatElem* elem;
-		bool bordered;
 
     public slots:
 		void setAndDraw(LatElem::LatType);
@@ -26,10 +25,11 @@ class GridCell : public QFrame {
        void typeChanged(int val);
 
     public:
-        GridCell(LatElem* fromModel,QWidget *parent = NULL, bool = true);
+        GridCell(LatElem* fromModel,QWidget *parent = NULL);
 		void set_random(int); 
         virtual ~GridCell();
         void redrawCell();
+		bool off;
 
     private:
         Qt::GlobalColor getColorForCellType();

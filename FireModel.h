@@ -10,7 +10,8 @@ public:
 		growth = 0; 
 		lightning = 0; 
 		burning_spread = 0; 
-		burning_time = 0; 
+		burning_time = 0;
+		srand(time(NULL));
 	}
 	FireModel(Lattice& l,int G = 60, int LB = 1, int BS = 75, int BT = 3) : Model(l) {
 		growth = G; 
@@ -22,9 +23,12 @@ public:
 
 	//Iterate methods for the ForestFire
 	void iterate(void) {
+		cout << "here1" << endl; 
+		//Create a copy of the state for reference
 		Lattice* old = new Lattice(state->rowSize(),state->colSize(),LatElem::Empty);
 		old->insertSubLattice(*state,0,0); 
-
+		
+		//Loop through the lattice
 		for(int i = 0; i < state->rowSize(); ++i) { 
 			for(int j = 0; j < state->colSize(); ++j) {
 
@@ -36,8 +40,7 @@ public:
 				bool ignite = false;
 
 				switch(current_type) {
-
-				case LatElem::Empty:
+				case LatElem::Empty: //If the current cell is empty
 					for (int k = 0; k < 8; k++) { //look at neighbouring cells
 						LatElem* neighbour = oldelem->getNeighbour(k);
 						if(neighbour != NULL) {
@@ -55,11 +58,12 @@ public:
 						}
 					}
 					break;
-				case LatElem::Full:
-					for (int k = 0; k < 8; ++k) {
+					
+				case LatElem::Full: //If the current cell is full
+					for (int k = 0; k < 8; ++k) { //Look at all its neighbours
 						LatElem* neighbour = oldelem->getNeighbour(k);
 						if (neighbour != NULL) {
-							if(neighbour->getValue() == LatElem::Burning) {
+							if(neighbour->getValue() == LatElem::Burning) { //Are any of its neighbours burning
 								int ignite_chance = random();
 								int ignite_prob = 10;
 								ignite_prob *= burning_spread;
@@ -84,10 +88,10 @@ public:
 					}
 					break;
 
-				case LatElem::Burning:
-					int burn_time = oldelem->getBurnTime();
+				case LatElem::Burning: //If the current element burning
+					int burn_time = oldelem->getBurnTime(); //How long has it been burning
 					burn_time--;
-					if (burn_time == 0) {
+					if (burn_time == 0) { //Is it time to stop burning?
 						elem->setValue(LatElem::Empty);
 					}
 					elem->setBurnTime(burn_time);
@@ -104,10 +108,15 @@ public:
 			cout << i << endl;
 		}
 	}
+	//Generates a random int between 1 - 1000
 	int random(void) {
 		int number = rand() % 1000;
 		return number;
 	}	
+	//Generates a random int between 1 - max
+	int random(int max) {
+		int number = rand() % max; 
+	}
 private: 
 	int growth; 
 	int lightning; 

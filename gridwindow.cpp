@@ -4,10 +4,11 @@
 
 using namespace std;
 
-GridWindow::GridWindow(Gas& g, QWidget *parent)
-: QWidget(parent)
-{
-	model = &g; 
+GridWindow::GridWindow(Model* g,std::string n, QWidget *parent)
+: QWidget(parent) {
+	init = true; 
+	name = n; 
+	model = g; 
 	steps = 0;
 	speed = 1;
 	running = false; 
@@ -29,10 +30,6 @@ GridWindow::~GridWindow() {
     delete title;
 }
 
-void GridWindow::ChangeModel(Gas& g, bool border) {
-	
-}
-
 QHBoxLayout* GridWindow::setupSlider() { 
 	QHBoxLayout *sliderBox = new QHBoxLayout();
     sliderBox->setAlignment(Qt::AlignHCenter);
@@ -48,8 +45,7 @@ QHBoxLayout* GridWindow::setupSlider() {
 	return sliderBox; 
 }
 
-QHBoxLayout* GridWindow::setupHeader()
-{
+QHBoxLayout* GridWindow::setupHeader() {
     QHBoxLayout *header = new QHBoxLayout();
     header->setAlignment(Qt::AlignHCenter);
 
@@ -62,8 +58,8 @@ QHBoxLayout* GridWindow::setupHeader()
     return header;
 }
 
-QGridLayout* GridWindow::setupGrid(int rows,int cols, bool border)
-{
+QGridLayout* GridWindow::setupGrid(int rows,int cols) {
+
     QGridLayout *grid = new QGridLayout();
 
     grid->setHorizontalSpacing(0);
@@ -75,7 +71,7 @@ QGridLayout* GridWindow::setupGrid(int rows,int cols, bool border)
         std::vector<GridCell*> row;
         cells.push_back(row);
         for(int j=0; j < cols; j++) {
-			GridCell *cell = new GridCell(model->getLattice()->getElement(i,j),NULL, border);
+			GridCell *cell = new GridCell(model->getLattice()->getElement(i,j),NULL);
 			cells.at(i).push_back(cell);
             grid->addWidget(cell,i,j);
             grid->setColumnStretch(j,1);
@@ -89,7 +85,7 @@ QHBoxLayout* GridWindow::setupButtonRow() {
     QHBoxLayout *buttonRow = new QHBoxLayout();
     buttonRow->setAlignment(Qt::AlignHCenter);
 
-	QPushButton*stepButton = new QPushButton("STEP");
+	QPushButton* stepButton = new QPushButton("STEP");
 	stepButton->setFixedSize(100,25);
 	connect(stepButton, SIGNAL(clicked()), this, SLOT(handleStep()));
 	buttonRow->addWidget(stepButton); 
@@ -103,16 +99,6 @@ QHBoxLayout* GridWindow::setupButtonRow() {
     pauseButton->setFixedSize(100,25);
     connect(pauseButton, SIGNAL(clicked()), this, SLOT(handlePause()));
     buttonRow->addWidget(pauseButton);  
-
-	QPushButton *clearButton = new QPushButton("CLEAR");
-    clearButton->setFixedSize(100,25); 
-    connect(clearButton, SIGNAL(clicked()), this, SLOT(handleClear()));
-    buttonRow->addWidget(clearButton);
-
-	QPushButton *randomButton = new QPushButton("RANDOMIZE");
-    clearButton->setFixedSize(100,25); 
-    connect(randomButton, SIGNAL(clicked()), this, SLOT(handleRandom()));
-    buttonRow->addWidget(randomButton);
 
 	QPushButton *exportButton = new QPushButton("EXPORT 3D");
 	exportButton->setFixedSize(100,25); 
@@ -128,6 +114,7 @@ QHBoxLayout* GridWindow::setupButtonRow() {
 }
 
 void GridWindow::handleSlider(int s) { 
+	exitSetup(); 
 	speed = s;
 	if (running) {
 		handlePause(); 
@@ -136,10 +123,12 @@ void GridWindow::handleSlider(int s) {
 }
 
 void GridWindow::handleStep() { 
+	exitSetup(); 
 	timerFired(); 
 }
 
 void GridWindow::handleStart() {
+	exitSetup(); 
 	running = true; 
     this->timer = new QTimer(this);
     connect(this->timer, SIGNAL(timeout()), this, SLOT(timerFired()));
@@ -147,67 +136,46 @@ void GridWindow::handleStart() {
 }
 
 void GridWindow::handlePause() {
-		cout << "Simulation paused at step : " << steps << endl; 
-		running = false; 
-        this->timer->stop();
-        delete this->timer;
-}
-
-void GridWindow::handleClear() {
-	cout << "Clearing board "; 
-	steps = 0; 
-    for(unsigned int row=1; row < cells.size()-1; row++) {
-		cout << "... "; 
-        for(unsigned int col=1; col < cells[row].size()-1; col++) {
-            GridCell *cell = cells[row][col];
-            cell->setAndDraw(LatElem::Empty);
-        }
-    }
-	cout << endl; 
-	cout << "Step : " << steps << endl; 
-}
-
-void GridWindow::handleRandom(){
-	handleClear();
-	int p; 
-	cout << "Please entere probability (1-100) with which cells should be filled :" << endl;
-	cin >> p; 
-	for(int i = 0; i < cells.size(); i++) { 
-		for(int j = 0; j < cells[0].size(); j++) {
-			cells[i][j]->set_random(p); 
-		}
-	}
+	exitSetup();	
+	cout << "Simulation paused at step : " << steps << endl; 
+	running = false; 
+	this->timer->stop();
+	delete this->timer;
 }
 
 void GridWindow::handleExport() {
-	int filetype;
-	string filename; 
-	cout << "Choose filetype :" << endl; 
-	cout << "0 : stl" << endl; 
-	cout << "1 : ply" << endl; 
-	cout << "2 : flow" << endl; 
-	cin >> filetype; 
-	cout << "Please enter filename :" << endl; 
-	cin >> filename; 
+	exitSetup(); 
+	std::string filename1 = name; 
+	std::string filename2 = name; 
+	filename1.append(".stl"); 
+	filename2.append(".ply");
 	cout << "Constructing cube array ... ";
-	CubeArray cArr(*model,3,true);
+	CubeArray cArr(model,2,true);
 	cout << "done!" << endl; 
 	cout << "Constructing polyhedron ... "; 
 	Polyhedron poly(cArr, 0.0005, 1.0);
 	cout << "done!" << endl; 
 	cout << "Exporting geometry ... "; 
-	switch(filetype) { 
-	case 0:
-		poly.print_stl(filename);
-		break;
-	case 1: 
-		poly.print_ply(filename); 
-	case 2: 
-		break; 
-	default: 
-		break; 
-	}
+	cout << "stl ... "; 
+	poly.print_stl(filename1); 
+	cout << "ply ..."; 
+	poly.print_ply(filename2); 
+
+	//add flow here
+
 	cout << "done!" << endl; 
+}
+
+void GridWindow::exitSetup(){
+	if(init) {
+		cout << "Done setting initial conditions... " << endl; 
+		for (int i = 0; i < cells.size(); i++) { 
+			for(int j = 0; j < cells[i].size(); j++) { 
+				cells[i][j]->off = true;
+			}
+		}
+		init = false; 
+	}
 }
 
 std::vector<std::vector<GridCell*> >& GridWindow::getCells() {

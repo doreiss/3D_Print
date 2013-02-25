@@ -25,6 +25,8 @@ public:
 	int timeSize(void); 
 	//return the current gas state at a time t as a lattice
 	Lattice getLatT(int);
+	//Virtual iterate function
+	virtual void iterate(void) = 0; 
 protected:
 	//Current state
 	Lattice* state;

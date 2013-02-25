@@ -5,10 +5,10 @@
 
 using namespace std;
 
-GridCell::GridCell(LatElem* fromModel, QWidget *parent, bool border)
+GridCell::GridCell(LatElem* fromModel, QWidget *parent)
 : QFrame(parent)
-{  
-	bordered = border; 
+{
+	off = false; 
 	elem = fromModel; 
 	setFrameStyle(QFrame::Box);
     this->button = new QPushButton(this);
@@ -59,8 +59,10 @@ Qt::GlobalColor GridCell::getColorForCellType()
 }
 
 void GridCell::handleClick() {
-	LatElem::LatType newval = (elem->getValue() == LatElem::Full ? LatElem::Empty : LatElem::Full);
-	setAndDraw(newval);
+	if(!off){
+		LatElem::LatType newval = (elem->getValue() == LatElem::Full ? LatElem::Empty : LatElem::Full);
+		setAndDraw(newval);
+	}
 }
 
 void GridCell::redrawCell() {

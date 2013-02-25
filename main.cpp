@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <string>
 #include "Lattice.h"
 #include "LatElem.h"
 #include "Flow.h"
@@ -61,21 +62,17 @@ int main() {
 	//cout << "\n\nNumber of lines: " << fileLines() << "\n";
 	*/
 
-	int rows = 100; 
-	int cols = 100; 
+	int rows = 101; 
+	int cols = 101; 
 	LatElem::LatType t = LatElem::Full;
-	srand(time(NULL)); 
+	srand(time(NULL));
 	Lattice l(rows,cols,LatElem::Empty);
-	l.setSubLattice(5,10,5,10,t);
-	l.setSubLattice(18,24,18,24,t); 
-	l.setSubLattice(85,90,85,90,t); 
-	FireModel g(l);
+	l.setSubLattice(15,15,15,15,t);
+	FireModel g(l,30,1,25,1);
 	g.iterate(100);
-	
 	CubeArray cube(g,2,false);
 	Polyhedron P(cube,0.0005,0.25);
-	P.print_ply("plytest.ply");
-	//P.print_stl("stltest.stl");
+	P.print_ply("test7011001.ply");
 
 	return 0; 
 }
