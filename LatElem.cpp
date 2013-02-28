@@ -130,6 +130,12 @@ void LatElem::setForce(char& model_type) {
 	}
 }
 
+//Sets to the force of an element to be a given value
+void LatElem::setForce(int x, int y){
+	force_x = x;
+	force_y = y;
+}
+
 //Returns the direction of the force
 int LatElem::getForceDir(void) {
 	int forceDir = convertXYDir(force_x,force_y); 
@@ -141,6 +147,16 @@ double LatElem::getForceMag(void) {
 	double forceMag = (force_x*force_x + force_y*force_y);
 	forceMag = pow(forceMag,0.5); 
 	return forceMag; 
+}
+
+//Return the x component of the force
+int LatElem::getForceX(void) {
+	return force_x;
+}
+
+//Return the y component of the force
+int LatElem::getForceY(void) {
+	return force_y;
 }
 
 //Get burn time
@@ -171,6 +187,31 @@ LatElem::LatType LatElem::getValue(void) {
 LatElem::LatType LatElem::getNValue(int nIndex) {
 	if (neighbours[nIndex] == NULL) return LatElem::Empty; 
 	return neighbours[nIndex]->getValue(); 
+}
+
+//Return the force_x value of one of the neighbours
+int LatElem::getNForceX(int nIndex) {
+	if (neighbours[nIndex] == NULL) return 0; 
+	return neighbours[nIndex]->getForceX();
+}
+
+//Return the force_y value of one of the neighbours
+int LatElem::getNForceY(int nIndex) {
+	if (neighbours[nIndex] == NULL) return 0; 
+	return neighbours[nIndex]->getForceY();
+}
+
+//Make a specific cell empty
+void LatElem::makeEmpty(void) {
+	value = LatType::Empty;
+	force_x = 0;
+	force_y = 0;
+	burn_time = 0;
+}
+
+//Make a specific neighbour empty
+void LatElem::makeNEmpty(int nIndex) {
+	if (!(neighbours[nIndex] == NULL)) neighbours[nIndex]->makeEmpty();
 }
 
 //Return a Neighbour

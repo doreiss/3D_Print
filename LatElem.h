@@ -25,10 +25,16 @@ public:
 	void setValue(LatType);
 	//Calculate the force at this point
 	void setForce(char&);
+	//Set the force to a specific value at this point
+	void setForce(int,int);
 	//Return the direction of the force (Jensen notation)
 	int getForceDir(void);
 	//Return the magnitude of the force vector
 	double getForceMag(void);
+	//Return the x component of the force
+	int getForceX(void);
+	//Return the y component of the force
+	int getForceY(void);
 	//Get burn time
 	void setBurnTime(int);
 	//Set burn time
@@ -39,12 +45,21 @@ public:
 	LatType getValue(void);
 	//Return the values of neighbouring cells
 	LatType getNValue(int);
+	//Return the force_x value of a neighbouring cell
+	int getNForceX(int);
+	//Return the force_y value of a neighbouring cell
+	int getNForceY(int);
+	//Make an element empty
+	void makeEmpty(void);
+	//Make a neighbouring element empty
+	void makeNEmpty(int nIndex);
 	//Set the value of neighboruing cells
 	void setNeighbours(int, LatElem&);
 	//Set the neighbour pointer to be null
 	void setNullNeighbours(void); 
 	//Gets a pointer which points to neighbour i 
-	LatElem* getNeighbour(int i); 
+	LatElem* getNeighbour(int i);
+
 
 private:
 
