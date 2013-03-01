@@ -19,7 +19,7 @@ void LatElem::setValue(LatType init) {
 }
 
 //Calculates the force on a given element, given its surrounding elements
-void LatElem::setForce(char& model_type) {
+void LatElem::setForce(char model_type) {
 	if (model_type == 'g' || model_type == 'd' || model_type == 's') {
 		if (value == 0) {
 			force_x = 0;
@@ -92,7 +92,6 @@ void LatElem::setForce(char& model_type) {
 						break;
 					default:
 						cout << "If you see this, you've really broken something.\n";
-						break;
 				}
 			}
 			//x dir

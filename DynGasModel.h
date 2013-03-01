@@ -53,21 +53,34 @@ class DynGasModel : public Model {
 					}
 				}
 				else { //Look at the occupied cells around the particle and update force accordingly
-					for (int k = 0; k < 8; ++k) { 
+					for (int k = 0; k < 8; ++k) {
 						if(!(is_empty[k])) {
-							//Stuff
+							LatElem* neighbour2 = elem->getNeighbour(k);
+							int new_force_x = neighbour2->getForceX();
+							int new_force_y = neighbour2->getForceY();
+							new_force_x *= -1;
+							new_force_y *= -1;
+							neighbour2->setForce(new_force_x,new_force_y);
 						}
 					}
+					elem->setForce('d');
 				}
 			}
 		}
-
+		for(int i = 0; i < state->rowSize(); ++i) { 
+			for(int j = 0; j < state->colSize(); ++j) {
+			}
+		}
 		Lattice save = *state; 
 		system_states.addLattice(save);
+	}
 
 	void iterate(int n) { 
 		for(int i = 0; i < n; i++) { 
 			iterate(); 
 		}
 	}
+
+private:
+	int move_direction;
 } ;

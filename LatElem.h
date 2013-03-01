@@ -24,7 +24,7 @@ public:
 	//Set the value of a cell to given integer (lat gas 1 or 0)
 	void setValue(LatType);
 	//Calculate the force at this point
-	void setForce(char&);
+	void setForce(char);
 	//Set the force to a specific value at this point
 	void setForce(int,int);
 	//Return the direction of the force (Jensen notation)
@@ -73,6 +73,7 @@ private:
 	int force_y;
 	//Timer
 	int burn_time;
+	//
 };
 
 //Functions:
