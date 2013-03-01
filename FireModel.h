@@ -23,7 +23,6 @@ public:
 
 	//Iterate methods for the ForestFire
 	void iterate(void) {
-		cout << "here1" << endl; 
 		//Create a copy of the state for reference
 		Lattice* old = new Lattice(state->rowSize(),state->colSize(),LatElem::Empty);
 		old->insertSubLattice(*state,0,0); 

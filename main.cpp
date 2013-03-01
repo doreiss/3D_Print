@@ -68,8 +68,8 @@ int main() {
 	srand(time(NULL));
 	Lattice l(rows,cols,LatElem::Empty);
 	l.setSubLattice(15,15,15,15,t);
-	FireModel g(l,30,1,25,1);
-	g.iterate(100);
+	FireModel* g = new FireModel(l,30,1,25,1);
+	g->iterate(100);
 	CubeArray cube(g,2,false);
 	Polyhedron P(cube,0.0005,0.25);
 	P.print_ply("test7011001.ply");
