@@ -21,6 +21,9 @@
 #include "FireModel.h"
 #include "GasModel.h"
 
+#include "GasOptions.h"
+#include "FireOptions.h"
+
 class OptionPane : public QWidget
 {
     Q_OBJECT
@@ -39,12 +42,27 @@ class OptionPane : public QWidget
 		int getCols(void) { 
 			return cols; 
 		}
-		bool isGas(void) { 
-			return latticeTypeBool; 
-		}
 	public slots: 
-		void handleLatCheck(void) { 
-			latticeTypeBool = !latticeTypeBool;
+		void handleGasCheck(int state) { 
+			isGas = (state == 2);
+			if(isGas) { 
+				latticeDGas->setCheckState(Qt::Unchecked); 
+				latticeFire->setCheckState(Qt::Unchecked); 
+			}
+		}
+		void handleDGasCheck(int state) { 
+			isDGas = (state == 2);
+			if(isDGas) {
+				latticeGas->setCheckState(Qt::Unchecked); 
+				latticeFire->setCheckState(Qt::Unchecked);
+			}
+		}
+		void handleFireCheck(int state) {
+			isFire = (state == 2); 
+			if(isFire) { 
+				latticeGas->setCheckState(Qt::Unchecked); 
+				latticeDGas->setCheckState(Qt::Unchecked); 
+			}
 		}
 		void handleRows(int r) {
 			rows = r;	
@@ -56,30 +74,28 @@ class OptionPane : public QWidget
 			name = s.toStdString();
 		}
 		void handleApply(void) {
-			Lattice* l = new Lattice(rows,cols,LatElem::Full);
-			QMainWindow *gridWindow = new QMainWindow();
-			
-			if(latticeTypeBool) {
-				l->setSubLattice(0,rows-1,0,cols-1,LatElem::Full); 
-				l->setSubLattice(1,rows - 2,1,cols - 2,LatElem::Empty);
-				GasModel* g = new GasModel(*l);
-				GridWindow* widget = new GridWindow(g,name,NULL);
-				gridWindow->setCentralWidget(widget); 
-				gridWindow->show();
-				gridWindow->activateWindow(); 
+			QMainWindow *optionWindow = new QMainWindow();
+			if(isGas) {
+				GasOptions* widget = new GasOptions(rows,cols,name,NULL);
+				optionWindow->setCentralWidget(widget);
 			}
-			else{ 
-				l->setSubLattice(0,rows-1,0,cols-1,LatElem::Empty); 
-				FireModel* f = new FireModel(*l); 
-				GridWindow* widget = new GridWindow(f,name,NULL);
-				gridWindow->setCentralWidget(widget); 
-				gridWindow->show();
-				gridWindow->activateWindow(); 
+			else if (isFire) {
+				FireOptions* widget = new FireOptions(rows,cols,name,NULL); 
+				optionWindow->setCentralWidget(widget); 
 			}
+			else if (isDGas) {
+			}
+			optionWindow->show(); 
+			optionWindow->activateWindow(); 
 			this->hide();
 		}
 	private:
-		bool latticeTypeBool;
+		bool isGas;
+		bool isDGas; 
+		bool isFire;
+		QCheckBox* latticeGas; 
+		QCheckBox* latticeDGas; 
+		QCheckBox* latticeFire; 
 		int rows; 
 		int cols;
 		std::string name; 
@@ -93,11 +109,23 @@ class OptionPane : public QWidget
 			group->setAlignment(Qt::AlignHCenter); 
 			group->setTitle("Init Options"); 
 
-			QCheckBox* latticeType = new QCheckBox("Gas (check) / Fire");
-			latticeTypeBool = false; 
+			latticeGas = new QCheckBox("Gas"); 
+			isGas = false; 
 
-			layout->addWidget(latticeType);
-			connect(latticeType,SIGNAL(stateChanged(int)),this,SLOT(handleLatCheck())); 
+			latticeDGas = new QCheckBox("DGas");
+			isDGas = false; 
+
+			latticeFire = new QCheckBox("Fire"); 
+			isFire = false; 
+
+			layout->addWidget(latticeGas);
+			connect(latticeGas,SIGNAL(stateChanged(int)),this,SLOT(handleGasCheck(int))); 
+
+			layout->addWidget(latticeDGas);
+			connect(latticeDGas,SIGNAL(stateChanged(int)),this,SLOT(handleDGasCheck(int))); 
+
+			layout->addWidget(latticeFire);
+			connect(latticeFire,SIGNAL(stateChanged(int)),this,SLOT(handleFireCheck(int))); 
 
 			QSpinBox* noRows = new QSpinBox(); 
 			QSpinBox* noCols = new QSpinBox(); 

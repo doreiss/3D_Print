@@ -26,7 +26,14 @@ public:
 		//Create a copy of the state for reference
 		Lattice* old = new Lattice(state->rowSize(),state->colSize(),LatElem::Empty);
 		old->insertSubLattice(*state,0,0); 
-		
+		for(int i = 0; i < state->rowSize(); ++i) { 
+			for(int j = 0; j < state->colSize(); ++j) { 
+				LatElem* oldelem = old->getElement(i,j); 
+				LatElem* elem = state->getElement(i,j); 
+				oldelem->setBurnTime(elem->getBurnTime()); 
+			} 
+		}
+
 		//Loop through the lattice
 		for(int i = 0; i < state->rowSize(); ++i) { 
 			for(int j = 0; j < state->colSize(); ++j) {
@@ -89,6 +96,7 @@ public:
 
 				case LatElem::Burning: //If the current element burning
 					int burn_time = oldelem->getBurnTime(); //How long has it been burning
+					cout << burn_time << endl ;
 					burn_time--;
 					if (burn_time == 0) { //Is it time to stop burning?
 						elem->setValue(LatElem::Empty);

@@ -127,7 +127,7 @@ void Lattice::insertSubLattice(Lattice L, int topLeftRow, int topLeftCol) {
 		corresponds to point of insertion */
 	for (int i = 0; i < L.rowSize(); i++) { 
 		for (int j = 0; j < L.colSize(); j++) { 
-			setElement(topLeftRow+i, topLeftCol+j, L.getElemVal(i,j)); 
+			setElement(topLeftRow+i, topLeftCol+j, L.getElemVal(i,j));
 		} 
 	} 
 }
@@ -143,7 +143,7 @@ void Lattice::updateForces(char model_type) {
 
 //Set the value of a lattice element
 void Lattice::setElement(int rowInd, int colInd, LatElem::LatType init) {
-	getElement(rowInd,colInd)->setValue(init); 
+	getElement(rowInd,colInd)->setValue(init);
 }
 
 //Return the value of a lattice element

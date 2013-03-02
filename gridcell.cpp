@@ -45,16 +45,18 @@ Qt::GlobalColor GridCell::getColorForCellType()
     switch(this->elem->getValue())
     {
 	case LatElem::Empty:
-            return Qt::white;
+        return Qt::white;
 	case LatElem::Full:
-			for(int i = 0; i < 8 ; i++) { 
-				if(this->elem->getNeighbour(i) == NULL){ 
-					return Qt::gray; 
-				}
+		for(int i = 0; i < 8 ; i++) { 
+			if(this->elem->getNeighbour(i) == NULL){ 
+				return Qt::gray; 
 			}
-            return Qt::cyan;
-		default: 
-			return Qt::black; 
+		}
+        return Qt::green;
+	case LatElem::Burning: 
+		return Qt::red; 
+	default: 
+		return Qt::black; 
     }
 }
 
