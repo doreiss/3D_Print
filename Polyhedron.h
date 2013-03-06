@@ -23,7 +23,9 @@ public:
 	//Returns a pointer to the vertex of a given index
 	Vec3* getVertex(int);
 	//Returns a pointer to the face of a given index
-	Face* getFace(int); 
+	Face* getFace(int);
+	//Stretches the char 'x' == row, 'y' == col, 't' == time dimension by factor stretch
+	void stretchDim(char,double);
 	//Constructs the verticies and faces of 2 triangle faces whcih together form a square in the polyhedron
 	//Takes the row, col, stack index, face index and cubeSize, triangulates that cube face and adds it to the polyhedron
 	void constructVF(int,int,int,int,double);

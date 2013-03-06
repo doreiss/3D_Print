@@ -154,6 +154,7 @@ void GridWindow::handleExport() {
 	cout << "done!" << endl; 
 	cout << "Constructing polyhedron ... "; 
 	Polyhedron poly(cArr, 0.0005, 1.0);
+	poly.stretchDim('t',2.0); 
 	cout << "done!" << endl; 
 	cout << "Exporting geometry ... "; 
 	cout << "stl ... "; 

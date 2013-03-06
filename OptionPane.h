@@ -29,9 +29,13 @@ class OptionPane : public QWidget
     Q_OBJECT
 
 	public:
+		enum ModelType { 
+			Gas,
+			Fire,
+			DGas
+		};
 		OptionPane(QWidget *parent = NULL) {
 			init();
-			
 		}
 		std::string getName(void) { 
 			return name; 
@@ -44,22 +48,22 @@ class OptionPane : public QWidget
 		}
 	public slots: 
 		void handleGasCheck(int state) { 
-			isGas = (state == 2);
-			if(isGas) { 
+			if (state == 2) type = Gas;
+			if(type == Gas) { 
 				latticeDGas->setCheckState(Qt::Unchecked); 
 				latticeFire->setCheckState(Qt::Unchecked); 
 			}
 		}
 		void handleDGasCheck(int state) { 
-			isDGas = (state == 2);
-			if(isDGas) {
+			if(state == 2) type = DGas;
+			if(type == DGas) {
 				latticeGas->setCheckState(Qt::Unchecked); 
 				latticeFire->setCheckState(Qt::Unchecked);
 			}
 		}
 		void handleFireCheck(int state) {
-			isFire = (state == 2); 
-			if(isFire) { 
+			if(state == 2) type = Fire; 
+			if(type == Fire) { 
 				latticeGas->setCheckState(Qt::Unchecked); 
 				latticeDGas->setCheckState(Qt::Unchecked); 
 			}
@@ -70,34 +74,33 @@ class OptionPane : public QWidget
 		void handleCols(int c) { 
 			cols = c; 
 		}
+		void handleNumTimes(int n) { 
+			numT = n; 
+		}
 		void handleName(QString s) { 
 			name = s.toStdString();
 		}
 		void handleApply(void) {
 			QMainWindow *optionWindow = new QMainWindow();
-			if(isGas) {
+			if(type == Gas){
 				GasOptions* widget = new GasOptions(rows,cols,name,NULL);
 				optionWindow->setCentralWidget(widget);
 			}
-			else if (isFire) {
+			if(type == Fire) { 
 				FireOptions* widget = new FireOptions(rows,cols,name,NULL); 
-				optionWindow->setCentralWidget(widget); 
+				optionWindow->setCentralWidget(widget);
 			}
-			else if (isDGas) {
-			}
-			optionWindow->show(); 
 			optionWindow->activateWindow(); 
+			optionWindow->show(); 
+			
 			this->hide();
 		}
 	private:
-		bool isGas;
-		bool isDGas; 
-		bool isFire;
+		ModelType type;
 		QCheckBox* latticeGas; 
 		QCheckBox* latticeDGas; 
 		QCheckBox* latticeFire; 
-		int rows; 
-		int cols;
+		int rows, cols, numT; 
 		std::string name; 
 		void init(void) { 
 			QVBoxLayout *layout = new QVBoxLayout(); 
@@ -109,14 +112,14 @@ class OptionPane : public QWidget
 			group->setAlignment(Qt::AlignHCenter); 
 			group->setTitle("Init Options"); 
 
-			latticeGas = new QCheckBox("Gas"); 
-			isGas = false; 
-
+			latticeGas = new QCheckBox("Gas");  
 			latticeDGas = new QCheckBox("DGas");
-			isDGas = false; 
+			latticeFire = new QCheckBox("Fire");
 
-			latticeFire = new QCheckBox("Fire"); 
-			isFire = false; 
+			latticeGas->setCheckState(Qt::Checked); 
+			latticeDGas->setCheckState(Qt::Unchecked); 
+			latticeFire->setCheckState(Qt::Unchecked); 
+			type = Gas; 
 
 			layout->addWidget(latticeGas);
 			connect(latticeGas,SIGNAL(stateChanged(int)),this,SLOT(handleGasCheck(int))); 
@@ -156,7 +159,7 @@ class OptionPane : public QWidget
 
 			connect(nameLine,SIGNAL(textChanged(QString)),this,SLOT(handleName(QString)));
 
-			QPushButton* applyButton = new QPushButton("Apply");
+			QPushButton* applyButton = new QPushButton("Apply Single");
 			layout->addWidget(applyButton); 
 
 			connect(applyButton,SIGNAL(clicked()),this,SLOT(handleApply(void))); 

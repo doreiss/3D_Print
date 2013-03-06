@@ -52,6 +52,33 @@ Vec3* Polyhedron::getVertex(int i) {
 	return &(vert[i]); 
 }
 
+void Polyhedron::stretchDim(char dim, double stretch) {
+	if(dim == 'x') {
+		for(int i = 0; i < vert.size(); i++) { 
+			double newX = vert[i].getX(); 
+			newX *= stretch; 
+			vert[i].setX(newX);
+		}
+	}
+	else if (dim == 'y') { 
+		for(int i = 0; i < vert.size(); i++) { 
+			double newY = vert[i].getY(); 
+			newY *= stretch; 
+			vert[i].setY(newY);
+		} 
+	}
+	else if (dim == 't') { 
+		for(int i = 0; i < vert.size(); i++) { 
+			double newZ = vert[i].getZ(); 
+			newZ *= stretch; 
+			vert[i].setZ(newZ); 
+		}
+	}
+	else { 
+		cout << "Not a valid dimension in Polyhedron::stretchDim ... " << endl; 
+	}
+}
+
 Face* Polyhedron::getFace(int i) {
 	return &(faces[i]); 
 }
