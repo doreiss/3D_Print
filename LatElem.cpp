@@ -54,71 +54,67 @@ void LatElem::setForce(char model_type) {
 			}
 		}
 		else if (model_type == 'd') {
+			//Start with no force on the particle
+			force_x = 0;
+			force_y = 0;
 			//are the selection of cells empty? 
-			int right = 0; //7,0,1
-			int left = 0; //3,4,5
-			int top = 0; //1,2,3
-			int bottom = 0; //5,6,7
 			for(int i = 0; i <= 7; ++i) {
 				int val = getNValue(i);
+				//Force update criteria:
+				if (val == NULL) {
+					val = 1;
+				}
+				else if (val == LatType::Full) {
+					val = 1;
+				}
+				else {
+					val = 0;
+				}
 				switch (i) {
 					case 0:
-						right += val;
+						force_x -= val;
 						break;
 					case 1:
-						right += val;
-						top += val;
+						force_x -= val;
+						force_y -= val;
 						break;
 					case 2:
-						top += val;
+						force_y -= val;
 						break;
 					case 3:
-						top += val;
-						left += val;
+						force_x += val;
+						force_y -= val;
 						break;
 					case 4:
-						left += val;
+						force_x += val;
 						break;
 					case 5:
-						left += val;
-						bottom += val;
+						force_x += val;
+						force_y += val;
 						break;
 					case 6:
-						bottom += val;
+						force_y += val;
 						break;
 					case 7:
-						bottom += val;
-						right += val;
+						force_x -= val;
+						force_y += val;
 						break;
 					default:
-						cout << "If you see this, you've really broken something.\n";
+						cout << "If you see this, something is broken.\n";
 				}
 			}
-			//x dir
-			if (right == 0 && left > 0) {
+			//"Normalize"
+			if (force_x > 1) {
 				force_x = 1;
 			}
-			else if (right > 0 && left == 0) {
+			else if (force_x < -1) {
 				force_x = -1;
 			}
-			else if (right == 0 && left == 0) {
-				force_x = force_x; //do nothing
-			}
-			else {
-				force_x = 0;
-			}
-			//y dir
-			if (top == 0 && bottom > 0) {
+			if (force_y > 1) {
 				force_y = 1;
 			}
-			else if (top > 0 && bottom == 0) {
+			else if (force_y < 1) {
 				force_y = -1;
-			}
-			else if (top == 0 && bottom == 0) {
-				force_y = force_y; //do nothing
-			}
-			else {
-				force_y = 0;
 			}
 		}
 	}

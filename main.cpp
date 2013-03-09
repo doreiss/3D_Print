@@ -43,12 +43,15 @@ int main() {
 	//cout << "\n\nNumber of lines: " << fileLines() << "\n";
 	*/
 
-	int rows = 50;
-	int cols = 50;
+	int rows = 5;
+	int cols = 5;
 	LatElem::LatType t = LatElem::Full;
 	srand(time(NULL));
 	Lattice l(rows,cols,LatElem::Empty);
-	l.setSubLattice(25,26,25,26,t);
+	l.setElement(0,0,t);
+	l.setElement(4,4,t);
+	l.setElement(0,4,t);
+	l.setElement(4,0,t);
 	DynGasModel* g = new DynGasModel(l);
 	g->iterate(10);
 	CubeArray cube(g,3,false);

@@ -73,7 +73,6 @@ private:
 	int force_y;
 	//Timer
 	int burn_time;
-	//
 };
 
 //Functions:
