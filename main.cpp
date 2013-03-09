@@ -7,6 +7,7 @@
 #include "Model.h"
 #include "GasModel.h"
 #include "FireModel.h"
+#include "DynGasModel.h"
 #include "CubeArray.h" 
 #include "CubeElem.h"
 #include "Polyhedron.h"
@@ -14,26 +15,6 @@
 
 using namespace std; 
 int main() {
-	/*
-	//Some test cases for flow objects
-	Lattice l1(10,10,LatElem::Full);
-	Lattice l2(10,10,LatElem::Empty);
-
-	Flow f1(l1,true);
-	f1.addLattice(l2);
-
-	Lattice test = f1.getLattice();
-	test.print();
-
-	test = f1.getLattice(0);
-	test.print();
-
-	test = f1.getLattice(-1);
-	test.print();
-
-	test = f1.getLattice(2);
-	test.print();
-	*/
 
 	//Some test cases for the lattice, does it work ok?
 	//This section below does not work - fix this, check constructor of lattice given a flow object/file
@@ -62,17 +43,17 @@ int main() {
 	//cout << "\n\nNumber of lines: " << fileLines() << "\n";
 	*/
 
-	int rows = 101; 
-	int cols = 101; 
+	int rows = 50;
+	int cols = 50;
 	LatElem::LatType t = LatElem::Full;
 	srand(time(NULL));
 	Lattice l(rows,cols,LatElem::Empty);
-	l.setSubLattice(15,15,15,15,t);
-	FireModel* g = new FireModel(l,30,1,25,1);
-	g->iterate(100);
-	CubeArray cube(g,2,false);
+	l.setSubLattice(25,26,25,26,t);
+	DynGasModel* g = new DynGasModel(l);
+	g->iterate(10);
+	CubeArray cube(g,3,false);
 	Polyhedron P(cube,0.0005,0.25);
-	P.print_ply("test7011001.ply");
+	P.print_ply("dyngas2020test.ply");
 
 	return 0; 
 }

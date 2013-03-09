@@ -54,21 +54,21 @@ Vec3* Polyhedron::getVertex(int i) {
 
 void Polyhedron::stretchDim(char dim, double stretch) {
 	if(dim == 'x') {
-		for(int i = 0; i < vert.size(); i++) { 
+		for(unsigned int i = 0; i < vert.size(); i++) { 
 			double newX = vert[i].getX(); 
 			newX *= stretch; 
 			vert[i].setX(newX);
 		}
 	}
 	else if (dim == 'y') { 
-		for(int i = 0; i < vert.size(); i++) { 
+		for(unsigned int i = 0; i < vert.size(); i++) { 
 			double newY = vert[i].getY(); 
 			newY *= stretch; 
 			vert[i].setY(newY);
 		} 
 	}
 	else if (dim == 't') { 
-		for(int i = 0; i < vert.size(); i++) { 
+		for(unsigned int i = 0; i < vert.size(); i++) { 
 			double newZ = vert[i].getZ(); 
 			newZ *= stretch; 
 			vert[i].setZ(newZ); 

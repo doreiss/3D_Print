@@ -2,6 +2,7 @@
 #include "Model.h"
 
 class DynGasModel : public Model {
+public:
 	//Constructors
 	DynGasModel() : Model() {}
 	DynGasModel(Lattice& l) : Model(l) {}
@@ -9,7 +10,6 @@ class DynGasModel : public Model {
 	//Iterate method for the dynamic gas model
 	void iterate(void) {
 		state->updateForces('d'); //Update the forces in each cell
-		//cout << "here2" << endl; 
 		for(int i = 0; i < state->rowSize(); ++i) { 
 			for(int j = 0; j < state->colSize(); ++j) { //look at /all/ cells
 				LatElem* elem = state->getElement(i,j);  //get the element where iterator is
@@ -17,20 +17,31 @@ class DynGasModel : public Model {
 				vector<bool> is_empty;
 				for (int k = 0; k < 8; ++k) {
 					LatElem* neighbour = elem->getNeighbour(k);
-					bool empty_test = neighbour->isEmpty();
-					is_empty.push_back(empty_test);			
-					if (!(empty_test)) {	
-						int force_dir = neighbour->getForceDir();
-						//count the number of neighbour wanting to enter the cell
-						if (force_dir = (k+4) && k <= 3) {
-							++entering;
+					if(neighbour != NULL) {
+						bool empty_test = neighbour->isEmpty();
+						is_empty.push_back(empty_test);			
+						if (!(empty_test)) { //is the neighbour empty? if so let the cell know
+							int force_dir = neighbour->getForceDir();
+							//count the number of neighbour wanting to enter the cell
+							if (k <= 3 && force_dir == (k-4)) {
+								++entering;
+							}
+							else if (k > 3 && force_dir == (k-4)) {
+								++entering;
+							}
 						}
-						else if (force_dir = (k-4) && k > 3) {
-							++entering;
-						}
+
+					}
+					else {
+						is_empty.push_back(false);
 					}
 				}
 				is_empty.push_back(elem->isEmpty()); //is the centre cell empty?
+				/* Up to here is fine. We then know:
+					What particles are full around the cell
+					What particles want to enter the cell
+				*/
+
 				if(is_empty[8]) {
 					for (int k = 0; k < 8; ++k) {
 						if (entering > 1) { //more than one particle wants to enter
@@ -67,20 +78,14 @@ class DynGasModel : public Model {
 				}
 			}
 		}
-		for(int i = 0; i < state->rowSize(); ++i) { 
-			for(int j = 0; j < state->colSize(); ++j) {
-			}
-		}
 		Lattice save = *state; 
 		system_states.addLattice(save);
 	}
 
 	void iterate(int n) { 
 		for(int i = 0; i < n; i++) { 
+			cout << (i + 1) << '\n';
 			iterate(); 
 		}
 	}
-
-private:
-	int move_direction;
 } ;
