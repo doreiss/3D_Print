@@ -58,7 +58,7 @@ void LatElem::setForce(char model_type) {
 			force_x = 0;
 			force_y = 0;
 			//are the selection of cells empty? 
-			for(int i = 0; i <= 7; ++i) {
+			for(int i = 0; i < 8; ++i) {
 				int val = getNValue(i);
 				//Force update criteria:
 				if (val == NULL) {
@@ -110,11 +110,17 @@ void LatElem::setForce(char model_type) {
 			else if (force_x < -1) {
 				force_x = -1;
 			}
+			else {
+				force_x = 0;
+			}
 			if (force_y > 1) {
 				force_y = 1;
 			}
 			else if (force_y < 1) {
 				force_y = -1;
+			}
+			else {
+				force_y = 0;
 			}
 		}
 	}

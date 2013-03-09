@@ -17,6 +17,7 @@ public:
 				int entering = 0; //number of particles wanting to enter the cell
 				vector<bool> is_empty;
 				for (int k = 0; k < 8; ++k) {
+					entering = 0;
 					LatElem* neighbour = elem->getNeighbour(k);
 					if(neighbour != NULL) {
 						bool empty_test = neighbour->isEmpty();
@@ -42,6 +43,7 @@ public:
 					What particles are full around the cell incl cell itself
 					What particles want to enter the cell
 				*/
+				cout << elem->getForceX() << " " << elem->getForceY() << '\n';
 				if(is_empty[8]) { //if there is no particle here
 					if (entering > 1) { //more than one particle wants to enter
 						for (int k = 0; k < 8; ++k) {
@@ -91,8 +93,9 @@ public:
 	}
 
 	void iterate(int n) { 
-		for(int i = 0; i < n; i++) { 
+		for(int i = 0; i < n; i++) {
 			cout << (i + 1) << '\n';
+			//state->print();
 			iterate(); 
 		}
 	}
