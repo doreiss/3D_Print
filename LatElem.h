@@ -27,6 +27,8 @@ public:
 	void setForce(char);
 	//Set the force to a specific value at this point
 	void setForce(int,int);
+	//Set the force of a neighbour?
+	void setNForce(int,int,int);
 	//Return the direction of the force (Jensen notation)
 	int getForceDir(void);
 	//Return the magnitude of the force vector
@@ -44,7 +46,7 @@ public:
 	//Return the value of the cell
 	LatType getValue(void);
 	//Return the values of neighbouring cells
-	LatType getNValue(int);
+	LatType getNValue(int,char = 'g');
 	//Return the force_x value of a neighbouring cell
 	int getNForceX(int);
 	//Return the force_y value of a neighbouring cell

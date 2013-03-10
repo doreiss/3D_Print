@@ -21,11 +21,11 @@ void LatElem::setValue(LatType init) {
 //Calculates the force on a given element, given its surrounding elements
 void LatElem::setForce(char model_type) {
 	if (model_type == 'g' || model_type == 'd' || model_type == 's') {
-		if (value == 0) {
+		if (value == LatElem::Empty) {
 			force_x = 0;
 			force_y = 0;
 		}
-		if (model_type == 'g' || model_type == 's') {
+		else if (model_type == 'g' || model_type == 's') {
 			force_x = getNValue(4) - getNValue(0); 
 			force_y = getNValue(6) - getNValue(2);
 			if (model_type == 's') { //Strongest side wins - leaving in incase useful
@@ -59,16 +59,16 @@ void LatElem::setForce(char model_type) {
 			force_y = 0;
 			//are the selection of cells empty? 
 			for(int i = 0; i < 8; ++i) {
-				int val = getNValue(i);
+				int val = getNValue(i,'d');
 				//Force update criteria:
-				if (val == NULL) {
-					val = 1;
+				if (val == LatType::Empty) {
+					val = 0;
 				}
 				else if (val == LatType::Full) {
 					val = 1;
 				}
-				else {
-					val = 0;
+				else if (val == NULL) { //assume boundary of occupied cells
+					val = 1;
 				}
 				switch (i) {
 					case 0:
@@ -132,9 +132,14 @@ void LatElem::setForce(char model_type) {
 }
 
 //Sets to the force of an element to be a given value
-void LatElem::setForce(int x, int y){
+void LatElem::setForce(int x, int y) {
 	force_x = x;
 	force_y = y;
+}
+
+//Sets the force of an elements neighbour to a given value
+void LatElem::setNForce(int nIndex, int x, int y) {
+	neighbours[nIndex]->setForce(x,y);
 }
 
 //Returns the direction of the force
@@ -185,8 +190,18 @@ LatElem::LatType LatElem::getValue(void) {
 }
 
 //Return the value of the one of the neighbours
-LatElem::LatType LatElem::getNValue(int nIndex) {
-	if (neighbours[nIndex] == NULL) return LatElem::Empty; 
+LatElem::LatType LatElem::getNValue(int nIndex, char model) {
+	if (neighbours[nIndex] == NULL) {
+		if (model == 'd') {
+			return LatElem::Full; 
+		}
+		else if (model = 'g') {
+			return LatElem::Empty; 
+		}
+		else {
+			return LatElem::Empty; 
+		}
+	}
 	return neighbours[nIndex]->getValue(); 
 }
 
