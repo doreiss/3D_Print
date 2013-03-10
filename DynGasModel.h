@@ -1,6 +1,5 @@
 #pragma once
 #include <algorithm>
-#include <cstdlib>
 #include "Model.h"
 
 class DynGasModel : public Model {
@@ -53,8 +52,6 @@ public:
 					What particles are full around the cell incl cell itself
 					What particles want to enter the cell
 				*/
-				cout << is_empty.size() << '\t' << entering.size() << '\n';
-				system("Pause");
 				int numEntering = count(entering.begin(),entering.end(),true); //number of trues in entering
 				if(is_empty[8]) { //if there is no particle here
 					if (numEntering > 1) { //more than one particle wants to enter
@@ -72,7 +69,7 @@ public:
 					else if (numEntering == 1) { //exactly one particle wants to enter
 						for (int k = 0; k < 8; ++k) {
 							if(is_empty[k] == false && entering[k] == true) { //carry forces over
-								elem->setValue(elem->getNValue(k));
+								elem->setValue(elem->getNValue(k,'d'));
 								elem->setForce(elem->getNForceX(k),elem->getNForceY(k));
 								elem->makeNEmpty(k);
 							}
