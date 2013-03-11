@@ -12,86 +12,154 @@ public:
 
 	//Iterate method for the dynamic gas model
 	void iterate(void) {
+		//Lattice dimensions
 		int numRows = state->rowSize();
 		int numCols = state->colSize();
-		for(int i = 0; i < numRows; ++i) { 
-			for(int j = 0; j < numCols; ++j) { //look at /all/ cells
+		//Are the cells around empty?
+		vector<bool> is_empty_base (numCols+2,false);
+		vector<vector<bool>> is_empty (numRows+2,is_empty_base);
+		//Are the cells around a point entering?
+		vector<bool> entering_base (8,false);
+		vector<vector<bool>> entering_base2 (numCols+2,entering_base);
+		vector<vector<vector<bool>>> entering (numRows+2,entering_base2);
+		//How many cells want to enter?
+		vector<int> num_entering_base (numCols+2,0);
+		vector<vector<int>> num_entering (numRows+2,num_entering_base);
+		//First loop
+		for(int j = 1; j <= numRows; ++j) { 
+			for(int i = 1; i <= numCols; ++i) { //look at /all/ cells
 				LatElem* elem = state->getElement(i,j);  //get the element where iterator is
 				//cout << elem->getForceX() << "," << elem->getForceY() << "\t";
-				vector<bool> is_empty; //is the neighbour empty?
-				vector<bool> entering; //is the neighbour wanting to enter the cell?
-				for (int k = 0; k < 8; ++k) {
-					LatElem* neighbour = elem->getNeighbour(k);
-					if(neighbour != NULL) {
-						bool empty_test = neighbour->isEmpty();
-						is_empty.push_back(empty_test);			
-						if (!(empty_test)) { //is the neighbour empty? if so let the cell know
-							int force_dir = neighbour->getForceDir();
-							//count the number of neighbour wanting to enter the cell
-							if (k <= 3 && force_dir == (k+4)) {
-								entering.push_back(true);
-							}
-							else if (k > 3 && force_dir == (k-4)) {
-								entering.push_back(true);
-							}
-							else {
-								entering.push_back(false);
+				if(elem->isEmpty()) {
+					is_empty[i][j] = true;
+				}
+				for(int k = 0; k < 8; ++k) {
+					if(elem->getNValue(k) == LatElem::LatType::Full) {
+						int force_dir= elem->getNForceDir(k);
+						if (k < 4) {
+							if ((force_dir-4) == k) {
+								entering[i][j][k] = true;
+								num_entering[i][j] += 1;
 							}
 						}
 						else {
-							entering.push_back(false);
-						}
-					}
-					else {
-						is_empty.push_back(false);
-						entering.push_back(false);
-					}
-				}
-				is_empty.push_back(elem->isEmpty()); //is the centre cell empty?
-				/* Up to here is fine. We then know:
-					What particles are full around the cell incl cell itself
-					What particles want to enter the cell
-				*/
-				int numEntering = count(entering.begin(),entering.end(),true); //number of trues in entering
-				if(is_empty[8]) { //if there is no particle here
-					if (numEntering > 1) { //more than one particle wants to enter
-						for (int k = 0; k < 8; ++k) {
-							if(is_empty[k] == false && entering[k] == true) { //reflect all the particles around the box
-								int new_force_x = elem->getNForceX(k);
-								int new_force_y = elem->getNForceY(k);
-								new_force_x *= -1;
-								new_force_y *= -1;
-								elem->setNForce(k,new_force_x,new_force_y);
-								//set the neighbour force
-							}
-						}
-					} 
-					else if (numEntering == 1) { //exactly one particle wants to enter
-						for (int k = 0; k < 8; ++k) {
-							if(is_empty[k] == false && entering[k] == true) { //carry forces over
-								elem->setValue(elem->getNValue(k,'d'));
-								elem->setForce(elem->getNForceX(k),elem->getNForceY(k));
-								elem->makeNEmpty(k);
-							}
-						}
-					}
-				}
-				else { //Look at the occupied cells around the particle and update force accordingly
-					for (int k = 0; k < 8; ++k) {
-						if(is_empty[k] == false && entering[k] == true) {
-							LatElem* neighbour2 = elem->getNeighbour(k);
-							if (neighbour2 != NULL) {
-								int new_force_x = elem->getNForceX(k);
-								int new_force_y = elem->getNForceY(k);
-								new_force_x *= -1;
-								new_force_y *= -1;
-								elem->setNForce(k,new_force_x,new_force_y);
+							if ((k-4) == force_dir) {
+								entering[i][j][k] = true;
+								num_entering[i][j] += 1;
 							}
 						}
 					}
 				}
 			}
-			//cout << "\n";
+			//cout << '\n';
+		}
+		/* We then know:
+			If particle empty:
+				-Is more than one particle wanting to enter? If so reflect them.
+				-If not, then move the new particle inside
+			If particle full:
+				-Does a particle want to enter? If so reflect it
+				-Make the center particle move change direction
+		*/
+		//Second loop
+		for(int j = 1; j <= numRows; ++j) { 
+			for(int i = 1; i <= numCols; ++i) { //look at /all/ cells
+				LatElem* elem = state->getElement(i,j);
+				if(is_empty[i][j]) { //if there is no particle here
+					for(int k = 0; k < 8; ++k) {
+						if (entering[i][j][k]) {
+							int newNForce_x = elem->getNForceX(k);
+							int newNForce_y = elem->getNForceY(k);
+							if (num_entering[i][j] == 1) {
+								elem->setForce(newNForce_x,newNForce_y);
+								elem->setValue(LatElem::LatType::Full);
+								elem->makeNEmpty(k);
+							}
+							else if (num_entering[i][j] > 1) {
+								newNForce_x *= -1;
+								newNForce_y *= -1;
+								elem->setNForce(k,newNForce_x,newNForce_y);
+							}
+						}
+					}
+				}
+				else {
+					int newForce_x = 0;
+					int newForce_y = 0;
+					bool change_x = false;
+					bool change_y = false;
+					for(int k = 0; k < 8; ++k) {
+						if (entering[i][j][k]) {
+							int newNForce_x = elem->getNForceX(k);
+							int newNForce_y = elem->getNForceY(k);
+							newNForce_x *= -1;
+							newNForce_y *= -1;
+							elem->setNForce(k,newNForce_x,newNForce_y);
+							switch (k) {
+							case 0:
+								newForce_x -= 1;
+								change_x = true;
+								break;
+							case 1:
+								newForce_x -= 1;
+								newForce_y -= 1;
+								change_x = true;
+								change_y = true;
+							case 2:
+								newForce_y -= 1;
+								change_y = true;
+								break;
+							case 3:
+								newForce_x += 1;
+								newForce_y -= 1;
+								change_x = true;
+								change_y = true;
+								break;
+							case 4:
+								newForce_x += 1;
+								change_x = true;
+								break;
+							case 5:
+								newForce_x += 1;
+								newForce_y += 1;
+								change_x = true;
+								change_y = true;
+								break;
+							case 6:
+								newForce_y += 1;
+								change_y = true;
+								break;
+							case 7:
+								newForce_x -= 1;
+								newForce_y += 1;
+								change_x = true;
+								change_y = true;
+								break;
+							default:
+								cout << "Something has broken, check syntax!\n";
+							}
+						}
+					}
+					if (change_x) {
+						if(newForce_x > 1) {
+							newForce_x = 1;
+						}
+						else if(newForce_x < 1) {
+							newForce_x = -1;
+						}
+						elem->setForce(newForce_x,elem->getForceX());
+					}
+					if (change_y) {								
+						if(newForce_y > 1) {
+							newForce_x = 1;
+						}
+						else if(newForce_y < 1) {
+							newForce_x = -1;
+						}
+						elem->setForce(elem->getForceY(),newForce_y);
+					}
+				}
+			}
 		}
 		Lattice save = *state; 
 		system_states.addLattice(save);
@@ -100,7 +168,7 @@ public:
 	void iterate(int n) { 
 		for(int i = 0; i < n; i++) {
 			cout << (i + 1) << '\n';
-			state->print();
+			//state->print();
 			iterate(); 
 		}
 	}

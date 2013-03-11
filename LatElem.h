@@ -31,6 +31,8 @@ public:
 	void setNForce(int,int,int);
 	//Return the direction of the force (Jensen notation)
 	int getForceDir(void);
+	//Return the direction of the neighbour's force (Jensen notation)
+	int getNForceDir(int);
 	//Return the magnitude of the force vector
 	double getForceMag(void);
 	//Return the x component of the force

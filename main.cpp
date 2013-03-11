@@ -43,17 +43,17 @@ int main() {
 	//cout << "\n\nNumber of lines: " << fileLines() << "\n";
 	*/
 
-	int rows = 5;
-	int cols = 5;
+	int rows = 25;
+	int cols = 25;
 	LatElem::LatType t = LatElem::Full;
 	srand(time(NULL));
 	Lattice l(rows,cols,LatElem::Empty);
 	l.setElement(0,0,t);
-	l.setElement(4,4,t);
-	l.setElement(0,4,t);
-	l.setElement(4,0,t);
+	l.setElement((rows-1),(cols-1),t);
+	l.setElement(0,(cols-1),t);
+	l.setElement((rows-1),0,t);
 	DynGasModel* g = new DynGasModel(l);
-	g->iterate(10);
+	g->iterate(25);
 	CubeArray cube(g,3,false);
 	Polyhedron P(cube,0.0005,0.25);
 	P.print_ply("dyngas2020test.ply");

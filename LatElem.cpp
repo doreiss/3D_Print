@@ -148,6 +148,12 @@ int LatElem::getForceDir(void) {
 	return forceDir;
 }
 
+//Returns the force direction of a neighbour
+int LatElem::getNForceDir(int nIndex) {
+	int forceDir = neighbours[nIndex]->getForceDir();
+	return forceDir;
+}
+
 //Returns the magnitude of the force
 double LatElem::getForceMag(void) {
 	double forceMag = (force_x*force_x + force_y*force_y);
