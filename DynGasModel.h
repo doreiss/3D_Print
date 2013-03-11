@@ -28,7 +28,7 @@ public:
 		//First loop
 		for(int j = 1; j <= numRows; ++j) { 
 			for(int i = 1; i <= numCols; ++i) { //look at /all/ cells
-				LatElem* elem = state->getElement(i,j);  //get the element where iterator is
+				LatElem* elem = state->getElement((i-1),(j-1));  //get the element where iterator is
 				//cout << elem->getForceX() << "," << elem->getForceY() << "\t";
 				if(elem->isEmpty()) {
 					is_empty[i][j] = true;
@@ -64,7 +64,7 @@ public:
 		//Second loop
 		for(int j = 1; j <= numRows; ++j) { 
 			for(int i = 1; i <= numCols; ++i) { //look at /all/ cells
-				LatElem* elem = state->getElement(i,j);
+				LatElem* elem = state->getElement((i-1),(j-1));
 				if(is_empty[i][j]) { //if there is no particle here
 					for(int k = 0; k < 8; ++k) {
 						if (entering[i][j][k]) {
@@ -89,13 +89,15 @@ public:
 					bool change_x = false;
 					bool change_y = false;
 					for(int k = 0; k < 8; ++k) {
-						if (entering[i][j][k]) {
+						if (entering[i][j][k]) { //is a particle trying to enter the cell?
 							int newNForce_x = elem->getNForceX(k);
 							int newNForce_y = elem->getNForceY(k);
 							newNForce_x *= -1;
 							newNForce_y *= -1;
 							elem->setNForce(k,newNForce_x,newNForce_y);
-							switch (k) {
+						}
+						if(elem->isNEmpty(k)) {
+							switch (k) { //now adjust where the particle is going based on what cells around it are full
 							case 0:
 								newForce_x -= 1;
 								change_x = true;
@@ -105,6 +107,7 @@ public:
 								newForce_y -= 1;
 								change_x = true;
 								change_y = true;
+								break;
 							case 2:
 								newForce_y -= 1;
 								change_y = true;
@@ -139,7 +142,7 @@ public:
 								cout << "Something has broken, check syntax!\n";
 							}
 						}
-					}
+					}		
 					if (change_x) {
 						if(newForce_x > 1) {
 							newForce_x = 1;
@@ -147,16 +150,16 @@ public:
 						else if(newForce_x < 1) {
 							newForce_x = -1;
 						}
-						elem->setForce(newForce_x,elem->getForceX());
+						elem->setForce(newForce_x,elem->getForceY());
 					}
 					if (change_y) {								
 						if(newForce_y > 1) {
-							newForce_x = 1;
+							newForce_y = 1;
 						}
 						else if(newForce_y < 1) {
-							newForce_x = -1;
+							newForce_y = -1;
 						}
-						elem->setForce(elem->getForceY(),newForce_y);
+						elem->setForce(elem->getForceX(),newForce_y);
 					}
 				}
 			}

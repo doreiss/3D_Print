@@ -45,6 +45,8 @@ public:
 	int getBurnTime(void);
 	//Is the lattice element empty? - Will simplify some code later
 	bool isEmpty(void);
+	//Is the neighbour element empty?
+	bool isNEmpty(int);
 	//Return the value of the cell
 	LatType getValue(void);
 	//Return the values of neighbouring cells
@@ -56,7 +58,7 @@ public:
 	//Make an element empty
 	void makeEmpty(void);
 	//Make a neighbouring element empty
-	void makeNEmpty(int nIndex);
+	void makeNEmpty(int);
 	//Set the value of neighboruing cells
 	void setNeighbours(int, LatElem&);
 	//Set the neighbour pointer to be null

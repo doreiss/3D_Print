@@ -181,11 +181,23 @@ int LatElem::getBurnTime(void) {
 	return burn_time;
 }
 
-//Return true if the lattice element has Latype::Empty
+//Return true if the lattice element has LatType::Empty
 bool LatElem::isEmpty(void) {
 	bool toreturn = false;
 	if (getValue() == Empty) {
 		toreturn = true;
+	}
+	return toreturn;
+}
+
+//Return true if the neighbour element has LatType::Empty
+bool LatElem::isNEmpty(int k) {
+	bool toreturn = false;
+	if (getNValue(k) == Empty) {
+		toreturn == true;
+	}
+	else if (getNValue(k) == NULL) {
+		toreturn == true;
 	}
 	return toreturn;
 }

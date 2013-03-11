@@ -53,7 +53,7 @@ int main() {
 	l.setElement(0,(cols-1),t);
 	l.setElement((rows-1),0,t);
 	DynGasModel* g = new DynGasModel(l);
-	g->iterate(25);
+	g->iterate(50);
 	CubeArray cube(g,3,false);
 	Polyhedron P(cube,0.0005,0.25);
 	P.print_ply("dyngas2020test.ply");
