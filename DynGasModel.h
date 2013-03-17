@@ -52,7 +52,7 @@ public:
 						bool dirTest = direction_test(elem->getNForceX(k),elem->getNForceY(k),k);
 						if(dirTest) { //if that cell wants to enter this cell
 							entering[i][j][k] = true; //save this information
-							cout << "Entering - " << i << " , " << j << " from " << k << '\n';
+							//cout << "Entering - " << i << " , " << j << " from " << k << '\n';
 							num_entering[i][j] += 1; //note how many are entering
 						}
 					}
@@ -78,30 +78,16 @@ public:
 				bool change_y = false; //is the force changing?
 				LatElem* elem = state->getElement(i,j); //look at a specific cell
 				if (!(is_empty[i+1][j+1])) { //if the cell is full
-					cout << "Full cell " << i << " , " << j
-						 << " . F: " << elem->getForceX() << " , " << elem->getForceY() << '\n'; //print the force
+					//state->print();
+					//cout << "Full cell " << i << " , " << j
+					//	 << " . F: " << elem->getForceX() << " , " << elem->getForceY() << '\n'; //print the force
 					int newForce_x = elem->getForceX(); //get the force on that cell
 					int newForce_y = elem->getForceY(); //based on the original force - conservation of momentum I guess?
-					for(int k = 0; k < 8; ++k) { //look at neighbours
-						if (entering[i][j][k]) { //is a particle trying to enter the cell? if so reflect it
-							int newNForce_x = elem->getNForceX(k);
-							int newNForce_y = elem->getNForceY(k);
-							bool dirTest = direction_test(newNForce_x,newNForce_y,k);
-							if (dirTest) { //check to make sure the force on the neighbour hasn't been updated by some other function
-								newNForce_x *= -1;
-								newNForce_y *= -1;
-								elem->setNForce(k,newNForce_x,newNForce_y);
-							}
-							entering[i][j][k] = false;
-							num_entering[i][j] -= 1;
-							cout << "Full cell: " << i << " , " << j << " . Reflect: " << k << '\n';
-						}
-					}
 					for(int k = 0; k < 8; ++k) { //is the cell around the particle full? if so update the force on the particle
 						if(!(elem->isNEmpty(k))) {
-							cout << "AFOC: " << i << " , " << j << " , " << k << "\t\t";
+							//cout << "AFOC: " << i << " , " << j << " , " << k << "\t\t";
 							changeForces(k,newForce_x,newForce_y,change_x,change_y);
-							cout << newForce_x << " , " << newForce_y << '\n';
+							//cout << newForce_x << " , " << newForce_y << '\n';
 						}
 					}
 					//Are we changing the forces?
@@ -137,7 +123,22 @@ public:
 					else if (!(change_x) && change_y) {
 						elem->setForce(elem->getForceX(),newForce_y);
 					}
-					cout << "New F: " << elem->getForceX() << " , " << elem->getForceY() << '\n';	
+					//cout << "New F: " << elem->getForceX() << " , " << elem->getForceY() << '\n';
+					for(int k = 0; k < 8; ++k) { //look at neighbours
+						if (entering[i][j][k]) { //is a particle trying to enter the cell? if so reflect it
+							int newNForce_x = elem->getNForceX(k);
+							int newNForce_y = elem->getNForceY(k);
+							bool dirTest = direction_test(newNForce_x,newNForce_y,k);
+							if (dirTest) { //check to make sure the force on the neighbour hasn't been updated by some other function
+								newNForce_x *= -1;
+								newNForce_y *= -1;
+								elem->setNForce(k,newNForce_x,newNForce_y);
+							}
+							entering[i][j][k] = false;
+							num_entering[i][j] -= 1;
+							//cout << "Full cell: " << i << " , " << j << " . Reflect: " << k << '\n';
+						}
+					}
 				}
 				else if(is_empty[i+1][j+1]) { //is there is no particle in a cell
 					if(num_entering[i][j] > 1) {
@@ -153,7 +154,7 @@ public:
 								}
 								entering[i][j][k] = false;
 								num_entering[i][j] -= 1;
-								cout << "Empty cell: " << i << " , " << j << " . RE @ " << k << '\n';
+								//cout << "Empty cell: " << i << " , " << j << " . RE @ " << k << '\n';
 							}
 						}
 					}
@@ -168,7 +169,7 @@ public:
 								makeEmptyK(is_empty,i+1,j+1,k);
 								is_empty[i+1][j+1] = false;
 								num_entering[i][j] -= 1;
-								cout << "Moved pcle to: " << i << " , " << j << " from " << k << '\n';
+								//cout << "Moved pcle to: " << i << " , " << j << " from " << k << '\n';
 							}
 						}
 					}
@@ -180,16 +181,16 @@ public:
 	}
 
 	void iterate(int n) {
-		cout << "0" << '\n';
-		state->print();
-		system("pause");
-		system("cls");
+		//cout << "0" << '\n';
+		//state->print();
+		//system("pause");
+		//system("cls");
 		for(int i = 0; i < n; i++) {
 			cout << (i + 1) << '\n';
 			iterate();
-			state->print();
-			system("pause");
-			system("cls");
+			//state->print();
+			//system("pause");
+			//system("cls");
 		}
 	}
 } ;

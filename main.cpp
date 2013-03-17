@@ -43,8 +43,8 @@ int main() {
 	//cout << "\n\nNumber of lines: " << fileLines() << "\n";
 	*/
 
-	int rows = 5;
-	int cols = 10;
+	int rows = 20;
+	int cols = 20;
 	LatElem::LatType t = LatElem::Full;
 	srand(time(NULL));
 	Lattice l(rows,cols,LatElem::Empty);
@@ -53,10 +53,10 @@ int main() {
 	l.setElement(0,(cols-1),t);
 	l.setElement((rows-1),0,t);
 	DynGasModel* g = new DynGasModel(l);
-	g->iterate(20);
+	g->iterate(40);
 	CubeArray cube(g,3,false);
 	Polyhedron P(cube,0.0005,0.25);
-	P.print_ply("dyngas0505test.ply");
+	P.print_ply("dyngas2020test.ply");
 	
 	/*
 	//Just want types 0 - 3;
