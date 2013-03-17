@@ -44,7 +44,7 @@ int main() {
 	*/
 
 	int rows = 5;
-	int cols = 5;
+	int cols = 10;
 	LatElem::LatType t = LatElem::Full;
 	srand(time(NULL));
 	Lattice l(rows,cols,LatElem::Empty);
