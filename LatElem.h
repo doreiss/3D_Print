@@ -13,6 +13,7 @@ public:
 		Empty, 
 		Full,
 		Burning,
+		Boundary,
 	};
 
 	//Constructors :
@@ -50,7 +51,7 @@ public:
 	//Return the value of the cell
 	LatType getValue(void);
 	//Return the values of neighbouring cells
-	LatType getNValue(int,char = 'g');
+	LatType getNValue(int);
 	//Return the force_x value of a neighbouring cell
 	int getNForceX(int);
 	//Return the force_y value of a neighbouring cell

@@ -37,9 +37,9 @@ public:
 	//Return true if a specific element is empty - row, column
 	bool isEmpty(int, int);
 	//Create a sub lattice
-	void setSubLattice(int,int,int,int,LatElem::LatType); 
-	// first row index, last row index, first column index, last column index 
-	void print(void); //cout lattice values
+	void setSubLattice(int,int,int,int,LatElem::LatType); // first row index, last row index, first column index, last column index 
+	//Print lattice values by cout
+	void print(void); 
 
 	//Print lattice values to file
 	void filePrint(bool,bool,int);
@@ -69,3 +69,23 @@ int fileLines(void);
 int fileLines(string);
 //Check the number of useful lines for a file already open in a given stream
 int fileLines(ifstream&);
+
+/* Coordinate system
+
+Remember, any 'iterative' system reads the following way for
+for (int i...++i) {
+	for (int j...++j) {
+		...(i,j);
+	}
+}
+
+Right to Left
+Top to Bottom
+
+(0,0) (0,1) (0,2) _ (0,j)
+(1,0) (1,1) (1,2) _ (1,j)
+(2,0) (2,1) (2,2) _ (2,j)
+  |		|	  |   \   |
+(i,0) (i,1) (i,2) _ (i,j)
+
+*/

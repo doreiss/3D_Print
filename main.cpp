@@ -43,8 +43,8 @@ int main() {
 	//cout << "\n\nNumber of lines: " << fileLines() << "\n";
 	*/
 
-	int rows = 25;
-	int cols = 25;
+	int rows = 5;
+	int cols = 5;
 	LatElem::LatType t = LatElem::Full;
 	srand(time(NULL));
 	Lattice l(rows,cols,LatElem::Empty);
@@ -53,10 +53,37 @@ int main() {
 	l.setElement(0,(cols-1),t);
 	l.setElement((rows-1),0,t);
 	DynGasModel* g = new DynGasModel(l);
-	g->iterate(50);
+	g->iterate(20);
 	CubeArray cube(g,3,false);
 	Polyhedron P(cube,0.0005,0.25);
-	P.print_ply("dyngas2020test.ply");
+	P.print_ply("dyngas0505test.ply");
+	
+	/*
+	//Just want types 0 - 3;
+	LatElem::LatType A = LatElem::Empty;
+	LatElem::LatType B = LatElem::Full;
+	LatElem::LatType C = LatElem::Burning;
+	LatElem::LatType D = LatElem::Boundary;
+	Lattice l1(5,5,A);
+	for (int i = 1; i <= 3; ++i) {
+		l1.setElement(i,2,C);
+		if (i == 1) {
+			l1.setElement(i,1,B);
+			l1.setElement(i,3,D);
+		}
+		else {
+			l1.setElement(i,1,D);
+			l1.setElement(i,3,B);
+		}
+	}
+	l1.print();
+
+	LatElem* test = l1.getElement(2,2);
+	cout << "(2,2)" << '\t' << test->getValue() << '\n';
+	for (int k = 0; k <= 7; ++k) {
+		cout << k << '\t' << test->getNValue(k) << '\n';
+	}
+	*/
 
 	return 0; 
 }

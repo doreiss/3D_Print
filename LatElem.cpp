@@ -59,7 +59,7 @@ void LatElem::setForce(char model_type) {
 			force_y = 0;
 			//are the selection of cells empty? 
 			for(int i = 0; i < 8; ++i) {
-				int val = getNValue(i,'d');
+				int val = getNValue(i);
 				//Force update criteria:
 				if (val == LatType::Empty) {
 					val = 0;
@@ -67,7 +67,7 @@ void LatElem::setForce(char model_type) {
 				else if (val == LatType::Full) {
 					val = 1;
 				}
-				else if (val == NULL) { //assume boundary of occupied cells
+				else if (val == LatType::Boundary) { //assume boundary of occupied cells
 					val = 1;
 				}
 				switch (i) {
@@ -76,28 +76,28 @@ void LatElem::setForce(char model_type) {
 						break;
 					case 1:
 						force_x -= val;
-						force_y -= val;
+						force_y += val;
 						break;
 					case 2:
-						force_y -= val;
+						force_y += val;
 						break;
 					case 3:
 						force_x += val;
-						force_y -= val;
+						force_y += val;
 						break;
 					case 4:
 						force_x += val;
 						break;
 					case 5:
 						force_x += val;
-						force_y += val;
+						force_y -= val;
 						break;
 					case 6:
-						force_y += val;
+						force_y -= val;
 						break;
 					case 7:
 						force_x -= val;
-						force_y += val;
+						force_y -= val;
 						break;
 					default:
 						cout << "If you see this, something is broken.\n";
@@ -194,10 +194,7 @@ bool LatElem::isEmpty(void) {
 bool LatElem::isNEmpty(int k) {
 	bool toreturn = false;
 	if (getNValue(k) == Empty) {
-		toreturn == true;
-	}
-	else if (getNValue(k) == NULL) {
-		toreturn == true;
+			toreturn = true;
 	}
 	return toreturn;
 }
@@ -208,31 +205,31 @@ LatElem::LatType LatElem::getValue(void) {
 }
 
 //Return the value of the one of the neighbours
-LatElem::LatType LatElem::getNValue(int nIndex, char model) {
-	if (neighbours[nIndex] == NULL) {
-		if (model == 'd') {
-			return LatElem::Full; 
-		}
-		else if (model = 'g') {
-			return LatElem::Empty; 
-		}
-		else {
-			return LatElem::Empty; 
-		}
+LatElem::LatType LatElem::getNValue(int nIndex) {
+	if(neighbours[nIndex]) {
+		return neighbours[nIndex]->getValue();
 	}
-	return neighbours[nIndex]->getValue(); 
+	else {
+		return LatType::Boundary;
+	}
 }
 
 //Return the force_x value of one of the neighbours
 int LatElem::getNForceX(int nIndex) {
-	if (neighbours[nIndex] == NULL) return 0; 
-	return neighbours[nIndex]->getForceX();
+	int force = 0;
+	if (neighbours[nIndex]) {
+		force = neighbours[nIndex]->getForceX();
+	}
+	return force;
 }
 
 //Return the force_y value of one of the neighbours
 int LatElem::getNForceY(int nIndex) {
-	if (neighbours[nIndex] == NULL) return 0; 
-	return neighbours[nIndex]->getForceY();
+	int force = 0;
+	if (neighbours[nIndex]) {
+		force = neighbours[nIndex]->getForceY();
+	}
+	return force;
 }
 
 //Make a specific cell empty
@@ -245,7 +242,12 @@ void LatElem::makeEmpty(void) {
 
 //Make a specific neighbour empty
 void LatElem::makeNEmpty(int nIndex) {
-	if (!(neighbours[nIndex] == NULL)) neighbours[nIndex]->makeEmpty();
+	if (neighbours[nIndex]) {
+		neighbours[nIndex]->makeEmpty();
+	}
+	else {
+		cout << "Error: Tried to make a non existant lattice point empty!\n";
+	}
 }
 
 //Return a Neighbour
