@@ -26,8 +26,24 @@ void LatElem::setForce(char model_type) {
 			force_y = 0;
 		}
 		else if (model_type == 'g' || model_type == 's') {
-			force_x = getNValue(4) - getNValue(0); 
-			force_y = getNValue(6) - getNValue(2);
+			LatType t0 = getNValue(0);
+			if (t0 == Boundary) {
+				t0 = Empty;
+			}
+			LatType t2 = getNValue(2);
+			if (t2 == Boundary) {
+				t2 = Empty;
+			}
+			LatType t4 = getNValue(4);
+			if (t4 == Boundary) {
+				t4 = Empty;
+			}
+			LatType t6 = getNValue(6);
+			if (t6 == Boundary) {
+				t6 = Empty;
+			}
+			force_x = t4 - t0; 
+			force_y = t6 - t2;
 			if (model_type == 's') { //Strongest side wins - leaving in incase useful
 				//Now look at diagonal forces too for the diagonal gas case
 				int topl = getNValue(3);
