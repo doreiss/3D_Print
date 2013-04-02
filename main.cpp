@@ -12,6 +12,7 @@
 #include "CubeElem.h"
 #include "Polyhedron.h"
 #include <ctime>
+#include <cstdlib>
 
 using namespace std; 
 int main() {
@@ -46,18 +47,29 @@ int main() {
 	int rows = 20;
 	int cols = 20;
 	LatElem::LatType t = LatElem::Full;
+	LatElem::LatType e = LatElem::Empty;
 	srand(time(NULL));
-	Lattice l(rows,cols,LatElem::Empty);
+	Lattice l(rows+2,cols+2,t);
+	l.setSubLattice(1,rows,1,cols,e);
+	l.setSubLattice(10,11,10,11,t);
+	l.filePrint(true,true);
+	GasModel* g = new GasModel(l);
+	cout << "Lattice generated successfully\n";
+	/*
 	l.setElement(0,0,t);
 	l.setElement((rows-1),(cols-1),t);
 	l.setElement(0,(cols-1),t);
 	l.setElement((rows-1),0,t);
 	DynGasModel* g = new DynGasModel(l);
+	*/
 	g->iterate(40);
+	cout << "Model iterated successfully\n";
 	CubeArray cube(g,3,false);
 	Polyhedron P(cube,0.0005,0.25);
-	P.print_ply("dyngas2020test.ply");
-	
+	P.print_ply("gastest2020.ply");
+	cout << ".ply file printed successfully\n";
+
+
 	/*
 	//Just want types 0 - 3;
 	LatElem::LatType A = LatElem::Empty;
