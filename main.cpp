@@ -51,7 +51,10 @@ int main() {
 	srand(time(NULL));
 	Lattice l(rows+2,cols+2,t);
 	l.setSubLattice(1,rows,1,cols,e);
-	l.setSubLattice(10,11,10,11,t);
+	l.setSubLattice(5,7,5,7,t);
+	l.setSubLattice(5,7,14,16,t);
+	l.setSubLattice(14,16,5,7,t);
+	l.setSubLattice(14,16,14,16,t);
 	l.filePrint(true,true);
 	GasModel* g = new GasModel(l);
 	cout << "Lattice generated successfully\n";
@@ -62,9 +65,9 @@ int main() {
 	l.setElement((rows-1),0,t);
 	DynGasModel* g = new DynGasModel(l);
 	*/
-	g->iterate(40);
+	g->iterate(20);
 	cout << "Model iterated successfully\n";
-	CubeArray cube(g,3,false);
+	CubeArray cube(g,3,true);
 	Polyhedron P(cube,0.0005,0.25);
 	P.print_ply("gastest2020.ply");
 	cout << ".ply file printed successfully\n";
